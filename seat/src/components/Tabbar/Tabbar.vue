@@ -40,7 +40,7 @@
   bottom: 0;
   display: table;
   width: 100%;
-  height: 50px;
+  height: 80px;
   padding: 0;
   table-layout: fixed;
   border-top: 0;
@@ -50,8 +50,6 @@
 #app-tab .tab-item{
   display: table-cell;
   overflow: hidden;
-  width: 1%;
-  height: 50px;
   text-align: center;
   vertical-align: middle;
   white-space: nowrap;
@@ -59,16 +57,19 @@
   color: #fff;
 }
 #app-tab .tab-item img{
-  top: 3px;
-  width: 24px;
-  height: 24px;
+  top:8px;
+  width: 30px;
+  height: 30px;
   padding-top: 0;
   padding-bottom: 0;
   position: relative;
 }
 #app-tab .tab-item span{
-  font-size: 11px;
+  font-size: 18px;
   display: block;
+  margin-top:10px;
+  height:30px;
+  line-height: 30px;
   overflow: hidden;
   text-overflow: ellipsis;
 }

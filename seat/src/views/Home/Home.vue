@@ -84,7 +84,7 @@ export default {
 }
 /*轮播图*/
 #app-home .mint-swipe {
-  height: 400px;
+  height: 300px;
   margin-left: 25px;
   margin-right: 25px;
   border-radius: 10px;
@@ -94,13 +94,14 @@ export default {
 #app-home .mint-swipe img {
   width: 100%;
   height: 100%;
+  object-fit:fill;
 }
 /* 菜单列表 */
 #app-home ul {
   margin: 0;
   padding: 0;
   width: 100%;
-  height: 200px;
+  height: 180px;
   background: #fff;
 }
 #app-home .menu {

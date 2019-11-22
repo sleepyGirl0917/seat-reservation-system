@@ -1,9 +1,9 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 
-import Home from '../components/Home/Home'
-import Order from '../components/Order/Order'
-import User from '../components/User/User'
+import Home from '../views/Home/Home'
+import Order from '../views/Order/Order'
+import User from '../views/User/User'
 
 Vue.use(VueRouter)
 

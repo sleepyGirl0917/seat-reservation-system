@@ -16,11 +16,11 @@
         <span class="menu-title">{{item.title}}</span>
       </li>
     </ul>
-    <!-- 当前订座 v-if -->
+    <!-- v-if 订座 -->
     <ul class="mui-table-view mui-table-view-chevron">
-      <li class="mui-table-view-cell mui-media">
+      <li class="mui-table-view-cell mui-media" v-if="orderNow.length">
         <a class="mui-navigate-right">
-          <img class="mui-media-object mui-pull-left" src="img/ordered.png" />
+          <img class="mui-media-object mui-pull-left" src="img/ordered.png">
           <div class="mui-media-body">
             <div>众独空间（昙华林店）</div>
             <!-- <p class="mui-ellipsis">烤炉模式的城，到黄昏，如同打翻的调色盘一般.</p> -->
@@ -32,12 +32,14 @@
           </div>
         </a>
       </li>
-    </ul>
+      <li v-else>暂无可用的订座记录</li>
+		</ul>
   </div>
 </template>
 
 <script>
 export default {
+  name:"Home",
   data() {
     return {
       swipeList: [
@@ -49,7 +51,8 @@ export default {
         { id: 1, title: "预约体验", img_url: "img/cell1.jpg", path: "/order" },
         { id: 2, title: "加入会员", img_url: "img/cell2.jpg", path: "/order" },
         { id: 3, title: "预定座位", img_url: "img/cell3.jpg", path: "/order" }
-      ]
+      ],
+      orderNow:[]
     };
   },
   methods: {
@@ -60,7 +63,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 #app-home {
   width: 100%;
   height: 100%;

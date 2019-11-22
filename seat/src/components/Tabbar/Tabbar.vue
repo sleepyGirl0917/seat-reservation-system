@@ -45,6 +45,7 @@
   table-layout: fixed;
   border-top: 0;
   border-bottom: 0;
+  position:absolute;
   background-color: rgb(53,68,58);
 }
 #app-tab .tab-item{

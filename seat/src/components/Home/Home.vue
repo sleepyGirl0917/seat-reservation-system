@@ -94,7 +94,6 @@ export default {
 #app-home .mint-swipe img {
   width: 100%;
   height: 100%;
-  object-fit: cover;
 }
 /* 菜单列表 */
 #app-home ul {

@@ -26,8 +26,9 @@ import 'mint-ui/lib/style.css'
 import './lib/mui/css/mui.css'
 import './lib/mui/css/icons-extra.css'
 // 引入mint-ui 组件
-import { Swipe, SwipeItem } from "mint-ui"
+import { Header,Swipe, SwipeItem } from "mint-ui"
 // 注册组件
+Vue.component(Header.name, Header);
 Vue.component(Swipe.name, Swipe);
 Vue.component(SwipeItem.name, SwipeItem);
 
@@ -37,12 +38,17 @@ import axios from "axios"
 axios.defaults.withCredentials = true;
 // 将axios库配置Vue实例对象中
 Vue.prototype.axios = axios;
+
 // 加载第三方模块qs
 import qs from "qs";
 // 配置qs模块，使qs成为Vue属性
 Vue.prototype.qs = qs;
 
-Vue.config.productionTip = false
+Vue.config.productionTip = false;
+
+// 引入cookies
+import cookies from 'vue-cookies'
+Vue.use(cookies);
 
 new Vue({
   router,

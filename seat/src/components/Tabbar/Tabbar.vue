@@ -38,23 +38,20 @@
 <style scoped>
 #app-tab{
   bottom: 0;
-  display: table;
   width: 100%;
   height: 80px;
   padding: 0;
-  table-layout: fixed;
-  border-top: 0;
-  border-bottom: 0;
-  position:absolute;
+  position:fixed;
+  display:flex;
+  z-index:1000;
   background-color: rgb(53,68,58);
 }
 #app-tab .tab-item{
-  display: table-cell;
-  overflow: hidden;
-  text-align: center;
-  vertical-align: middle;
-  white-space: nowrap;
-  text-overflow: ellipsis;
+  display:flex;
+  flex:1;
+  justify-content: center;
+  align-items:center;
+  flex-direction: column;
   color: #fff;
 }
 #app-tab .tab-item img{

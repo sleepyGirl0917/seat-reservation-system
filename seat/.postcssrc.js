@@ -13,7 +13,7 @@ module.exports = {
       selectorBlackList: ['.ignore'], // 指定不转换为视窗单位的类，可以自定义，可以无限添加,建议定义一至两个通用的类名 
       minPixelValue: 1, // 小于或等于`1px`不转换为视窗单位，也可以设置为想要的值
       mediaQuery: false, // 允许在媒体查询中转换`px` 
-      exclude: /(\/|\\)(node_modules)(\/|\\)/  // 打包后第三方库的px也被转换成vw，添加exclude选项，将node_modules目录排除掉，即不会受影响
+      // exclude: /(\/|\\)(node_modules)(\/|\\)/  // 打包后第三方库的px也被转换成vw，添加exclude选项，将node_modules目录排除掉，即不会受影响
     },
     "postcss-viewport-units": {filterRule: rule => rule.nodes.findIndex(i => i.prop === 'content') === -1}, //过滤content警告
     "cssnano": { //压缩和清理CSS代码

@@ -17,19 +17,19 @@ export default new VueRouter({
       path: '/home',
       name: 'home',
       component: Home,
-      meta: { showTabbar: true }
+      meta: { showTabbar: true, showHeader:true }
     },
     {
       path: '/order',
       name: 'order',
       component: Order,
-      meta: { showTabbar: true }
+      meta: { showTabbar: true, showHeader: true  }
     },
     {
       path: '/user',
       name: 'user',
       component: User,
-      meta: { showTabbar: true }
+      meta: { showTabbar: true, showHeader: true  }
     }
   ]
 })

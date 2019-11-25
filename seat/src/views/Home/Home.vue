@@ -1,8 +1,6 @@
 <template>
   <div id="app-home">
-    <header>
-      <h1 class="title">众独空间</h1>
-    </header>
+    <h1 class="title">众独空间</h1>
     <!-- 轮播图 -->
     <mt-swipe>
       <mt-swipe-item v-for="item in swipeList" :key="item.id">
@@ -16,30 +14,36 @@
         <span class="menu-title">{{item.title}}</span>
       </li>
     </ul>
-    <!-- v-if 订座 -->
-    <ul class="mui-table-view mui-table-view-chevron">
-      <li class="mui-table-view-cell mui-media" v-if="orderNow.length">
-        <a class="mui-navigate-right">
-          <img class="mui-media-object mui-pull-left" src="img/ordered.png">
-          <div class="mui-media-body">
-            <div>众独空间（昙华林店）</div>
-            <!-- <p class="mui-ellipsis">烤炉模式的城，到黄昏，如同打翻的调色盘一般.</p> -->
-            <div>
-              <p>单人座：4</p>
-              <p>日期：2019-11-21 09:40-21:10</p>
-              <p>状态：进行中</p>
+    <!-- 可用的订座 -->
+    <div class="order-now">
+      <div class="order-box">
+        <div class="media" v-if="orderNow.length">
+          <a class="navigate-right">
+            <!-- <div class="media-object float-left">
+              <img class src="img/ordered.png" />
+            </div> -->
+            <img class="media-object float-left" src="img/ordered.png" />
+            <div class="media-body">
+              <div>众独空间（昙华林店）</div>
+              <div>
+                <p>单人座：4</p>
+                <p>日期：2019-11-21 09:40-21:10</p>
+                <p>状态：进行中</p>
+              </div>
             </div>
-          </div>
-        </a>
-      </li>
-      <li v-else>暂无可用的订座记录</li>
-		</ul>
+          </a>
+        </div>
+        <div class="media-none" v-else>
+          <img src="img/check.png" />&nbsp;暂无可用的订座记录
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
 <script>
 export default {
-  name:"Home",
+  name: "Home",
   data() {
     return {
       swipeList: [
@@ -48,35 +52,52 @@ export default {
         { id: 3, img_url: "img/banner3.jpg" }
       ],
       menuList: [
-        { id: 1, title: "预约体验", img_url: "img/cell1.jpg", path: "/order" },
-        { id: 2, title: "加入会员", img_url: "img/cell2.jpg", path: "/order" },
-        { id: 3, title: "预定座位", img_url: "img/cell3.jpg", path: "/order" }
+        { id: 1, title: "预约体验", img_url: "img/menu1.jpg", path: "/order" },
+        { id: 2, title: "加入会员", img_url: "img/menu2.jpg", path: "/order" },
+        { id: 3, title: "预定座位", img_url: "img/menu3.jpg", path: "/order" }
       ],
-      orderNow:[]
+      orderNow: []
     };
   },
   methods: {
     switchTo(path) {
       this.$router.replace(path);
+    },
+    loadOrderInfo(){
+      if (this.$cookies.get("user_id")) {
+        let json = getUserInfo(this.$cookies.get("admin_id"));
+        if (json.success_code === 200) {
+          this.userInfo = json.data;
+          console.log(this.userInfo);
+        }
+      } else {
+        this.$router.push({ path: "/login" });
+        Message.error("请先登录！");
+      }
+      /* var url="http:127.0.0.1:8080/api/orderList";
+      this.axios.get(url).then(res=>{
+        if(res.data.code==1){
+
+        }
+      }) */
     }
-  }
+  },
+  /* created(){
+    this.loadOrderInfo();
+  } */
 };
 </script>
 
-<style scoped>
+<style>
 #app-home {
   width: 100%;
   height: 100%;
 }
-#app-home header {
-  width: 100%;
-  height: 60px;
-}
-#app-home header .title {
+#app-home .title {
   font-size: 17px;
   font-weight: 500;
-  line-height: 60px;
-  position: absolute;
+  line-height: 50px;
+  height: 50px;
   display: block;
   width: 100%;
   margin: 0;
@@ -97,7 +118,6 @@ export default {
 #app-home .mint-swipe img {
   width: 100%;
   height: 100%;
-  object-fit:fill;
 }
 /* 菜单列表 */
 #app-home ul {
@@ -124,6 +144,53 @@ export default {
   display: block;
   font-size: 18px;
   margin: 15px;
+}
+/* 可用的订座记录 */
+#app-home .order-now {
+  margin: 20px 15px 0;
+}
+.order-box {
+  position: relative;
+  background: #fff;
+  height:150px;
+}
+.order-box .media,
+.order-box .media .media-body {
+  overflow: hidden;
+}
+.order-box .media {
+  padding: 15px 65px 15px 15px;
+}
+.order-box .navigate-right:after {
+  font-family: Muiicons;
+  content: "\e583";
+  position: absolute;
+  font-size: 28px;
+  right: 15px;
+  top: 50%;
+  -webkit-transform: translateY(-50%);
+  transform: translateY(-50%);
+  color: #222;
+  -webkit-font-smoothing: antialiased;
+}
+.order-box .media .media-object{
+  margin:30px 15px 30px 0;
+  width: 60px;
+  height: 60px;
+}
+.order-box .media .media-body *{
+  margin:10px 0;
+}
+.order-box .media-none{
+  position: relative;
+  top:50%;
+  transform:translateY(-50%);
+  text-align: center;
+}
+.order-box .media-none img{
+  width: 30px;
+  height:30px;
+  vertical-align: bottom;
 }
 </style>
 

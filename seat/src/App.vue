@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <my-header v-if="$route.meta.showHeader"></my-header>
+    <my-header></my-header>
     <router-view/>
     <tab-bar v-if="$route.meta.showTabbar"/>
   </div>
@@ -19,7 +19,12 @@
 </script>
 
 <style>
+  *{
+    margin:0;
+    padding:0;
+  }
   #app {
+    min-height: 100vh;
     padding-top:40px;
     padding-bottom:80px;
     overflow-x:hidden;
@@ -33,8 +38,5 @@
   }
   .float-left{
     float:left;
-  }
-  header{
-    height:40px;
   }
 </style>

@@ -1,4 +1,4 @@
-// import axios from 'axios'
+import axios from 'axios'
 
 //封装ajax
 export default function ajax(url = '', params = {}, type = 'GET') {

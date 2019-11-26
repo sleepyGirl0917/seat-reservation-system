@@ -1,14 +1,14 @@
 <template>
   <div id="app-tab">
-    <span class="tab-item" @click="switchTo('/home')">
+    <span class="tab-item" @click="jumpTo('/home')">
       <img :src="$route.path.includes('/home') ? tabBarImgArr[0].active:tabBarImgArr[0].normal">
       <span>首页</span>
     </span>
-    <span class="tab-item" @click="switchTo('/order')">
+    <span class="tab-item" @click="jumpTo('/order')">
       <img :src="$route.path.includes('/order') ? tabBarImgArr[1].active:tabBarImgArr[1].normal">
       <span>我的预定</span>
     </span>
-    <span class="tab-item" @click="switchTo('/user')">
+    <span class="tab-item" @click="jumpTo('/user')">
       <img :src="$route.path.includes('/user') ? tabBarImgArr[2].active:tabBarImgArr[2].normal">
       <span>个人中心</span>
     </span>
@@ -28,14 +28,14 @@
       }
     },
     methods:{
-      switchTo(path){
-        this.$router.replace(path);
+      jumpTo(path){
+        this.$router.push(path);
       }
     }
   }
 </script>
 
-<style scoped>
+<style>
 #app-tab{
   bottom: 0;
   width: 100%;
@@ -58,14 +58,11 @@
   top:8px;
   width: 30px;
   height: 30px;
-  padding-top: 0;
-  padding-bottom: 0;
-  position: relative;
+  padding: 0;
 }
 #app-tab .tab-item span{
   font-size: 18px;
   display: block;
-  margin-top:10px;
   height:30px;
   line-height: 30px;
   overflow: hidden;

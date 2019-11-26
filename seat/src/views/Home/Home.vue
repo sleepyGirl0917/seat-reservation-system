@@ -63,7 +63,7 @@ export default {
     switchTo(path) {
       this.$router.replace(path);
     },
-    loadOrderInfo(){
+    /* loadOrderInfo(){
       if (this.$cookies.get("user_id")) {
         let json = getUserInfo(this.$cookies.get("admin_id"));
         if (json.success_code === 200) {
@@ -74,13 +74,13 @@ export default {
         this.$router.push({ path: "/login" });
         Message.error("请先登录！");
       }
-      /* var url="http:127.0.0.1:8080/api/orderList";
+      var url="http:127.0.0.1:8080/api/orderList";
       this.axios.get(url).then(res=>{
         if(res.data.code==1){
 
         }
-      }) */
-    }
+      })
+    } */
   },
   /* created(){
     this.loadOrderInfo();
@@ -93,9 +93,7 @@ export default {
   width: 100%;
   height: 100%;
 }
-#app-home .title {
-  font-size: 17px;
-  font-weight: 500;
+.title {
   line-height: 50px;
   height: 50px;
   display: block;
@@ -105,6 +103,10 @@ export default {
   text-align: center;
   white-space: nowrap;
   color: #000;
+}
+#app-home .title {
+  font-size: 17px;
+  font-weight: 500;
 }
 /*轮播图*/
 #app-home .mint-swipe {

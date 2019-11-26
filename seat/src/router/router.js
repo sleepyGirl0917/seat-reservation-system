@@ -9,6 +9,8 @@ VueRouter.prototype.push = function push(location) {
 import Home from '../views/Home/Home'
 import Order from '../views/Order/Order'
 import User from '../views/User/User'
+import Login from '../components/Login/Login'
+import Logout from '../components/Logout/Logout'
 
 Vue.use(VueRouter)
 
@@ -35,6 +37,14 @@ export default new VueRouter({
       name: 'user',
       component: User,
       meta: { showTabbar: true}
+    },
+    {
+      path: '/login',
+      component:Login
+    },
+    {
+      path: '/logout',
+      component: Logout
     }
   ]
 })

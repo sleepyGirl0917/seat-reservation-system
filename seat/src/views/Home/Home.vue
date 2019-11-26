@@ -9,7 +9,7 @@
     </mt-swipe>
     <!-- 菜单列表 -->
     <ul class="menu">
-      <li class="menu-item" v-for="item in menuList" :key="item.id" @click="switchTo(item.path)">
+      <li class="menu-item" v-for="item in menuList" :key="item.id" @click="jumpTo(item.path)">
         <img :src="item.img_url" />
         <span class="menu-title">{{item.title}}</span>
       </li>
@@ -42,6 +42,7 @@
 </template>
 
 <script>
+import {Toast} from "mint-ui"
 export default {
   name: "Home",
   data() {
@@ -60,31 +61,30 @@ export default {
     };
   },
   methods: {
-    switchTo(path) {
-      this.$router.replace(path);
+    jumpTo(path){
+      this.$router.push(path);
     },
-    /* loadOrderInfo(){
-      if (this.$cookies.get("user_id")) {
-        let json = getUserInfo(this.$cookies.get("admin_id"));
-        if (json.success_code === 200) {
-          this.userInfo = json.data;
-          console.log(this.userInfo);
-        }
-      } else {
-        this.$router.push({ path: "/login" });
-        Message.error("请先登录！");
-      }
-      var url="http:127.0.0.1:8080/api/orderList";
+    getUserInfo(user_id){
+      let url="http:127.0.0.1:8080/api/getUserInfo"+user_id;
       this.axios.get(url).then(res=>{
-        if(res.data.code==1){
-
+        console.log(res.data)
+        if(res.data.code==200){
+          
         }
       })
-    } */
+    },
+    loadOrderInfo(){
+      if (this.$cookies.get("user_id")) {
+        getUserInfo(this.$cookies.get("user_id"));
+      } else {
+        this.jumpTo('/login');
+        Toast("请先登录！");
+      }
+    }
   },
-  /* created(){
+  created(){
     this.loadOrderInfo();
-  } */
+  }
 };
 </script>
 

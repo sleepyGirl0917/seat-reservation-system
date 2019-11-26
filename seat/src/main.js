@@ -2,6 +2,9 @@ import Vue from 'vue'
 import App from './App.vue'
 import router from './router/router'
 
+import cookies from 'vue-cookies'
+Vue.use(cookies);
+
 // 引入Vuex
 import Vuex from "vuex"
 // 注册Vuex组件
@@ -46,9 +49,6 @@ Vue.prototype.qs = qs;
 
 Vue.config.productionTip = false;
 
-// 引入cookies
-import cookies from 'vue-cookies'
-Vue.use(cookies);
 
 new Vue({
   router,

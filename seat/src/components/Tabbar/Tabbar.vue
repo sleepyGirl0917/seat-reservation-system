@@ -52,19 +52,19 @@
   justify-content: center;
   align-items:center;
   flex-direction: column;
+  font-size: 18px;
   color: #fff;
+  padding-top:10px;
 }
 #app-tab .tab-item img{
-  top:8px;
   width: 30px;
   height: 30px;
-  padding: 0;
 }
 #app-tab .tab-item span{
-  font-size: 18px;
   display: block;
   height:30px;
   line-height: 30px;
+  margin-top:5px;
   overflow: hidden;
   text-overflow: ellipsis;
 }

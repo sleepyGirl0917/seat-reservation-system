@@ -94,8 +94,8 @@ export default {
   height: 100%;
 }
 .title {
-  line-height: 50px;
-  height: 50px;
+  line-height: 60px;
+  height: 60px;
   display: block;
   width: 100%;
   margin: 0;
@@ -105,7 +105,7 @@ export default {
   color: #000;
 }
 #app-home .title {
-  font-size: 17px;
+  font-size: 18px;
   font-weight: 500;
 }
 /*轮播图*/

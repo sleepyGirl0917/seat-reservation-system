@@ -42,7 +42,7 @@
 <style>
 #app-header{
   width:100%;
-  height: 40px;
+  height: 50px;
 }
 .mint-header{
   background-color:rgba(230, 230, 230) !important;

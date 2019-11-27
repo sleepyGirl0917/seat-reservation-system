@@ -1,5 +1,5 @@
 <template>
-  <div id="app">
+  <div id="app" v-cloak>
     <my-header></my-header>
     <router-view/>
     <tab-bar v-if="$route.meta.showTabbar"/>
@@ -24,8 +24,15 @@
     padding:0;
   }
   #app {
+    width:100%;
     min-height: 100vh;
-    overflow-x:hidden;
+  }
+  #app button{
+    background:#222;
+    color:#fff;
+  }
+  #app .mint-header{
+    height:50px;
   }
   img { 
     content:normal !important; 

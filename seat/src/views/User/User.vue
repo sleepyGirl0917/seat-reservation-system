@@ -62,7 +62,7 @@
       }
     },
     methods:{
-      
+
     }
   }
 </script>
@@ -134,16 +134,15 @@
   align-items: center;
   text-align: center;
 }
-#app-user .middle .row div{
-  margin-top:8px;
-}
-#app-user .middle .num{
+#app-user .middle .row .num{
   font-size: 20px;
   color:#222;
+  margin-top:8px;
 }
-#app-user .middle .text{
+#app-user .middle .row .text{
   font-size: 16px;
   color:#999;
+  margin-top:8px;
 }
 #app-user .middle .member-list li{
   display: flex;
@@ -151,7 +150,7 @@
   align-items: center;
   border-bottom:1px solid rgba(120, 120, 120,0.12);
 }
-#app-user .middle .member-list li img{
+#app-user .middle .member-list li img,#app-user .middle .order-record li img{
   width:40px;
   height:40px;
 }

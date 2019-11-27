@@ -1,8 +1,8 @@
 <template>
     <div id="app-login">
-      <header class="mui-bar mui-bar-nav">
+      
 			  <h1 class="mui-title">登录</h1>
-		  </header>
+		  
       <div class="mui-content">
         <form id="login-form" class="mui-input-group">
           <div class="mui-input-row">
@@ -44,32 +44,18 @@ export default {
     },
   methods:{
     btnLogin(){
-        var u = this.uname;
-        var p = this.upwd;
+        var uname = this.uname;
+        var upwd = this.upwd;
         var reg = /^[a-z0-9]{3,12}$/i;
         if(!reg.test(u)){
            Toast("用户名格式不正确，请检查");
            return;
         }
         var url = "http://127.0.0.1:8080";
-        url+="/api/login?uname="+u+"&upwd="+p;
+        url+="/api/login?uname="+uname+"&upwd="+upwd;
         this.axios.get(url).then(result=>{
-          if(result.data.code==1){
-            //再次发送ajax请求获取购物车商品数量
-            var url = "http://127.0.0.1:3000/cartlist";
-            this.axios.get(url).then(result=>{
-              //1:接收服务器程序返回数据
-              var rows = result.data.data;
-             //立即更新 updateCount();
-              this.$store.commit("updateCount",rows.length);
-            })
-            this.$router.push("/Home")
-          }else{
-            Toast("用户名或密码有误");
-          }
+          console.log(result)
         })
-        //4:失败 显示提示框
-        //5:成功 跳转home
       }
   }
 }

@@ -25,8 +25,6 @@
   }
   #app {
     min-height: 100vh;
-    padding-top:40px;
-    padding-bottom:80px;
     overflow-x:hidden;
   }
   img { 

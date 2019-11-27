@@ -34,14 +34,20 @@ export default {
       icon:"close",
       phone:"",
       phoneCode:"",
-      countDown:0,//倒计时
+      countDown:0, // 倒计时
+    }
+  },
+  computed:{
+    // 检查手机号格式
+    checkPhone(){
+      return /^1[3|4|5|6|7|8][0-9]{9}$/.test(this.phone);
     }
   },
   components:{
     "go-back":Back
   },
   methods:{
-    //获取验证码
+    // 获取验证码
     getValidateCode(){
       if (this.checkPhone) {
         this.countDown = 60;
@@ -57,7 +63,7 @@ export default {
           console.log(res)
           if(res.data.success_code==200){
             MessageBox.alert('手机验证码为：'+res.data.data);
-          }else{ //获取手机验证码失败
+          }else{ // 获取手机验证码失败
             MessageBox.alert('获取手机验证码失败');
             clearInterval(timer);
             this.countdown = 0;
@@ -83,13 +89,7 @@ export default {
         console.log(res);
       })
     }
-  },
-  computed:{
-    //检查手机号格式
-    checkPhone(){
-      return /^1[3|4|5|6|7|8][0-9]{9}$/.test(this.phone);
-    }
-  }
+  } 
 }
 </script>
 

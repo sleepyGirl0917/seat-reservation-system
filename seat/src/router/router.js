@@ -12,6 +12,7 @@ import User from '../views/User/User'
 import Login from '../views/Login/Login'
 import Logout from '../views/Logout/Logout'
 import OrderDetails from '../views/OrderDetails/OrderDetails'
+import Error from '../views/Error/Error'
 
 Vue.use(VueRouter)
 
@@ -50,6 +51,10 @@ export default new VueRouter({
     {
       path: '/OrderDetails',
       component: OrderDetails
+    },
+    {
+      path:'/*',
+      component:Error
     }
   ]
 })

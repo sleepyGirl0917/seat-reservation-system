@@ -64,6 +64,14 @@ export default {
     jumpTo(path){
       this.$router.push(path);
     },
+    loadOrderInfo(){
+      if (this.$cookies.get("user_id")) {
+        getUserInfo(this.$cookies.get("user_id"));
+      } else {
+        this.jumpTo('/login');
+        Toast("请先登录！");
+      }
+    },
     getUserInfo(user_id){
       let url="http:127.0.0.1:8080/api/getUserInfo"+user_id;
       this.axios.get(url).then(res=>{
@@ -72,14 +80,6 @@ export default {
           
         }
       })
-    },
-    loadOrderInfo(){
-      if (this.$cookies.get("user_id")) {
-        getUserInfo(this.$cookies.get("user_id"));
-      } else {
-        this.jumpTo('/login');
-        Toast("请先登录！");
-      }
     }
   },
   created(){
@@ -163,7 +163,7 @@ export default {
 .order-box .media {
   padding: 15px 65px 15px 15px;
 }
-.order-box .navigate-right:after {
+.navigate-right:after {
   font-family: Muiicons;
   content: "\e583";
   position: absolute;

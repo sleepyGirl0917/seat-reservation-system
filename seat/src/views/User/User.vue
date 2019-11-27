@@ -110,7 +110,7 @@
   width: 100px;
   height:100px;
   border-radius: 50%;
-  border:1px dashed #999;
+  border:0.5px dashed #999;
 }
 #app-user .top .user-info .uname{
   padding-left:30px;

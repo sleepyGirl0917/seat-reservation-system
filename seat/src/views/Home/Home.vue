@@ -9,7 +9,7 @@
     </mt-swipe>
     <!-- 菜单列表 -->
     <ul class="menu">
-      <li class="menu-item" v-for="item in menuList" :key="item.id" @click="jumpTo(item.path)">
+      <li class="menu-item" v-for="item in menuList" :key="item.id" @click="$router.push(item.path)">
         <img :src="item.img_url" />
         <span class="menu-title">{{item.title}}</span>
       </li>
@@ -61,29 +61,26 @@ export default {
     };
   },
   methods: {
-    jumpTo(path){
-      this.$router.push(path);
-    },
     loadOrderInfo(){
       if (this.$cookies.get("user_id")) {
         getUserInfo(this.$cookies.get("user_id"));
       } else {
-        this.jumpTo('/login');
+        this.$router.push('/login');
         Toast("请先登录！");
       }
     },
     getUserInfo(user_id){
-      let url="http:127.0.0.1:8080/api/getUserInfo"+user_id;
+      let url="http:127.0.0.1:3000/api/getUserInfo"+user_id;
       this.axios.get(url).then(res=>{
         console.log(res.data)
-        if(res.data.code==200){
-          
+        if(res.data.success_code==200){
+          this.orderNow=res.data.data;
         }
       })
     }
   },
   created(){
-    // this.loadOrderInfo();  
+    this.loadOrderInfo();  
   }
 };
 </script>

@@ -57,10 +57,11 @@ export default {
             clearInterval(timer);
           }
         },1000);
-        let url = "http://127.0.0.1:3000";
-        url+="/api/getPhoneCode?phone="+this.phone;
-        this.axios.post(url).then(res=>{
-          console.log(res)
+        var phone = this.phone;
+        let url = "http://127.0.0.1:3000/api/getPhoneCode";
+        let postData=this.qs.stringify({phone});
+        this.axios.post(url,postData).then(res=>{
+          console.log(res.data.data)
           if(res.data.success_code==200){
             MessageBox.alert('手机验证码为：'+res.data.data);
           }else{ // 获取手机验证码失败
@@ -83,10 +84,22 @@ export default {
         Toast("密码格式不正确");
         return;
       }
-      var url = "http://127.0.0.1:3000";
-      url+="/api/login?phone="+phone+"&phoneCode="+phoneCode;
-      this.axios.get(url).then(res=>{
-        console.log(res);
+      var postData=this.qs.stringify({
+        phone,phoneCode
+      })
+      var url = "http://127.0.0.1:3000/api/phoneLogin";
+      this.axios.post(url,postData).then(res=>{
+        if(res.data.success_code==200){
+          Toast({
+            message: '登录成功',
+            position: 'middle',
+            duration: 2000
+          });
+          console.log(this.$cookies.get('user_id'))
+          this.$router.go(-1);
+        }else{
+          MessageBox.alert('登录失败');
+        }
       })
     }
   } 

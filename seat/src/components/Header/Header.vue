@@ -48,8 +48,10 @@
   background-color:rgba(230, 230, 230) !important;
 }
 .mint-header .mint-header-title{
+  margin:0;
   color:#222;
   font-weight: 600;
   font-size:20px;
+  line-height: 50px;
 }
 </style>

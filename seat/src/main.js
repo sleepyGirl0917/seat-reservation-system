@@ -3,25 +3,7 @@ import App from './App.vue'
 import router from './router/router'
 
 import cookies from 'vue-cookies'
-Vue.use(cookies);
-
-// 引入Vuex
-import Vuex from "vuex"
-// 注册Vuex组件
-Vue.use(Vuex)
-// 创建store
-var store = new Vuex.Store({
-  state: {
-    
-  },
-  mutations: {
-
-  },
-  getters: {
-
-  }
-})
-// 将store对象添加到Vue实例中成为一个属性
+Vue.use(cookies)
 
 // 引入mint-ui 样式文件
 import 'mint-ui/lib/style.css'
@@ -49,9 +31,10 @@ Vue.prototype.qs = qs;
 
 Vue.config.productionTip = false;
 
+import base from './base'
+Vue.use(base)
 
 new Vue({
   router,
-  store,
   render: h => h(App)
 }).$mount('#app')

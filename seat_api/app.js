@@ -2,6 +2,7 @@ const pool = require('./db/pool');
 const express = require('express');
 const cors = require('cors');
 const session = require('express-session');
+const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 
 // 创建web服务器
@@ -9,22 +10,36 @@ var app = express();
 app.listen(3000, () => {
   console.log('running--------')
 });
+
 // 配置跨域
 app.use(cors({
   'origin': ['http://127.0.0.1:8080', 'http://localhost:8080'],
   'credentials': true,
 }));
+
+/* app.all('*', function (req, res, next) {
+  //需要显式设置来源,不能写*
+  res.header("Access-Control-Allow-Origin", req.headers.origin);
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+  res.header("Access-Control-Allow-Methods", "PUT,POST,GET,DELETE,OPTIONS");
+  res.header("Access-Control-Allow-Credentials", true);
+  //带cookies
+  res.header("Content-Type", "application/json;charset=utf-8");
+  next();
+}); */
+
 // 配置session
 app.use(session({
   secret: 'secret', 
   resave: false, // 每次请求是否都更新session
   saveUninitialized: true, //初始化时是否保存数据
   cookie: {
-    maxAge: 1000 * 60 * 60* 24, // 依靠cookie保存24小时
+    maxAge: 1000 * 60 * 60* 8, // 依靠cookie保存8小时
   },
 }));
 
 app.use(express.static('public'));
+app.use(cookieParser());
 app.use(bodyParser.urlencoded({extended: false}));
 
 let user = { phone: '', phoneCode: '' };
@@ -49,14 +64,13 @@ app.post('/api/getPhoneCode', (req, res)=> {
 app.post('/api/phoneLogin', (req, res) =>{
   let phone = req.body.phone;
   let phoneCode = req.body.phoneCode;
-  //判断验证码是否正确
   if (user.phoneCode === phoneCode && phoneCode!== '') {
     let sql = 'SELECT * from t_user WHERE phone = ? LIMIT 1 ;';
     pool.query(sql, [phone], (err, result) => {
       if (err) throw err;
       if (result.length > 0) {// 用户存在
         req.session.userId = result[0].user_id;
-        res.cookie('user_id', result[0].user_id);
+        res.cookie('user_id', result[0].user_id,{maxAge:6000});
         res.send({ success_code: 200 ,message:'登录成功'});
       } else {// 用户不存在，注册为新用户
         let sql = 'INSERT INTO t_user(user_name,phone,password) VALUES(?,?,?)';

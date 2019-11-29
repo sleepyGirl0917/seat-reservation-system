@@ -12,12 +12,12 @@ app.listen(3000, () => {
 });
 
 // 配置跨域
-app.use(cors({
-  'origin': ['http://127.0.0.1:8000', 'http://localhost:8000'],
+/* app.use(cors({
+  'origin': ['http://127.0.0.1:8080', 'http://localhost:8080'],
   'credentials': true
-}));
+})); */
 
-/* app.all('*', (req, res, next) => {
+app.all('*', (req, res, next) => {
   res.header("Access-Control-Allow-Origin", req.headers.origin);
   res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
   res.header("Access-Control-Allow-Methods", "PUT,POST,GET,DELETE,OPTIONS");
@@ -28,7 +28,7 @@ app.use(cors({
   } else {
     next();
   }
-}); */
+});
 
 // 配置session
 app.use(session({

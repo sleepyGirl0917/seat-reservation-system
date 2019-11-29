@@ -1,4 +1,5 @@
 import axios from 'axios'
+import qs from 'qs'
 
 //封装ajax
 export default function ajax(url = '', params = {}, type = 'GET') {
@@ -21,13 +22,14 @@ export default function ajax(url = '', params = {}, type = 'GET') {
       promise = axios.get(url);
     } else if ('POST' === type) {
       //1.3发送post请求
-      promise = axios.post(url, params);
+      let postData = qs.stringify(params);
+      promise = axios.post(url, postData);
     }
     //2.返回请求结果
     promise.then((response) => {
-      resolve(response.data);
+      resolve(response); //返回一个resolved状态的 Promise 对象
     }).catch((error) => {
-      reject(error);
+      reject(error); //Promise.reject()方法的参数，会原封不动地作为reject的理由，变成后续方法的参数
     });
   }))
 }

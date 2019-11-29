@@ -1,13 +1,7 @@
 import ajax from './ajax'
 
-// 登录
-export const login = (name, password) => ajax('/api/admin/login', { name, password }, 'POST');
-// 获取管理员信息
-export const getAdminInfo = (adminId) => ajax('/api/admin/getAdminInfo', { adminId });
-// 获取当前页用户
-export const getCurrentPageUser = (currentPage, pageSize, input) => ajax('/api/admin/getCurrentPageUser', { currentPage, pageSize, input });
 //获取验证码
-export const getPhoneCode = (phone) => ajax('/api/getPhoneCode', { phone });
+export const getPhoneCode = (phone) => ajax('/api/getPhoneCode', { phone }, 'POST');
 //手机登录
 export const phoneLogin = (phone, phoneCode) => ajax('/api/phoneLogin', { phone, phoneCode }, 'POST');
 //账号密码登录

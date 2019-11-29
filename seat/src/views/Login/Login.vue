@@ -27,6 +27,7 @@
 <script>
 import {Toast,MessageBox} from 'mint-ui'
 import Back from '../../components/Back/Back'
+import {getPhoneCode,phoneLogin} from '../../api/index'
 export default {
   name:"Login",
   data(){
@@ -48,7 +49,7 @@ export default {
   },
   methods:{
     // 获取验证码
-    getValidateCode(){
+    async getValidateCode(){
       if (this.checkPhone) {
         this.countDown = 60;
         let timer = setInterval(()=>{
@@ -57,52 +58,41 @@ export default {
             clearInterval(timer);
           }
         },1000);
-        var phone = this.phone;
-        let url = "http://127.0.0.1:3000/api/getPhoneCode";
-        let postData=this.qs.stringify({phone});
-        this.axios.post(url,postData).then(res=>{
-          console.log(res.data.data)
-          if(res.data.success_code==200){
-            MessageBox.alert('手机验证码为：'+res.data.data);
-          }else{ // 获取手机验证码失败
-            MessageBox.alert('获取手机验证码失败');
-            clearInterval(timer);
-            this.countdown = 0;
-          } 
-        })
+        let result = await getPhoneCode(this.phone);
+        console.log(result)
+        if(result.data.success_code==200){
+          MessageBox.alert('手机验证码为：'+result.data.data);
+        }else{ 
+          MessageBox.alert('获取手机验证码失败');
+          clearInterval(timer);
+          this.countdown = 0;
+        } 
       }
     },
-    btnLogin(){
-      var phone = this.phone;
-      var phoneCode = this.phoneCode;
-      var reg = /^[a-z0-9]{3,12}$/i;
-      if(!reg.test(phone)){
-          Toast("用户名格式不正确");
-          return;
-      }
-      if (!reg.test(phoneCode)) {
-        Toast("密码格式不正确");
-        return;
-      }
-      var postData=this.qs.stringify({
-        phone,phoneCode
-      })
-      var url = "http://127.0.0.1:3000/api/phoneLogin";
-      this.axios.post(url,postData).then(res=>{
-        if(res.data.success_code==200){
-          Toast({
-            message: '登录成功',
-            position: 'middle',
-            duration: 2000
-          });
-          console.log(this.$cookies.get('user_id'))
-          this.$router.go(-1);
+    async btnLogin(){
+      if (this.phone===''){
+          MessageBox.alert('请输入手机号码');
+        }else if(!this.checkPhone){
+          MessageBox.alert('请输入正确的手机号码');
+        }else if(this.phoneCode===''){
+          MessageBox.alert('请输入手机验证码');
         }else{
-          MessageBox.alert('登录失败');
+          let result= await phoneLogin(this.phone,this.phoneCode);
+          console.log(result)
+          if(result.data.success_code==200){
+            Toast({
+              message: '登录成功',
+              position: 'middle',
+              duration: 2000
+            });
+            console.log(this.$cookies.get('user_id'))
+            this.$router.go(-1);
+          }else{
+            MessageBox.alert('登录失败');
+          } 
         }
-      })
-    }
-  } 
+    } 
+  }
 }
 </script>
 

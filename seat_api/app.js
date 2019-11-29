@@ -13,19 +13,21 @@ app.listen(3000, () => {
 
 // 配置跨域
 app.use(cors({
-  'origin': ['http://127.0.0.1:8080', 'http://localhost:8080'],
-  'credentials': true,
+  'origin': ['http://127.0.0.1:8000', 'http://localhost:8000'],
+  'credentials': true
 }));
 
-/* app.all('*', function (req, res, next) {
-  //需要显式设置来源,不能写*
+/* app.all('*', (req, res, next) => {
   res.header("Access-Control-Allow-Origin", req.headers.origin);
   res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
   res.header("Access-Control-Allow-Methods", "PUT,POST,GET,DELETE,OPTIONS");
-  res.header("Access-Control-Allow-Credentials", true);
-  //带cookies
+  res.header("Access-Control-Allow-Credentials", true); //支持cookie
   res.header("Content-Type", "application/json;charset=utf-8");
-  next();
+  if (req.method === 'OPTIONS') {
+    res.sendStatus(200);
+  } else {
+    next();
+  }
 }); */
 
 // 配置session
@@ -34,15 +36,15 @@ app.use(session({
   resave: false, // 每次请求是否都更新session
   saveUninitialized: true, //初始化时是否保存数据
   cookie: {
-    maxAge: 1000 * 60 * 60* 8, // 依靠cookie保存8小时
+    maxAge: 1000 * 60 * 60 * 8, // 依靠cookie保存8小时
   },
 }));
 
 app.use(express.static('public'));
+app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
-app.use(bodyParser.urlencoded({extended: false}));
 
-let user = { phone: '', phoneCode: '' };
+let user = {};
 
 //获取手机验证码
 app.post('/api/getPhoneCode', (req, res)=> {
@@ -51,8 +53,10 @@ app.post('/api/getPhoneCode', (req, res)=> {
   if (!phoneCode) {
     res.send({ error_code: 1, message: '获取验证码失败' });
   } else {
-    user.phone = phone;
-    user.phoneCode = phoneCode;
+    // user.phone = phone;
+    // user.phoneCode = phoneCode;
+    user[phone] = phoneCode;
+    console.log(user)
     res.send({ success_code: 200, data: phoneCode });
     // 验证码5分钟后失效
     setTimeout(()=>{ 
@@ -61,22 +65,22 @@ app.post('/api/getPhoneCode', (req, res)=> {
 });
 
 // 手机验证码登录
-app.post('/api/phoneLogin', (req, res) =>{
-  let phone = req.body.phone;
-  let phoneCode = req.body.phoneCode;
-  if (user.phoneCode === phoneCode && phoneCode!== '') {
+app.post('/api/phoneLogin', (req, res) => {
+  let {phone,phoneCode}=req.body;
+  if (user[phone] === phoneCode) {
     let sql = 'SELECT * from t_user WHERE phone = ? LIMIT 1 ;';
     pool.query(sql, [phone], (err, result) => {
       if (err) throw err;
       if (result.length > 0) {// 用户存在
         req.session.userId = result[0].user_id;
-        res.cookie('user_id', result[0].user_id,{maxAge:6000});
+        res.cookie('user_id', result[0].user_id);
         res.send({ success_code: 200 ,message:'登录成功'});
       } else {// 用户不存在，注册为新用户
         let sql = 'INSERT INTO t_user(user_name,phone,password) VALUES(?,?,?)';
         pool.query(sql, [phone, phone, 123456], (err, result) => {
           if (err) throw err;
           if (result.affectedRows > 0) {
+            req.session.userId = result.insertId;
             res.cookie('user_id', result.insertId);
             res.send({ success_code: 200 ,message:'注册成功，已登录'})
           }
@@ -133,3 +137,5 @@ app.get('/api/getUserInfo', (req, res) =>{
     })
   }
 });
+
+// 退出登录

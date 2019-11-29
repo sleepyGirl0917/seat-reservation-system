@@ -36,7 +36,7 @@ app.use(session({
   resave: false, // 每次请求是否都更新session
   saveUninitialized: true, //初始化时是否保存数据
   cookie: {
-    maxAge: 1000 * 60 * 60 * 8, // 依靠cookie保存8小时
+    maxAge: 1000 * 60 * 60 * 24, // 依靠cookie保存24小时
   },
 }));
 
@@ -81,7 +81,7 @@ app.post('/api/phoneLogin', (req, res) => {
           if (err) throw err;
           if (result.affectedRows > 0) {
             req.session.userId = result.insertId;
-            res.cookie('user_id', result.insertId);
+            res.cookie('user_id', result.insertId,{maxAge:1000*60*60*24}); // cookie保持24小时
             res.send({ success_code: 200 ,message:'注册成功，已登录'})
           }
         })

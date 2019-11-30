@@ -21,9 +21,9 @@
     data(){
       return{
         tabBarImgArr:[
-          {normal:require('./images/tab-home.png'),active:require('./images/tab-home-selected.png')},
-          {normal:require('./images/tab-order.png'),active:require('./images/tab-order-selected.png')},
-          {normal:require('./images/tab-user.png'),active:require('./images/tab-user-selected.png')},
+          {normal:require('../../assets/img/tabbar/tab-home.png'),active:require('../../assets/img/tabbar/tab-home-selected.png')},
+          {normal:require('../../assets/img/tabbar/tab-order.png'),active:require('../../assets/img/tabbar/tab-order-selected.png')},
+          {normal:require('../../assets/img/tabbar/tab-user.png'),active:require('../../assets/img/tabbar/tab-user-selected.png')},
         ]
       }
     },
@@ -35,37 +35,33 @@
   }
 </script>
 
-<style>
-#app-tab{
-  bottom: 0;
-  width: 100%;
-  height: 80px;
-  padding: 0;
-  position:fixed;
-  display:flex;
-  z-index:1000;
-  background-color: rgb(53,68,58);
-}
-#app-tab .tab-item{
-  display:flex;
-  flex:1;
-  justify-content: center;
-  align-items:center;
-  flex-direction: column;
-  font-size: 18px;
-  color: #fff;
-  padding-top:10px;
-}
-#app-tab .tab-item img{
-  width: 30px;
-  height: 30px;
-}
-#app-tab .tab-item span{
-  display: block;
-  height:30px;
-  line-height: 30px;
-  margin-top:5px;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
+<style lang="stylus">
+#app-tab
+  bottom  0
+  width  100%
+  height  80px
+  padding  0
+  position fixed
+  display flex
+  z-index 1000
+  background-color rgb(53,68,58)
+  .tab-item
+    display flex
+    flex 1
+    justify-content  center
+    align-items center
+    flex-direction  column
+    font-size  18px
+    color  #fff
+    padding-top 10px
+    img
+      width  30px
+      height  30px
+    span
+      display  block
+      height 30px
+      line-height  30px
+      margin-top 5px
+      overflow  hidden
+      text-overflow  ellipsis
 </style>

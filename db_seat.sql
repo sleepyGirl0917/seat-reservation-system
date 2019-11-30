@@ -58,7 +58,7 @@ DROP TABLE IF EXISTS `t_user`;
 CREATE TABLE `t_user`  (
   `user_id` int(8) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT '用户id',
   `user_name` varchar(32) DEFAULT NULL COMMENT '用户名',
-  `avatar` varchar(255) DEFAULT 'img/default.png' COMMENT '用户头像',
+  `avatar` varchar(255) DEFAULT '/img/avatar/default.png' COMMENT '用户头像',
   `password` varchar(32) DEFAULT NULL COMMENT '用户密码',
   `phone` varchar(20) DEFAULT NULL COMMENT '用户手机号码',
   `gender` int(4) DEFAULT NULL COMMENT '用户性别',
@@ -69,8 +69,8 @@ CREATE TABLE `t_user`  (
 -- ----------------------------
 -- Records of t_user
 -- ----------------------------
-INSERT INTO `t_user` VALUES (1, 'Ann', 'img/default.png', '123456', '13414850282', '0', '300.8');
-INSERT INTO `t_user` VALUES (2, 'Tom', 'img/default.png', '123456', '13672606065', '1', '644.9');
+INSERT INTO `t_user` VALUES (1, 'Ann', '/img/avatar/default.png', '123456', '13414850282', '0', '300.8');
+INSERT INTO `t_user` VALUES (2, 'Tom', '/img/avatar/default.png', '123456', '13672606065', '1', '644.9');
 
 -- ----------------------------
 -- Table structure for t_recharge

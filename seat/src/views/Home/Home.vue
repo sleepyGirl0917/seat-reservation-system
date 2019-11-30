@@ -17,12 +17,9 @@
     <!-- 可用的订座 -->
     <div class="order-now">
       <div class="order-box">
-        <div class="media" v-if="orderNow.length">
+        <div class="media" v-if="!jsonData.user_id">
           <a class="navigate-right">
-            <!-- <div class="media-object float-left">
-              <img class src="img/ordered.png" />
-            </div> -->
-            <img class="media-object float-left" src="img/ordered.png" />
+            <img class="media-object float-left" src="../../assets/img/ordered.png" />
             <div class="media-body">
               <div>众独空间（昙华林店）</div>
               <div>
@@ -34,7 +31,7 @@
           </a>
         </div>
         <div class="media-none" v-else>
-          <img src="img/check.png" />&nbsp;暂无可用的订座记录
+          <img src="../../assets/img/check.png" />&nbsp;暂无可用的订座记录
         </div>
       </div>
     </div>
@@ -42,154 +39,132 @@
 </template>
 
 <script>
-import {Toast} from "mint-ui"
+import { Toast } from "mint-ui"
+import { getOrderToday } from "../../api/index"
 export default {
   name: "Home",
   data() {
     return {
       swipeList: [
-        { id: 1, img_url: "img/banner1.jpg" },
-        { id: 2, img_url: "img/banner2.jpg" },
-        { id: 3, img_url: "img/banner3.jpg" }
+        { id: 1, img_url: require("../../assets/img/home/banner1.jpg") },
+        { id: 2, img_url: require("../../assets/img/home/banner2.jpg") },
+        { id: 3, img_url: require("../../assets/img/home/banner3.jpg") }
       ],
       menuList: [
-        { id: 1, title: "预约体验", img_url: "img/menu1.jpg", path: "/order" },
-        { id: 2, title: "加入会员", img_url: "img/menu2.jpg", path: "/order" },
-        { id: 3, title: "预定座位", img_url: "img/menu3.jpg", path: "/order" }
+        { id: 1, title: "预约体验", img_url: require("../../assets/img/home/menu1.jpg"), path: "/order" },
+        { id: 2, title: "加入会员", img_url: require("../../assets/img/home/menu2.jpg"), path: "/order" },
+        { id: 3, title: "预定座位", img_url: require("../../assets/img/home/menu3.jpg"), path: "/order" }
       ],
-      orderNow: []
+      jsonData: {}
     };
   },
+  created(){
+    // this.loadOrderInfo();  
+  },
   methods: {
-    loadOrderInfo(){
+    async loadOrderInfo(){
       if (this.$cookies.get("user_id")) {
-        getUserInfo(this.$cookies.get("user_id"));
+        let result= await getOrderToday(this.$cookies.get("user_id"));
+        console.log(result);
+        if (result.success_code === 200) {
+          this.jsonData = result.data;
+        } 
       } else {
         this.$router.push('/login');
         Toast("请先登录！");
       }
-    },
-    getUserInfo(user_id){
-      let url="http:127.0.0.1:3000/api/getUserInfo"+user_id;
-      this.axios.get(url).then(res=>{
-        console.log(res.data)
-        if(res.data.success_code==200){
-          this.orderNow=res.data.data;
-        }
-      })
     }
-  },
-  created(){
-    this.loadOrderInfo();  
   }
 };
 </script>
 
-<style>
-#app-home {
-  width: 100%;
-  height: 100%;
-}
-.title {
-  line-height: 60px;
-  height: 60px;
-  display: block;
-  width: 100%;
-  margin: 0;
-  padding: 0;
-  text-align: center;
-  white-space: nowrap;
-  color: #000;
-}
-#app-home .title {
-  font-size: 18px;
-  font-weight: 500;
-}
-/*轮播图*/
-#app-home .mint-swipe {
-  height: 300px;
-  margin-left: 25px;
-  margin-right: 25px;
-  border-radius: 10px;
-  overflow: hidden;
-  transform: translateY(0);
-}
-#app-home .mint-swipe img {
-  width: 100%;
-  height: 100%;
-}
-/* 菜单列表 */
-#app-home ul {
-  margin: 0;
-  padding: 0;
-  width: 100%;
-  height: 180px;
-  background: #fff;
-}
-#app-home .menu {
-  display: table;
-  text-align: center;
-}
-#app-home .menu .menu-item {
-  display: table-cell;
-  vertical-align: middle;
-  padding: 0;
-}
-#app-home .menu .menu-item img {
-  width: 80px;
-  height: 80px;
-}
-#app-home .menu .menu-item .menu-title {
-  display: block;
-  font-size: 18px;
-  margin: 15px;
-}
-/* 可用的订座记录 */
-#app-home .order-now {
-  margin: 20px 15px 0;
-}
-.order-box {
-  position: relative;
-  background: #fff;
-  height:150px;
-}
-.order-box .media,
-.order-box .media .media-body {
-  overflow: hidden;
-}
-.order-box .media {
-  padding: 15px 65px 15px 15px;
-}
-.navigate-right:after {
-  font-family: Muiicons;
-  content: "\e583";
-  position: absolute;
-  font-size: 28px;
-  right: 15px;
-  top: 50%;
-  -webkit-transform: translateY(-50%);
-  transform: translateY(-50%);
-  color: #222;
-  -webkit-font-smoothing: antialiased;
-}
-.order-box .media .media-object{
-  margin:30px 15px 30px 0;
-  width: 60px;
-  height: 60px;
-}
-.order-box .media .media-body *{
-  margin:10px 0;
-}
-.order-box .media-none{
-  position: relative;
-  top:50%;
-  transform:translateY(-50%);
-  text-align: center;
-}
-.order-box .media-none img{
-  width: 30px;
-  height:30px;
-  vertical-align: bottom;
-}
-</style>
+<style  lang="stylus">
+.title  
+  line-height  60px 
+  height  60px 
+  display  block 
+  width  100% 
+  margin  0 
+  padding  0 
+  text-align  center 
+  white-space  nowrap 
+  color  #000 
 
+.navigate-right:after  
+  font-family  Muiicons 
+  content  "\e583" 
+  position  absolute 
+  font-size  28px 
+  right  15px 
+  top  50% 
+  -webkit-transform  translateY(-50%) 
+  transform  translateY(-50%) 
+  color  #222 
+  -webkit-font-smoothing  antialiased 
+
+#app-home 
+  width  100% 
+  height  100% 
+  .title  
+    font-size  18px 
+    font-weight  500 
+  .mint-swipe  
+    height  300px 
+    margin-left  25px 
+    margin-right  25px 
+    border-radius  10px 
+    overflow  hidden 
+    transform  translateY(0) 
+    img  
+      width  100% 
+      height  100% 
+  ul  
+    margin  0 
+    padding  0 
+    width  100% 
+    height  180px 
+    background  #fff 
+ 
+  .menu  
+    display  table 
+    text-align  center 
+    .menu-item  
+      display  table-cell 
+      vertical-align  middle 
+      padding  0 
+      img  
+        width  80px 
+        height  80px 
+      .menu-title  
+        display  block 
+        font-size  18px 
+        margin  15px 
+  .order-now  
+    margin  20px 15px 0 
+ 
+
+.order-box  
+  position  relative 
+  background  #fff 
+  height 150px 
+  .media,
+  .media .media-body  
+      overflow  hidden 
+  .media  
+    padding  15px 65px 15px 15px 
+    .media-object 
+      margin 30px 15px 30px 0 
+      width  60px 
+      height  60px 
+    .media-body * 
+      margin 10px 0 
+  .media-none 
+    position  relative 
+    top 50% 
+    transform translateY(-50%) 
+    text-align  center 
+    img 
+      width  30px 
+      height 30px 
+      vertical-align  bottom 
+</style>

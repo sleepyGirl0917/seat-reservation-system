@@ -27,7 +27,7 @@ export default function ajax(url = '', params = {}, type = 'GET') {
     }
     //2.返回请求结果
     promise.then((response) => {
-      resolve(response); //返回一个resolved状态的 Promise 对象
+      resolve(response.data); //返回一个resolved状态的 Promise 对象
     }).catch((error) => {
       reject(error); //Promise.reject()方法的参数，会原封不动地作为reject的理由，变成后续方法的参数
     });

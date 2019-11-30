@@ -1,6 +1,7 @@
 const pool = require('./db/pool');
 const express = require('express');
 const cors = require('cors');
+const path = require('path');
 const session = require('express-session');
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
@@ -41,6 +42,7 @@ app.use(session({
 }));
 
 app.use(express.static('public'));
+app.use(express.static(path.join(__dirname, 'public')));
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 
@@ -92,7 +94,7 @@ app.post('/api/phoneLogin', (req, res) => {
   }
 });
 
-//密码登录
+// 密码登录
 app.post('/api/pwdLogin', function (req, res) {
   let name = req.body.userName;
   let pwd = req.body.password;
@@ -118,9 +120,9 @@ app.post('/api/pwdLogin', function (req, res) {
   })
 });
 
-//获取用户信息
-app.get('/api/getUserInfo', (req, res) =>{
-  let userId = req.query.userId;
+// 获取用户信息
+app.post('/api/getUserInfo', (req, res) =>{
+  let userId = req.body.userId;
   if (userId) {
     let sql = 'SELECT * from t_user WHERE user_id = ? LIMIT 1;';
     pool.query(sql, [userId], (err, result) => {
@@ -138,4 +140,22 @@ app.get('/api/getUserInfo', (req, res) =>{
   }
 });
 
-// 退出登录
+// 获取当天订座信息
+app.post('/api/getOrderToday',(req,res)=>{
+  let userId=req.body.userId;
+  if(userId){
+    let sql='SELECT * FROM t_order WHERE user_id=? AND TO_DAYS(start_time) = TO_DAYS(NOW()) LIMIT 1;';
+    pool.query(sql, [userId], (err, result) => {
+      if (err) {
+        res.send({ error_code: 1, message: '获取订座信息失败' });
+      } else {
+        result = JSON.parse(JSON.stringify(result));
+        if (result[0]) {
+          res.send({ success_code: 200, data: result[0] })
+        } else {
+          res.send({ error_code: 1, message: '当天没有订座信息' });
+        }
+      }
+    })
+  }
+})

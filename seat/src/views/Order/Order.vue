@@ -4,7 +4,7 @@
     <ul class="order-box">
       <li class="media">
         <a class="navigate-right">
-          <img class="media-object float-left" src="img/ordered.png" />
+          <img class="media-object float-left" src="../../assets/img/ordered.png" />
           <div class="media-body">
             <div>众独空间（昙华林店）</div>
             <div>
@@ -31,10 +31,9 @@
   }
 </script>
 
-<style>
-#app-order .title{
-  font-size: 22px;
-  font-weight: 700;
-}
+<style lang="stylus">
+#app-order .title
+  font-size 22px
+  font-weight 700
 </style>
 

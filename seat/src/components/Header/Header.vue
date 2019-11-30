@@ -39,19 +39,16 @@
   }
 </script>
 
-<style>
-#app-header{
-  width:100%;
-  height: 50px;
-}
-.mint-header{
-  background-color:rgba(230, 230, 230) !important;
-}
-.mint-header .mint-header-title{
-  margin:0;
-  color:#222;
-  font-weight: 600;
-  font-size:20px;
-  line-height: 50px;
-}
+<style lang="stylus">
+#app-header
+  width 100%
+  height 50px
+  .mint-header
+    background-color  rgb(230, 230, 230) !important
+    .mint-header-title
+      margin 0
+      color #222
+      font-weight 600
+      font-size 20px
+      line-height 50px
 </style>

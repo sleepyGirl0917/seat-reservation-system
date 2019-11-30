@@ -13,16 +13,14 @@ export default {
 </script>
 
 
-<style>
-#app-icon{
-  position: absolute;
-  left:8px;
-  top:10px;
-  z-index: 1100;
-}
-#app-icon .mui-icon{
-  font-size:28px;
-  font-weight: 700;
-}
+<style lang="stylus">
+#app-icon
+  position absolute
+  left 8px
+  top 10px
+  z-index 1100
+  .mui-icon
+    font-size 28px
+    font-weight 700
 </style>
 

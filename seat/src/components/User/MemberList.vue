@@ -15,40 +15,36 @@
     data(){
       return{
         memberList:[
-          {name:'绑定手机号',img_url:'img/tel.png',path:'/user/tel'},
-          {name:'我的会员',img_url:'img/member.png',path:'/user/member'},
-          {name:'办卡记录',img_url:'img/record.png',path:'/user/record'},
-          {name:'邀请有礼',img_url:'img/invite.png',path:'/user/invite'},
-          {name:'联系我们',img_url:'img/contact.png',path:'/user/contact'}
+          {name:'绑定手机号',img_url:require('../../assets/img/user/tel.png'),path:'/user/tel'},
+          {name:'我的会员',img_url:require('../../assets/img/user/member.png'),path:'/user/member'},
+          {name:'办卡记录',img_url:require('../../assets/img/user/record.png'),path:'/user/record'},
+          {name:'邀请有礼',img_url:require('../../assets/img/user/invite.png'),path:'/user/invite'},
+          {name:'联系我们',img_url:require('../../assets/img/user/contact.png'),path:'/user/contact'}
         ]
       }
     }
   }
 </script>
 
-<style scoped>
-.middle ul{
-  margin:15px;
-  list-style-type: none;
-  background: #fff;
-  border-radius: 5px;
-}
-.middle ul li{
-  position: relative;
-  padding:15px;
-}
-.middle .member-list li{
-  display: flex;
-  justify-content:flex-start;
-  align-items: center;
-  border-bottom:1px solid rgba(120, 120, 120,0.12);
-}
-.middle .member-list li img{
-  width:40px;
-  height:40px;
-}
-.middle .member-list li div{
-  font-size:20px;
-  margin-left:20px;
-}
+<style lang="stylus" scoped>
+.middle 
+  ul 
+    margin 15px 
+    list-style-type  none 
+    background  #fff 
+    border-radius  5px 
+    li 
+      position  relative 
+      padding 15px 
+  .member-list li 
+    display  flex 
+    justify-content flex-start 
+    align-items  center 
+    border-bottom 1px solid rgba(120, 120, 120,0.12) 
+    img 
+      width 40px 
+      height 40px 
+    div 
+      font-size 20px 
+      margin-left 20px 
 </style>

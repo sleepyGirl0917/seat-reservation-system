@@ -2,7 +2,7 @@
     <div id="app-login">
       <go-back :icon="icon"></go-back>
       <div class="login-head">
-        <img src="img/logo.jpg" class="logo">
+        <img src="../../assets/img/logo.jpg" class="logo">
       </div>
       <form id="login-form" class="login-box">
         <!-- 验证码登录 -->
@@ -60,8 +60,9 @@ export default {
         },1000);
         let result = await getPhoneCode(this.phone);
         console.log(result)
-        if(result.data.success_code==200){
-          MessageBox.alert('手机验证码为：'+result.data.data);
+        if(result.success_code==200){
+          MessageBox.alert('手机验证码为：'+result.data);
+          this.phoneCode=result.data; // 填充验证码
         }else{ 
           MessageBox.alert('获取手机验证码失败');
           clearInterval(timer);
@@ -69,6 +70,7 @@ export default {
         } 
       }
     },
+    // 登录
     async btnLogin(){
       if (this.phone===''){
           MessageBox.alert('请输入手机号码');
@@ -79,7 +81,7 @@ export default {
         }else{
           let result= await phoneLogin(this.phone,this.phoneCode);
           console.log(result)
-          if(result.data.success_code==200){
+          if(result.success_code==200){
             Toast({
               message: '登录成功',
               position: 'middle',
@@ -92,6 +94,11 @@ export default {
           } 
         }
     } 
+  },
+  watch:{
+    /* phoneCode(){
+      console.log(this.phoneCode)
+    } */
   }
 }
 </script>

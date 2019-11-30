@@ -3,6 +3,7 @@
     <my-header></my-header>
     <router-view/>
     <tab-bar v-if="$route.meta.showTabbar"/>
+    
   </div>
 </template>
 
@@ -18,30 +19,23 @@
   }
 </script>
 
-<style>
-  *{
-    margin:0;
-    padding:0;
-  }
-  #app {
-    width:100%;
-    min-height: 100vh;
-  }
-  #app button{
-    background:#222;
-    color:#fff;
-  }
-  #app .mint-header{
-    height:50px;
-  }
-  img { 
-    content:normal !important; 
-  }
-  a{
-    text-decoration: none;
-    color:#000 !important;
-  }
-  .float-left{
-    float:left;
-  }
+<style lang="stylus">
+* 
+  margin 0 
+  padding 0 
+#app  
+  width 100% 
+  min-height  100vh 
+  button 
+    background #222 
+    color #fff 
+  .mint-header 
+      height 50px 
+  img   
+    content normal !important  
+  a 
+    text-decoration  none 
+    color #000 !important 
+  .float-left 
+    float left 
 </style>

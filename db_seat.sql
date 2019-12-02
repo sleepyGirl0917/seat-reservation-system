@@ -132,11 +132,11 @@ CREATE TABLE `t_admin`  (
   `password` varchar(128) DEFAULT NULL COMMENT '管理员密码',
   `gender` int(4) DEFAULT NULL COMMENT '管理员性别',  -- 0:女 1：男
   `phone` varchar(20) DEFAULT NULL COMMENT '管理员联系电话',
-  `avatar` varchar(255) DEFAULT 'img/default.png' COMMENT '管理员头像',
+  `avatar` varchar(255) DEFAULT '/img/default.png' COMMENT '管理员头像',
   PRIMARY KEY (`admin_id`) USING BTREE
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of t_admin
 -- ----------------------------
-INSERT INTO `t_admin` VALUES (1, 'admin', 'admin', '1', '13414850215', 'img/default.png' );
+INSERT INTO `t_admin` VALUES (1, 'admin', 'admin', '1', '13414850215', '/img/default.png' );

@@ -4,6 +4,11 @@ const router = express.Router();
 
 let user = {};
 
+/* GET home page. */
+router.get('/', function(req, res, next) {
+  res.render('index', { title: 'Express' });
+});
+
 //获取手机验证码
 router.post('/api/getPhoneCode', (req, res) => {
   let phone = req.body.phone;
@@ -78,8 +83,8 @@ router.post('/api/pwdLogin', function (req, res) {
 });
 
 //获取用户信息
-router.get('/api/getUserInfo', (req, res) => {
-  let userId = req.query.userId;
+router.post('/api/getUserInfo', (req, res) => {
+  let userId = req.body.userId;
   if (userId) {
     let sql = 'SELECT * from t_user WHERE user_id = ? LIMIT 1;';
     pool.query(sql, [userId], (err, result) => {

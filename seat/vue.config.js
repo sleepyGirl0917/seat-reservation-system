@@ -13,25 +13,25 @@ module.exports = {
   productionSourceMap: false,
   // webpack相关配置
   configureWebpack: (config) => {    
-  if (process.env.NODE_ENV === 'production') {      
-      // 生产环境
+    if (process.env.NODE_ENV === 'production') {
+      // 为生产环境修改配置...
       config.mode = 'production'
-    } else {      
-      // 开发环境
+    } else {
+      // 为开发环境修改配置...
       config.mode = 'development'
     }
   },  
   // webpack-dev-server 相关配置
   devServer: {
     open: false,    // 是否自动打开页面
-    host: 'localhost',  // 域名
+    host: '0.0.0.0',  // 域名
     port: '8000',   // 端口号
     https: false,   // 是否使用https
     hotOnly: true,  // 热更新
     proxy: {
       // 配置跨域
       '/': { 
-        target: 'http://localhost:3000',
+        target: process.env.VUE_APP_API,
         changeOrigin: true,
         ws: true, // websocket支持
         secure:false, // 如果是https接口，则需要配置这个参数

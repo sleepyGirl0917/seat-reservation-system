@@ -17,6 +17,7 @@
   import MemberList from '../../components/User/MemberList'
   import UserMsg from '../../components/User/UserMsg'
   import { getUserInfo } from "../../api/index"
+  import { Indicator } from 'mint-ui'
   export default {
     data(){
       return{
@@ -34,6 +35,7 @@
     },
     methods:{
       async loadUserInfo() {
+        Indicator.open('Loading...');
         if (this.$cookies.get("user_id")) {
           let result = await getUserInfo(this.$cookies.get("user_id"));
           console.log(result);
@@ -43,6 +45,7 @@
         } else {
           this.jsonData = {};
         }
+        Indicator.close();
       }
     }
   }

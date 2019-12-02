@@ -1,12 +1,12 @@
 <template>
   <div class="top">
-    <div v-if="jsonData.user_id" class="user-info">
+    <div v-if="jsonData.user_id" v-cloak class="user-info">
       <div class="avatar">
-        <img :src="jsonData?'http://localhost:3000'+jsonData.avatar:avatar"/>
+        <img :src="jsonData?baseUrl+jsonData.avatar:avatar"/>
       </div>
       <div class="uname">{{jsonData.user_name}}</div>
     </div>
-    <div v-else class="user-info" @click="$router.push('/login')">
+    <div v-else v-cloak class="user-info" @click="$router.push('/login')">
       <div class="login">
         <span>立即登录&nbsp;</span>
         <span class="mui-icon mui-icon-forward"></span>
@@ -18,7 +18,8 @@
   export default {
     data() {
       return {
-        avatar: "http://localhost:3000/img/avatar/default.png"
+        baseUrl:process.env.VUE_APP_API,
+        avatar: process.env.VUE_APP_API+"/img/avatar/default.png"
       };
     },
     props:{

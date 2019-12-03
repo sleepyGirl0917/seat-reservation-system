@@ -18,11 +18,16 @@
   import UserMsg from '../../components/User/UserMsg'
   import { getUserInfo } from "../../api/index"
   import { Indicator } from 'mint-ui'
+  import { mapGetters } from 'vuex'
   export default {
     data(){
       return{
-        jsonData:{}
+       
       }
+    },
+    computed:{
+      // 通过mapGetters获取store中state设置的变量
+      ...mapGetters(['jsonData','isLogin'])
     },
     components:{
       "user-info":UserInfo,
@@ -30,14 +35,11 @@
       "order-record":OrderRecord,
       "member-list":MemberList
     },
-    created(){
-      this.loadUserInfo();
-    },
     methods:{
-      async loadUserInfo() {
-        Indicator.open('Loading...');
-        if (this.$cookies.get("user_id")) {
-          let result = await getUserInfo(this.$cookies.get("user_id"));
+      /* async loadUserInfo() {
+        if (this.user_id) {
+          Indicator.open('Loading...');
+          let result = await getUserInfo(this.user_id);
           console.log(result);
           if (result.success_code === 200) {
             this.jsonData = result.data;
@@ -46,7 +48,7 @@
           this.jsonData = {};
         }
         Indicator.close();
-      }
+      } */
     }
   }
 </script>

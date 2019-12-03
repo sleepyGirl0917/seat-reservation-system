@@ -5,7 +5,7 @@ const router = express.Router();
 let user = {};
 
 /* GET home page. */
-router.get('/', function(req, res, next) {
+router.get('/', function (req, res, next) {
   res.render('index', { title: 'Express' });
 });
 
@@ -35,18 +35,24 @@ router.post('/api/phoneLogin', (req, res) => {
     let sql = 'SELECT * from t_user WHERE phone = ? LIMIT 1 ;';
     pool.query(sql, [phone], (err, result) => {
       if (err) throw err;
-      if (result.length > 0) {// 用户存在
+      if (result[0]) {// 用户存在
         req.session.userId = result[0].user_id;
         res.cookie('user_id', result[0].user_id);
-        res.send({ success_code: 200, message: '登录成功' });
+        res.send({ success_code: 200, message: '登录成功',data:result[0] });
       } else {// 用户不存在，注册为新用户
-        let sql = 'INSERT INTO t_user(user_name,phone,password) VALUES(?,?,?)';
+        let sql = 'INSERT INTO t_user(user_name,phone,password) VALUES(?,?,?);';
         pool.query(sql, [phone, phone, 123456], (err, result) => {
           if (err) throw err;
           if (result.affectedRows > 0) {
             req.session.userId = result.insertId;
             res.cookie('user_id', result.insertId, { maxAge: 1000 * 60 * 60 * 24 }); // cookie保持24小时
-            res.send({ success_code: 200, message: '注册成功，已登录' })
+            let sql = `SELECT * from t_user WHERE phone =${phone} LIMIT 1 ;`;
+            pool.query(sql, (err, result) => {
+              if (err) throw err;
+              if (result[0]) {
+                res.send({ success_code: 200, message: '注册成功，已登录', data: result[0] })
+              }
+            })
           }
         })
       }
@@ -71,7 +77,7 @@ router.post('/api/pwdLogin', function (req, res) {
           //保存用户id
           req.session.userId = result[0].user_id;
           res.cookie('user_id', result[0].user_id);
-          res.send({ success_code: 200 })
+          res.send({ success_code: 200, message: '登录成功', data: result[0] })
         } else {
           res.send({ error_code: 1, message: '密码错误' });
         }
@@ -84,14 +90,19 @@ router.post('/api/pwdLogin', function (req, res) {
 
 //获取用户信息
 router.post('/api/getUserInfo', (req, res) => {
+  /* if (!req.session.userId) {
+    res.send({ error_code: -1, message: "请登录" });
+    return;
+  }
+  let userId = req.session.userId; */
   let userId = req.body.userId;
   if (userId) {
-    let sql = 'SELECT * from t_user WHERE user_id = ? LIMIT 1;';
+    let sql = 'SELECT * FROM t_user WHERE user_id = ? LIMIT 1;';
     pool.query(sql, [userId], (err, result) => {
       if (err) {
         res.send({ error_code: 1, message: '获取用户信息失败' });
       } else {
-        result = JSON.parse(JSON.stringify(result));
+        console.log(result)
         if (result[0]) {
           res.send({ success_code: 200, data: result[0] })
         } else {
@@ -102,7 +113,61 @@ router.post('/api/getUserInfo', (req, res) => {
   }
 });
 
-// 退出登录
+// 获取当天订座信息
+router.post('/api/getOrderToday', (req, res) => {
+  /* if (!req.session.userId) {
+    res.send({ error_code: -1, message: "请登录" });
+    return;
+  }
+  let userId = req.session.userId; */
+  let userId = req.body.userId;
+  if (userId) {
+    let sql = 'SELECT * FROM t_order WHERE user_id = ? AND TO_DAYS(start_time)=TO_DAYS(now()) AND end_time >= current_time() LIMIT 1;';
+    pool.query(sql, [userId], (err, result) => {
+      if (err) {
+        res.send({ error_code: 1, message: '获取订座信息失败' });
+      } else {
+        console.log(result)
+        if (result[0]) {
+          res.send({ success_code: 200, data: result[0] })
+        } else {
+          res.send({ error_code: 1, message: '当天没有订座信息' });
+        }
+      }
+    })
+  }
+});
 
+// 获取所有订座信息
+router.post('/api/getOrderAll', (req, res) => {
+  /* if (!req.session.userId) {
+    res.send({ error_code: -1, message: "请登录" });
+    return;
+  }
+  let userId = req.session.userId; */
+  let userId = req.body.userId;
+  if (userId) {
+    let sql = 'SELECT * FROM t_order WHERE user_id = ? AND end_time >= current_time();';
+    pool.query(sql, [userId], (err, result) => {
+      if (err) {
+        res.send({ error_code: 1, message: '获取订座信息失败' });
+      } else {
+        console.log(result)
+        if (result) {
+          res.send({ success_code: 200, data: result})
+        } else {
+          res.send({ error_code: 1, message: '没有订座信息' });
+        }
+      }
+    })
+  }
+});
+
+// 退出登录
+router.get("/api/logout", (req, res) => {
+  req.session.userId = null;
+  res.clearCookie('user_id');
+  res.send({ success_code: 200, message: "已退出" });
+});
 
 module.exports = router;

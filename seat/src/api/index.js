@@ -19,4 +19,4 @@ export const updateUserName = (userId, userName) => ajax('/api/updateUserName', 
 //更新座位信息
 export const updateScheduleSeat = (seatId, seatInfo) => ajax('/api/updateScheduleSeat', { seatId, seatInfo }, 'POST');
 // 退出登录
-export const logout = (userId) => ajax('/api/logout', { userId }, 'POST')
+export const logout = () => ajax('/api/logout');

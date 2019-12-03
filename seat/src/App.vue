@@ -15,10 +15,6 @@
     components:{
       "tab-bar":Tabbar,
       "my-header":Header
-    },
-    created() {
-      // js代码中使用环境变量
-      console.log("NODE_ENV: ", process.env.NODE_ENV);
     }
   }
 </script>

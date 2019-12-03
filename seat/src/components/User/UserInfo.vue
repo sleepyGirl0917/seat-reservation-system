@@ -1,12 +1,12 @@
 <template>
   <div class="top">
-    <div v-if="jsonData.user_id" v-cloak class="user-info">
-      <div class="avatar">
-        <img :src="jsonData?baseUrl+jsonData.avatar:avatar"/>
+    <div v-if="jsonData" class="user-info">
+      <div class="avatar" :style="'background:url('+(jsonData?baseUrl+jsonData.avatar:avatar)+') no-repeat 50% 50%;background-size:120px 120px;'">
+        <!-- <img :src="jsonData?baseUrl+jsonData.avatar:avatar"/> -->
       </div>
       <div class="uname">{{jsonData.user_name}}</div>
     </div>
-    <div v-else v-cloak class="user-info" @click="$router.push('/login')">
+    <div v-else class="user-info" @click="$router.push('/login')">
       <div class="login">
         <span>立即登录&nbsp;</span>
         <span class="mui-icon mui-icon-forward"></span>
@@ -54,11 +54,11 @@
     justify-content  flex-start 
     align-items  center 
     .avatar  
-      width  100px 
-      height  100px 
+      width  120px 
+      height  120px 
       overflow hidden 
       border-radius  50% 
-      border 4px solid #fff 
+      border 8px solid #fff 
       img  
         width  100% 
         height  100% 

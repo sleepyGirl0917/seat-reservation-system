@@ -17,7 +17,7 @@
     <!-- 可用的订座 -->
     <div class="order-now">
       <div class="order-box">
-        <div class="media" v-if="!jsonData.user_id">
+        <div class="media" v-if="isLogin">
           <a class="navigate-right">
             <img class="media-object float-left" src="../../assets/img/ordered.png" />
             <div class="media-body">
@@ -40,6 +40,7 @@
 
 <script>
 import { Toast } from "mint-ui"
+import { mapGetters } from 'vuex'
 import { getOrderToday } from "../../api/index"
 export default {
   name: "Home",
@@ -51,18 +52,22 @@ export default {
         { id: 3, img_url: require("../../assets/img/home/banner3.jpg") }
       ],
       menuList: [
-        { id: 1, title: "预约体验", img_url: require("../../assets/img/home/menu1.jpg"), path: "/order" },
-        { id: 2, title: "加入会员", img_url: require("../../assets/img/home/menu2.jpg"), path: "/order" },
-        { id: 3, title: "预定座位", img_url: require("../../assets/img/home/menu3.jpg"), path: "/order" }
+        { id: 1, title: "预约体验", img_url: require("../../assets/img/home/menu1.jpg"), path: "/" },
+        { id: 2, title: "加入会员", img_url: require("../../assets/img/home/menu2.jpg"), path: "/" },
+        { id: 3, title: "预定座位", img_url: require("../../assets/img/home/menu3.jpg"), path: "/" }
       ],
       jsonData: {}
     };
   },
+  computed:{
+    // 通过mapGetters获取store中state设置的变量
+    ...mapGetters(['user_id','isLogin'])
+  },
   created(){
-    // this.loadOrderInfo();  
+    this.loadOrderInfo();  
   },
   methods: {
-    async loadOrderInfo(){
+    /* async loadOrderInfo(){
       if (this.$cookies.get("user_id")) {
         let result= await getOrderToday(this.$cookies.get("user_id"));
         console.log(result);
@@ -73,6 +78,12 @@ export default {
         this.$router.push('/login');
         Toast("请先登录！");
       }
+    } */
+    async loadOrderInfo(){
+      let result= await getOrderToday(this.user_id);
+      if (result.success_code === 200) {
+        this.jsonData = result.data;
+      } 
     }
   }
 };

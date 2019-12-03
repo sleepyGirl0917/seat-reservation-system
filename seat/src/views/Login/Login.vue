@@ -82,12 +82,19 @@ export default {
           let result= await phoneLogin(this.phone,this.phoneCode);
           console.log(result)
           if(result.success_code==200){
+            // 修改登录状态
+            this.$store.commit("updateLogin",true);
+            // 把user_id存入store
+            this.$store.commit("updateUserId",result.data.user_id);
+            // 把token存入store
+            this.$store.commit("updateToken",result.data.sessionToken);
+            // 把result.data存入store
+            this.$store.commit("updateJsonData",result.data);
             Toast({
               message: '登录成功',
               position: 'middle',
               duration: 2000
             });
-            console.log(this.$cookies.get('user_id'))
             this.$router.go(-1);
           }else{
             MessageBox.alert('登录失败');
@@ -103,58 +110,53 @@ export default {
 }
 </script>
 
-<style>
-#app-login{
-  width:100%;
-  height:80%;
-}
-#app-login .login-head{
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin:100px auto;
-}
-#app-login .login-head img{
-  display:block;
-  width:100px;
-  height:100px;
-}
-#app-login .login-box{
-  width:70%;
-  margin:0 auto;
-}
-#app-login .login-box .login-info{
-  position: relative;
-}
-#app-login .login-box input{
-  font-size: 25px;
-  height:50px;
-  line-height:50px;
-  width:100%;
-  border:none;
-  border-bottom:1px solid #222;
-  background: transparent;
-}
-#app-login .login-box .login-info button{
-  position: absolute;
-  right:5px;
-  bottom:20px;
-  height:70%;
-  font-size:20px;
-}
-#app-login .login-box .login-submit{
-  width:100%;
-  margin:10px 0;
-  font-size:25px;
-  border-radius: 5px;
-}
-#app-login .login-box .login-remind{
-  font-size:17px;
-  color:#666;
-  margin:10px 5px;
-}
-#app-login .login-box .login-remind a{
-  color:#007aff !important;
-}
+<style lang="stylus" scoped>
+#app-login
+  width   100%
+  height  80%
+
+  .login-head
+    display flex
+    justify-content center
+    align-items center
+    margin  100px auto
+    img
+      display block
+      width   100px
+      height  100px
+
+  .login-box
+    width   70%
+    margin  0 auto
+    .login-submit
+      width   100%
+      margin   10px 0
+      font-size 25px
+      border-radius 5px
+    .login-remind
+      font-size 17px
+      color #666
+      margin  10px 5px
+      a
+        color #007aff !important
+
+    .login-info
+      position relative
+      button
+        position absolute
+        right 5px
+        bottom  20px
+        height  70%
+        font-size 20px
+
+    input
+      font-size 25px
+      height  50px
+      line-height 50px
+      width 100%
+      border  none
+      border-bottom 1px solid #222
+      background transparent
+
 </style>
 

@@ -3,6 +3,7 @@ import App from './App.vue'
 import store from './store/store'
 import router from './router/router'
 import cookies from 'vue-cookies'
+
 Vue.use(cookies)
 
 // 引入mint-ui 样式文件

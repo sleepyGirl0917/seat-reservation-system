@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
+import * as types from './mutation-types'
 import createPersistedstate from 'vuex-persistedstate'
 
 Vue.use(Vuex)
@@ -14,26 +15,18 @@ export default new Vuex.Store({
     jsonData:{}
   },
   mutations: {
-    updateLogin(state, payload) {
+    [types.updateLogin](state, payload) {
       state.isLogin = payload;
-      state.token = 'login'
     },
-    updateUserId(state, payload) {
+    [types.updateUserId](state, payload) {
       state.user_id = payload;
     },
-    updateToken(state, payload) {
+    [types.updateToken](state, payload) {
       state.token = payload;
     },
-    updateJsonData(state, payload) {
+    [types.updateJsonData](state, payload) {
       state.jsonData = payload;
     },
-    /* updateLogout(state){
-      // localStorage.clear();
-      state.user_id=null
-      state.jsonData = null
-      state.token = null
-      state.isLogin=false
-    }, */
   },
   getters: {
     isLogin: state => state.isLogin,

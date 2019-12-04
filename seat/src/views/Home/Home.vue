@@ -61,26 +61,14 @@ export default {
   },
   computed:{
     // 通过mapGetters获取store中state设置的变量
-    ...mapGetters(['user_id','isLogin'])
+    ...mapGetters(['userInfo','isLogin'])
   },
   created(){
     this.loadOrderInfo();  
   },
   methods: {
-    /* async loadOrderInfo(){
-      if (this.$cookies.get("user_id")) {
-        let result= await getOrderToday(this.$cookies.get("user_id"));
-        console.log(result);
-        if (result.success_code === 200) {
-          this.jsonData = result.data;
-        } 
-      } else {
-        this.$router.push('/login');
-        Toast("请先登录！");
-      }
-    } */
     async loadOrderInfo(){
-      let result= await getOrderToday(this.user_id);
+      let result= await getOrderToday(this.userInfo.user_id);
       if (result.success_code === 200) {
         this.jsonData = result.data;
       } 

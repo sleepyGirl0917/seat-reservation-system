@@ -4,16 +4,18 @@
 
 import axios from 'axios'
 import store from './store/store'
+import * as types from './store/mutation-types'
 import router from './router/router'
 
 // axios 配置
 axios.defaults.timeout = 5000
-// axios.defaults.baseURL = 'https://api.github.com'
+axios.defaults.withCredentials = true;
+// axios.defaults.baseURL = 'https://127.0.0.1:3000'
 
-// http request 拦截器
-/* axios.interceptors.request.use(
+// request 拦截器
+axios.interceptors.request.use(
   config => {
-    if (store.state.token) {
+    if (store.state.token) { // 判断是否存在token，如果存在的话，则每个http header都加上token
       config.headers['sessionToken'] = store.state.token;
     }
     return config
@@ -21,19 +23,19 @@ axios.defaults.timeout = 5000
   error => {
     return Promist.reject(error);
   },
-) */
+)
 
-// http response 拦截器
+// response 拦截器
 axios.interceptors.response.use(
-  response => {
-    return response
+  response => { 
+    return response  // 响应传给axios
   },
   error => {
     if (error.response) {
       switch (error.response.status) {
         case 401:
-          // 401 清除token信息并跳转到登录页面
-          store.commit(LOGOUT)
+          // 返回 401 可能是token过期，清除token信息并跳转到登录页面
+          store.commit(types.LOGOUT)
 
           // 只有在当前路由不是登录页面才跳转
           router.currentRoute.path !== 'login' &&

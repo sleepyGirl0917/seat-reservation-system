@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import store from '../store/store'
+import * as types from '../store/mutation-types'
 
 // 解决两次访问相同路由地址报错
 const originalPush = VueRouter.prototype.push
@@ -37,7 +38,7 @@ const routes = [
     meta: {
       title: '我的预定',
       showTabbar: true,
-      needLogin: true,
+      requireAuth: true,
     }
   },
   {
@@ -80,7 +81,7 @@ const routes = [
 
 // 页面刷新时，重新赋值token
 /* if (window.localStorage.getItem('token')) {
-  store.commit(types.LOGIN, window.localStorage.getItem('token'))
+  store.commit(types.UPDATE_TOKEN, window.localStorage.getItem('token'))
 } */
 
 const router = new VueRouter({
@@ -89,17 +90,19 @@ const router = new VueRouter({
 
 // 配置路由守卫
 router.beforeEach((to, from, next) => {
-  let { title, needLogin } = to.meta;
-  let { isLogin } = store.state;
-  // 设置页面标题
-  document.title = title;
-  if (needLogin && !isLogin) {
-    // 需要登录，但没有登录，跳转到登录页
-    next({
-      path: '/login'
-    })
+  let { title, requireAuth } = to.meta;
+  document.title = title; // 设置页面标题
+  if (requireAuth) { // // 判断该路由是否需要登录权限
+    if (store.state.token) { // 判断当前的token是否存在
+      next();
+    } else {
+      next({
+        path: '/login',
+        query: { redirect: to.fullPath }  // 将跳转的路由path作为参数，登录成功后跳转到该路由
+      });
+    }
   } else {
-    next()
+    next();
   }
 })
 

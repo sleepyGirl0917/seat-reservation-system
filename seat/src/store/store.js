@@ -10,31 +10,37 @@ export default new Vuex.Store({
   plugins: [createPersistedstate()],
   state: {
     isLogin: false,
-    user_id: '',
-    token: '',
-    jsonData:{}
+    token: null,
+    userInfo: {}
   },
-  mutations: {
-    [types.updateLogin](state, payload) {
+  mutations: { // 同步修改state
+    [types.UPDATE_LOGIN](state, payload) {
       state.isLogin = payload;
     },
-    [types.updateUserId](state, payload) {
-      state.user_id = payload;
-    },
-    [types.updateToken](state, payload) {
+    [types.UPDATE_TOKEN](state, payload) {
       state.token = payload;
     },
-    [types.updateJsonData](state, payload) {
-      state.jsonData = payload;
+    [types.UPDATE_USER_INFO](state, payload) {
+      state.userInfo = payload;
+    },
+    [types.LOGIN]: (state,payload) => {
+      state.isLogin = true;
+      state.userInfo = payload.data;
+      // state.token = payload.sessionToken;
+      state.token = '123';
+    },
+    [types.LOGOUT]: (state) => {
+      state.isLogin = false;
+      state.userInfo = {};
+      state.token = null;
     },
   },
   getters: {
     isLogin: state => state.isLogin,
-    user_id: state => state.user_id,
     token: state => state.token,
-    jsonData: state => state.jsonData,
+    userInfo: state => state.userInfo,
   },
-  actions: {
+  actions: { // 异步修改state
   },
   modules: {
   }

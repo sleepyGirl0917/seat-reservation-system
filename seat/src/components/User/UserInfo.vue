@@ -1,8 +1,8 @@
 <template>
   <div class="top">
     <div v-if="Object.keys(jsonData).length" class="user-info">
-      <div class="avatar">
-        <img :src="jsonData?baseUrl+jsonData.avatar:avatar"/>
+      <div class="avatar" :style="'background:url('+(jsonData?baseUrl+jsonData.avatar:avatar)+') no-repeat 50% 50%;background-size:cover;'">
+        <!-- <img :src="jsonData?baseUrl+jsonData.avatar:avatar"/> -->
       </div>
       <div class="uname">{{jsonData.user_name}}</div>
     </div>
@@ -57,11 +57,11 @@
       width  120px 
       height  120px 
       overflow hidden 
-      border-radius  50% 
+      border-radius  50%
       border 8px solid #fff 
       img  
-        width  100% 
-        height  100% 
+        width 100%
+        height 100%
     .uname  
       padding-left  30px 
       font-size  30px 

@@ -32,7 +32,7 @@ router.post('/api/getPhoneCode', (req, res) => {
 router.post('/api/phoneLogin', (req, res) => {
   let { phone, phoneCode } = req.body;
   if (user[phone] === phoneCode) {
-    let sql = 'SELECT * from t_user WHERE phone = ? LIMIT 1 ;';
+    let sql = 'SELECT user_id,user_name,avatar,phone,balance from t_user WHERE phone = ? LIMIT 1 ;';
     pool.query(sql, [phone], (err, result) => {
       if (err) throw err;
       if (result[0]) {// 用户存在
@@ -46,7 +46,7 @@ router.post('/api/phoneLogin', (req, res) => {
           if (result.affectedRows > 0) {
             req.session.userId = result.insertId;
             res.cookie('user_id', result.insertId, { maxAge: 1000 * 60 * 60 * 24 }); // cookie保持24小时
-            let sql = `SELECT * from t_user WHERE phone =${phone} LIMIT 1 ;`;
+            let sql = `SELECT user_id,user_name,avatar,phone,balance from t_user WHERE phone =${phone} LIMIT 1 ;`;
             pool.query(sql, (err, result) => {
               if (err) throw err;
               if (result[0]) {
@@ -66,7 +66,7 @@ router.post('/api/phoneLogin', (req, res) => {
 router.post('/api/pwdLogin', function (req, res) {
   let name = req.body.userName;
   let pwd = req.body.password;
-  let sql = 'SELECT * from t_user WHERE user_name =? LIMIT 1 ;'
+  let sql = 'SELECT user_id,user_name,avatar,phone,balance from t_user WHERE user_name =? LIMIT 1 ;'
   pool.query(sql, [name], (err, result) => {
     if (err) {
       res.send({ error_code: 1, message: '查询用户失败' });
@@ -88,7 +88,7 @@ router.post('/api/pwdLogin', function (req, res) {
   })
 });
 
-//获取用户信息
+//获取用户信息（deserted，登录同时已经获取）
 router.post('/api/getUserInfo', (req, res) => {
   /* if (!req.session.userId) {
     res.send({ error_code: -1, message: "请登录" });
@@ -97,7 +97,7 @@ router.post('/api/getUserInfo', (req, res) => {
   let userId = req.session.userId; */
   let userId = req.body.userId;
   if (userId) {
-    let sql = 'SELECT * FROM t_user WHERE user_id = ? LIMIT 1;';
+    let sql = 'SELECT user_id,user_name,avatar,phone,balance FROM t_user WHERE user_id = ? LIMIT 1;';
     pool.query(sql, [userId], (err, result) => {
       if (err) {
         res.send({ error_code: 1, message: '获取用户信息失败' });

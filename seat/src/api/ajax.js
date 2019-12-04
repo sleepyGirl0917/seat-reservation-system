@@ -1,4 +1,4 @@
-import axios from 'axios'
+import axios from '../../src/http'
 import qs from 'qs'
 
 //封装ajax

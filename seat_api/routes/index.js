@@ -32,7 +32,7 @@ router.post('/api/getPhoneCode', (req, res) => {
 router.post('/api/phoneLogin', (req, res) => {
   let { phone, phoneCode } = req.body;
   if (user[phone] === phoneCode) {
-    let sql = 'SELECT user_id,user_name,avatar,phone,balance from t_user WHERE phone = ? LIMIT 1 ;';
+    let sql = 'SELECT user_id from t_user WHERE phone = ? LIMIT 1 ;';
     pool.query(sql, [phone], (err, result) => {
       if (err) throw err;
       if (result[0]) {// 用户存在
@@ -46,7 +46,7 @@ router.post('/api/phoneLogin', (req, res) => {
           if (result.affectedRows > 0) {
             req.session.userId = result.insertId;
             res.cookie('user_id', result.insertId, { maxAge: 1000 * 60 * 60 * 24 }); // cookie保持24小时
-            let sql = `SELECT user_id,user_name,avatar,phone,balance from t_user WHERE phone =${phone} LIMIT 1 ;`;
+            let sql = `SELECT user_id from t_user WHERE phone =${phone} LIMIT 1 ;`;
             pool.query(sql, (err, result) => {
               if (err) throw err;
               if (result[0]) {
@@ -66,7 +66,7 @@ router.post('/api/phoneLogin', (req, res) => {
 router.post('/api/pwdLogin', function (req, res) {
   let name = req.body.userName;
   let pwd = req.body.password;
-  let sql = 'SELECT user_id,user_name,avatar,phone,balance from t_user WHERE user_name =? LIMIT 1 ;'
+  let sql = 'SELECT user_id from t_user WHERE user_name =? LIMIT 1 ;'
   pool.query(sql, [name], (err, result) => {
     if (err) {
       res.send({ error_code: 1, message: '查询用户失败' });
@@ -88,7 +88,7 @@ router.post('/api/pwdLogin', function (req, res) {
   })
 });
 
-//获取用户信息（deserted，登录同时已经获取）
+//获取用户信息
 router.post('/api/getUserInfo', (req, res) => {
   /* if (!req.session.userId) {
     res.send({ error_code: -1, message: "请登录" });
@@ -122,7 +122,10 @@ router.post('/api/getOrderToday', (req, res) => {
   let userId = req.session.userId; */
   let userId = req.body.userId;
   if (userId) {
-    let sql = 'SELECT * FROM t_order WHERE user_id = ? AND TO_DAYS(start_time)=TO_DAYS(now()) AND end_time >= current_time() LIMIT 1;';
+    // 要求：1.当天订座 2.订座未结束
+    let sql = 'SELECT shop_name,seat_info,order_date,start_time,end_time FROM t_order A,t_shop B ';
+    sql += ' WHERE A.user_id = ? AND A.shop_id=B.shop_id ';
+    sql += ' AND TO_DAYS(start_time) = TO_DAYS(now()) AND end_time >= current_time() LIMIT 1;';
     pool.query(sql, [userId], (err, result) => {
       if (err) {
         res.send({ error_code: 1, message: '获取订座信息失败' });
@@ -131,7 +134,7 @@ router.post('/api/getOrderToday', (req, res) => {
         if (result[0]) {
           res.send({ success_code: 200, data: result[0] })
         } else {
-          res.send({ error_code: 1, message: '当天没有订座信息' });
+          res.send({ error_code: 1, message: '当天没有可用的订座信息' });
         }
       }
     })

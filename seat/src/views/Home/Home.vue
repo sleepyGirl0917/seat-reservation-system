@@ -17,15 +17,15 @@
     <!-- 可用的订座 -->
     <div class="order-now">
       <div class="order-box">
-        <div class="media" v-if="isLogin">
+        <div class="media" v-if="Object.keys(jsonData).length">
           <a class="navigate-right">
             <img class="media-object float-left" src="../../assets/img/ordered.png" />
             <div class="media-body">
-              <div>众独空间（昙华林店）</div>
+              <div>{{jsonData.shop_name}}</div>
               <div>
-                <p>单人座：4</p>
-                <p>日期：2019-11-21 09:40-21:10</p>
-                <p>状态：进行中</p>
+                <p>{{jsonData.seat_info}}</p>
+                <p>日期：{{jsonData.start_time|dateTimeFilter('dateOnly')}} {{jsonData.start_time|dateTimeFilter('timeOnly')}}-{{jsonData.end_time|dateTimeFilter('timeOnly')}}</p>
+                <p>状态：{{status}}</p>
               </div>
             </div>
           </a>
@@ -61,17 +61,29 @@ export default {
   },
   computed:{
     // 通过mapGetters获取store中state设置的变量
-    ...mapGetters(['userInfo','isLogin'])
+    ...mapGetters(['userInfo','isLogin']),
+    status(){
+      let now=new Date();
+      if(now<this.jsonData.start_time){
+        status='未开始'
+      }else{
+        status='进行中'
+      }
+      return status;
+    }
   },
   created(){
     this.loadOrderInfo();  
   },
   methods: {
     async loadOrderInfo(){
-      let result= await getOrderToday(this.userInfo.user_id);
-      if (result.success_code === 200) {
-        this.jsonData = result.data;
-      } 
+      if(this.isLogin){
+        let result= await getOrderToday(this.userInfo.user_id);
+        // console.log(result)
+        if (result.success_code === 200) {
+          this.jsonData = result.data;
+        } 
+      }
     }
   }
 };

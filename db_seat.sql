@@ -32,24 +32,26 @@ INSERT INTO `t_shop` VALUES (2, '众独空间（昙华林店）', '13745454545',
 -- ----------------------------
 DROP TABLE IF EXISTS `t_shop_seat`;
 CREATE TABLE `t_shop_seat`  (
-  `seat_id` int(8) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT '座位id',
+  `sid` int(8) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT '座位表id',
   `shop_id` int(4) UNSIGNED NOT NULL COMMENT '店铺id',
   `seat_info` varchar(8) DEFAULT NULL COMMENT '座位信息',
+  `seat_id` varchar(8) DEFAULT NULL COMMENT '座位编号',
+  `seat_type` varchar(8) DEFAULT NULL COMMENT '座位类别',   -- 0:单人座 1：双人座
   `seat_price` int(4) DEFAULT NULL COMMENT '座位单价',
-  PRIMARY KEY (`seat_id`) USING BTREE
+  PRIMARY KEY (`sid`) USING BTREE
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of t_shop_seat
 -- ----------------------------
-INSERT INTO `t_shop_seat` VALUES (null, '1','V1','20 ');
-INSERT INTO `t_shop_seat` VALUES (null, '1','V2','20 ');
-INSERT INTO `t_shop_seat` VALUES (null, '1','1','9');
-INSERT INTO `t_shop_seat` VALUES (null, '1','55','9');
-INSERT INTO `t_shop_seat` VALUES (null, '2','V1','20');
-INSERT INTO `t_shop_seat` VALUES (null, '2','V2','20');
-INSERT INTO `t_shop_seat` VALUES (null, '2','1','9');
-INSERT INTO `t_shop_seat` VALUES (null, '2','64','9');
+INSERT INTO `t_shop_seat` VALUES (null, '1','双人座：V1','V1','1','20');
+INSERT INTO `t_shop_seat` VALUES (null, '1','双人座：V2','V2','1','20');
+INSERT INTO `t_shop_seat` VALUES (null, '1','单人座：1','1','0','9');
+INSERT INTO `t_shop_seat` VALUES (null, '1','单人座：55','55','0','9');
+INSERT INTO `t_shop_seat` VALUES (null, '2','双人座：V1','V1','1','20');
+INSERT INTO `t_shop_seat` VALUES (null, '2','双人座：V2','V2','1','20');
+INSERT INTO `t_shop_seat` VALUES (null, '2','单人座：1','1','0','9');
+INSERT INTO `t_shop_seat` VALUES (null, '2','单人座：64','64','0','9');
 
 -- ----------------------------
 -- Table structure for t_user
@@ -71,6 +73,7 @@ CREATE TABLE `t_user`  (
 -- ----------------------------
 INSERT INTO `t_user` VALUES (1, 'Ann', '/img/avatar/default.png', '123456', '13414850282', '0', '300.8');
 INSERT INTO `t_user` VALUES (2, 'Tom', '/img/avatar/default.png', '123456', '13672606065', '1', '644.9');
+INSERT INTO `t_user` VALUES (3, 'Ali', '/img/avatar/default.png', '123456', '18162536357', '9', '1644.9');
 
 -- ----------------------------
 -- Table structure for t_recharge
@@ -108,6 +111,7 @@ CREATE TABLE `t_order`  (
   `order_num` varchar(32) DEFAULT NULL COMMENT '订单编号（18位）',
   `order_phone` varchar(20) DEFAULT NULL COMMENT '下单手机',
   `seat_info` varchar(8) DEFAULT NULL COMMENT '座位信息',
+  `order_date`  date DEFAULT NULL COMMENT '订座日期',
   `start_time` datetime DEFAULT NULL COMMENT '订座开始时间',
   `end_time` datetime DEFAULT NULL COMMENT '订座结束时间',
   `pay_time` varchar(32) DEFAULT NULL COMMENT '支付时间',
@@ -118,9 +122,10 @@ CREATE TABLE `t_order`  (
 -- ----------------------------
 -- Records of t_order
 -- ----------------------------
-INSERT INTO `t_order` VALUES (1, 1, 1, '20190000000000001','13414850282','25', '2019-5-6 09:15','2019-5-6 19:15','2019-5-6 09:00','1');
-INSERT INTO `t_order` VALUES (2, 1, 2, '20190000000000002','13414850282', '36', '2019-5-7 09:30','2019-5-7 18:00','2019-5-7 09:00','1');
-INSERT INTO `t_order` VALUES (3, 2, 2, '20190000000000003','13672606065', 'V1', '2019-5-9 10:30','2019-5-9 18:30','2019-5-9 09:00','2');
+INSERT INTO `t_order` VALUES (1, 1, 1, '20190000000000001','13414850282','单人座：25', '2019-5-6','2019-5-6 09:15','2019-5-6 19:15','2019-5-6 09:00','1');
+INSERT INTO `t_order` VALUES (2, 1, 2, '20190000000000002','13414850282', '单人座：36', '2019-5-7','2019-5-7 09:30','2019-5-7 18:00','2019-5-7 09:00','1');
+INSERT INTO `t_order` VALUES (3, 2, 2, '20190000000000003','13672606065', '双人座：V1', '2019-5-9','2019-5-9 10:30','2019-5-9 18:30','2019-5-9 09:00','2');
+INSERT INTO `t_order` VALUES (4, 3, 2, '20190000000000004','18162536357', '双人座：V1', '2019-12-5','2019-12-5 12:30','2019-12-5 18:30','2019-12-5 09:00','2');
 
 -- ----------------------------
 -- Table structure for t_admin

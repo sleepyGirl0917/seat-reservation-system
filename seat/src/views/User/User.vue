@@ -1,9 +1,9 @@
 <template>
-  <div id="app-user" v-if="Object.keys(userInfo).length">
+  <div id="app-user" v-if="loadingStatus">
     <!-- 头像 -->
-    <user-info :jsonData=userInfo></user-info>
+    <user-info :jsonData=jsonData></user-info>
     <!-- 余额和手机号 -->
-    <user-msg :jsonData=userInfo></user-msg>
+    <user-msg :jsonData=jsonData></user-msg>
     <!-- 消费记录 -->
     <order-record></order-record>
     <!-- 底部列表 -->
@@ -16,18 +16,19 @@
   import OrderRecord from '../../components/User/OrderRecord'
   import MemberList from '../../components/User/MemberList'
   import UserMsg from '../../components/User/UserMsg'
-  // import { mapGetters } from 'vuex'
-  import {Indicator} from 'mint-ui'
-  import {getUserInfo} from '../../api/index'
+  import { mapGetters } from 'vuex'
+  import { Indicator } from 'mint-ui'
+  import { getUserInfo } from '../../api/index'
   export default {
     data(){
       return{
-        userInfo:{}
+        loadingStatus:false,
+        jsonData:{}
       }
     },
     computed:{
       // 通过mapGetters获取store中state设置的变量
-      // ...mapGetters(['userInfo','isLogin'])
+      ...mapGetters(['userInfo','isLogin'])
     },
     components:{
       "user-info":UserInfo,
@@ -37,14 +38,17 @@
     },
     methods:{
       async getUserData(){
-        Indicator.open('加载中...')
-        let user_id=this.$store.getters.userInfo.user_id;
-        let result = await getUserInfo(user_id);
-        console.log(result);
-        if(result.success_code===200){
-          this.userInfo=result.data;
+        if(this.isLogin){
+          Indicator.open('加载中...')
+          let user_id=this.$store.getters.userInfo.user_id;
+          let result = await getUserInfo(user_id);
+          console.log(result);
+          if(result.success_code===200){
+            this.jsonData=result.data;
+          }
+          Indicator.close();
         }
-        Indicator.close();
+        this.loadingStatus=true;
       }
     },
     created(){

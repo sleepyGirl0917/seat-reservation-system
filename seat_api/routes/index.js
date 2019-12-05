@@ -150,7 +150,8 @@ router.post('/api/getOrderAll', (req, res) => {
   let userId = req.session.userId; */
   let userId = req.body.userId;
   if (userId) {
-    let sql = 'SELECT * FROM t_order WHERE user_id = ? AND end_time >= current_time();';
+    let sql = 'SELECT shop_name,seat_info,order_date,start_time,end_time FROM t_order A,t_shop B ';
+    sql += ' WHERE A.user_id = ? AND A.shop_id=B.shop_id  AND end_time >= current_time();';
     pool.query(sql, [userId], (err, result) => {
       if (err) {
         res.send({ error_code: 1, message: '获取订座信息失败' });

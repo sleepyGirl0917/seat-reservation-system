@@ -39,7 +39,7 @@
 </template>
 
 <script>
-import { Toast } from "mint-ui"
+import { Indicator,Toast } from "mint-ui"
 import { mapGetters } from 'vuex'
 import { getOrderToday } from "../../api/index"
 export default {
@@ -56,6 +56,7 @@ export default {
         { id: 2, title: "加入会员", img_url: require("../../assets/img/home/menu2.jpg"), path: "/" },
         { id: 3, title: "预定座位", img_url: require("../../assets/img/home/menu3.jpg"), path: "/" }
       ],
+      loadingStatus:false,
       jsonData: {}
     };
   },
@@ -78,11 +79,14 @@ export default {
   methods: {
     async loadOrderInfo(){
       if(this.isLogin){
+        Indicator.open('加载中...');
         let result= await getOrderToday(this.userInfo.user_id);
         // console.log(result)
         if (result.success_code === 200) {
           this.jsonData = result.data;
         } 
+        Indicator.close();
+        this.loadingStatus=true;
       }
     }
   }
@@ -154,28 +158,28 @@ export default {
     margin  20px 15px 0 
  
 
-.order-box  
-  position  relative 
-  background  #fff 
-  height 150px 
-  .media,
-  .media .media-body  
-      overflow  hidden 
-  .media  
-    padding  15px 65px 15px 15px 
-    .media-object 
-      margin 30px 15px 30px 0 
-      width  60px 
-      height  60px 
-    .media-body * 
-      margin 10px 0 
-  .media-none 
+  .order-box  
     position  relative 
-    top 50% 
-    transform translateY(-50%) 
-    text-align  center 
-    img 
-      width  30px 
-      height 30px 
-      vertical-align  bottom 
+    background  #fff 
+    height 150px 
+    .media,
+    .media .media-body  
+        overflow  hidden 
+    .media  
+      padding  15px 65px 15px 15px 
+      .media-object 
+        margin 30px 15px 30px 0 
+        width  60px 
+        height  60px 
+      .media-body * 
+        margin 10px 0 
+    .media-none 
+      position  relative 
+      top 50% 
+      transform translateY(-50%) 
+      text-align  center 
+      img 
+        width  30px 
+        height 30px 
+        vertical-align  bottom 
 </style>

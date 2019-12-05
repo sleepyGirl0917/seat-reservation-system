@@ -12,12 +12,12 @@
 </template>
 
 <script>
+  import { Indicator } from 'mint-ui'
+  import { mapGetters } from 'vuex'
   import UserInfo from '../../components/User/UserInfo'
   import OrderRecord from '../../components/User/OrderRecord'
   import MemberList from '../../components/User/MemberList'
   import UserMsg from '../../components/User/UserMsg'
-  import { mapGetters } from 'vuex'
-  import { Indicator } from 'mint-ui'
   import { getUserInfo } from '../../api/index'
   export default {
     data(){
@@ -40,15 +40,14 @@
       async getUserData(){
         if(this.isLogin){
           Indicator.open('加载中...')
-          let user_id=this.$store.getters.userInfo.user_id;
-          let result = await getUserInfo(user_id);
-          console.log(result);
+          let result = await getUserInfo(this.userInfo.user_id);
+          // console.log(result);
           if(result.success_code===200){
             this.jsonData=result.data;
           }
           Indicator.close();
+          this.loadingStatus=true;
         }
-        this.loadingStatus=true;
       }
     },
     created(){

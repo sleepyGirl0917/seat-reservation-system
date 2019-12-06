@@ -42,6 +42,17 @@ Vue.filter("dateTimeFilter", (val, type) => {
   }
 })
 
+// 创建订单状态过滤器
+Vue.filter("orderStatusFilter", (val) => {
+  let start_time = new Date(val);
+  let now_time = new Date();
+  if (start_time > now_time) {
+    return '未开始'
+  } else {
+    return '进行中'
+  }
+})
+
 new Vue({
   axios,
   router,

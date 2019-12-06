@@ -9,7 +9,7 @@
           <p>{{item.seat_info}}</p>
           <p class="small">时间：{{item.start_time|dateTimeFilter('timeOnly')}}-{{item.end_time|dateTimeFilter('timeOnly')}}</p>
         </div>
-        <div class="order-status border-top">状态：{{(new Date(item.start_time) &lt;= myDate)?'进行中':'未开始'}}</div>
+        <div class="order-status border-top">状态：{{item.start_time|orderStatusFilter}}</div>
         <a class="navigate-right border-top">查看详情</a>
       </div>
     </div>
@@ -17,7 +17,7 @@
 </template>
 
 <script>
-import { getOrderAll } from '../../api/index';
+import { getOrderAll } from '../../api/index'
 import { Indicator } from "mint-ui"
 import { mapGetters } from 'vuex'
 export default {
@@ -30,10 +30,6 @@ export default {
   computed:{
     // 通过mapGetters获取store中state设置的变量
     ...mapGetters(['userInfo']),
-    myDate(){
-      let myDate=new Date();
-      return myDate
-    }
   }, 
   created() {
     this.loadOrderInfoAll();

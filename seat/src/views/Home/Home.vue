@@ -25,7 +25,7 @@
               <div>
                 <p>{{jsonData.seat_info}}</p>
                 <p>日期：{{jsonData.start_time|dateTimeFilter('dateOnly')}} {{jsonData.start_time|dateTimeFilter('timeOnly')}}-{{jsonData.end_time|dateTimeFilter('timeOnly')}}</p>
-                <p>状态：{{status}}</p>
+                <p>状态：{{jsonData.start_time|orderStatusFilter}}</p>
               </div>
             </div>
           </a>
@@ -63,15 +63,6 @@ export default {
   computed:{
     // 通过mapGetters获取store中state设置的变量
     ...mapGetters(['userInfo','isLogin']),
-    status(){
-      let now=new Date();
-      if(now<this.jsonData.start_time){
-        status='未开始'
-      }else{
-        status='进行中'
-      }
-      return status;
-    }
   },
   created(){
     this.loadOrderInfo();  

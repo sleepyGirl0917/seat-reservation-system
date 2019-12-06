@@ -47,17 +47,21 @@ export default {
 };
 </script>
 <style lang="stylus">
-.btn-container
+#order-detail
   width 100%
-  display flex
-  justify-content space-between
-  position absolute
-  bottom 20px
-  button 
-    flex  1
-    margin 50px
-    height  50px
-    font-size 18px
-    font-weight 500
+  height  100%
+  background-color #fff
+  .btn-container
+    width 100%
+    display flex
+    justify-content space-between
+    position absolute
+    bottom 20px
+    button 
+      flex  1
+      margin 50px
+      height  50px
+      font-size 18px
+      font-weight 500
 </style>
 

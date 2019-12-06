@@ -47,7 +47,6 @@ const routes = [
     props: true,
     meta: {
       title: '预定详情',
-      showTabbar: true
     }
   },
   {

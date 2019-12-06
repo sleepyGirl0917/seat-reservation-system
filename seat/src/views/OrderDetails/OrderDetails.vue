@@ -52,7 +52,7 @@ export default {
   display flex
   justify-content space-between
   position absolute
-  bottom 100px
+  bottom 20px
   button 
     flex  1
     margin 50px

@@ -9,7 +9,7 @@
           <p>{{item.seat_info}}</p>
           <p class="small">时间：{{item.start_time|dateTimeFilter('timeOnly')}}-{{item.end_time|dateTimeFilter('timeOnly')}}</p>
         </div>
-        <div class="order-status border-top">状态：{{(new Date(item.start_time) <= myDate)?'进行中':'未开始'}}</div>
+        <div class="order-status border-top">状态：{{(new Date(item.start_time) &lt;= myDate)?'进行中':'未开始'}}</div>
         <a class="navigate-right border-top">查看详情</a>
       </div>
     </div>

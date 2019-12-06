@@ -1,6 +1,5 @@
 <template>
   <div id="app-home">
-    <h1 class="title">众独空间</h1>
     <!-- 轮播图 -->
     <mt-swipe>
       <mt-swipe-item v-for="item in swipeList" :key="item.id">
@@ -18,7 +17,7 @@
     <div class="order-now">
       <div class="order-box">
         <div class="media" v-if="Object.keys(jsonData).length">
-          <a class="navigate-right">
+          <a class="navigate-right" @click="$router.push(`/OrderDetails/${jsonData.order_id}`)">
             <img class="media-object float-left" src="../../assets/img/ordered.png" />
             <div class="media-body">
               <div>{{jsonData.shop_name}}</div>
@@ -41,7 +40,7 @@
 <script>
 import { Indicator,Toast } from "mint-ui"
 import { mapGetters } from 'vuex'
-import { getOrderToday } from "../../api/index"
+import { getOrderLatest } from "../../api/index"
 export default {
   name: "Home",
   data() {
@@ -71,7 +70,7 @@ export default {
     async loadOrderInfo(){
       if(this.isLogin){
         Indicator.open('加载中...');
-        let result= await getOrderToday(this.userInfo.user_id);
+        let result= await getOrderLatest(this.userInfo.user_id);
         // console.log(result)
         if (result.success_code === 200) {
           this.jsonData = result.data;
@@ -84,36 +83,11 @@ export default {
 };
 </script>
 
-<style  lang="stylus">
-.title  
-  line-height  60px 
-  height  60px 
-  display  block 
-  width  100% 
-  margin  0 
-  padding  0 
-  text-align  center 
-  white-space  nowrap 
-  color  #000 
-
-.navigate-right:after  
-  font-family  Muiicons 
-  content  "\e583" 
-  position  absolute 
-  font-size  28px 
-  right  15px 
-  top  50% 
-  -webkit-transform  translateY(-50%) 
-  transform  translateY(-50%) 
-  color  #222 
-  -webkit-font-smoothing  antialiased 
-
+<style  lang="stylus" scoped>
 #app-home 
   width  100% 
   height  100% 
-  .title  
-    font-size  18px 
-    font-weight  500 
+
   .mint-swipe  
     height  300px 
     margin-left  25px 

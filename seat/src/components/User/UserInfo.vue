@@ -27,7 +27,7 @@
     }
   };
 </script>
-<style lang="stylus">
+<style lang="stylus" scoped>
 .top  
   position  relative 
   width  100% 

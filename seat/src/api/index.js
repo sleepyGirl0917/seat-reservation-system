@@ -9,9 +9,11 @@ export const pwdLogin = (userName, password, captcha) => ajax('/api/pwdLogin', {
 //获取用户信息
 export const getUserInfo = (userId) => ajax('/api/getUserInfo', { userId }, 'POST');
 //获取当天订座信息
-export const getOrderToday = (userId) => ajax('/api/getOrderToday', { userId }, 'POST')
+export const getOrderLatest = (userId) => ajax('/api/getOrderLatest', { userId }, 'POST')
 //获取所有订座信息
 export const getOrderAll = (userId) => ajax('/api/getOrderAll', { userId }, 'POST')
+// 获取指定订单信息
+export const getOrderDetails = (userId, orderId) => ajax('/api/getOrderDetails', { userId, orderId }, 'POST');
 //更新用户头像
 export const updateUserAvatar = (userId, avatar) => ajax('/api/updateUserAvatar', { userId, avatar }, 'POST');
 //更新用户名

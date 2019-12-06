@@ -42,10 +42,12 @@ const routes = [
     }
   },
   {
-    path: '/OrderDetails',
+    path: '/OrderDetails/:order_id',
     component: OrderDetails,
+    props: true,
     meta: {
       title: '预定详情',
+      showTabbar: true
     }
   },
   {

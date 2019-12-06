@@ -17,9 +17,14 @@ module.exports = {
     },
     "postcss-viewport-units": {filterRule: rule => rule.nodes.findIndex(i => i.prop === 'content') === -1}, //过滤content警告
     "cssnano": { //压缩和清理CSS代码
-      preset: "advanced",
-      autoprefixer: false, // cssnano和cssnext同样具有autoprefixer，仅保留一个
-      "postcss-zindex": false
+      // 注释部分为旧版本写法： 会让z-index 总是被置1
+      // preset: "advanced",
+      // autoprefixer: false, 
+      // "postcss-zindex": false
+      "cssnano-preset-advanced": { // cssnano和cssnext同样具有autoprefixer，仅保留一个
+        zindex:false,
+        autoprefixer:false
+      }
     }
   }
 }

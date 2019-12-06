@@ -1,6 +1,5 @@
 <template>
   <div id="app-order">
-    <h1 class="title">我的预定</h1>
     <div class="order-container" v-for="(item,i) of jsonData" :key="i">
       <order-item :orderData=item></order-item>
     </div>
@@ -11,7 +10,7 @@
 import { getOrderAll } from '../../api/index'
 import { Indicator } from "mint-ui"
 import { mapGetters } from 'vuex'
-import OrderItem from '../../components/Order/OrderItem'
+import OrderItem from '../../components/OrderItem/OrderItem'
 export default {
   name: "Order",
   data() {
@@ -45,13 +44,8 @@ export default {
 
 <style lang="stylus">
 #app-order 
-  .title 
-    font-size 22px
-    font-weight 700
-  
   .order-container 
     padding 0 15px
       
-    
 </style>
 

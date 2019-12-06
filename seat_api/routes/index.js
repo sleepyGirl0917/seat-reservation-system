@@ -113,8 +113,8 @@ router.post('/api/getUserInfo', (req, res) => {
   }
 });
 
-// 获取当天订座信息
-router.post('/api/getOrderToday', (req, res) => {
+// 获取距离最近的可用订座信息
+router.post('/api/getOrderLatest', (req, res) => {
   /* if (!req.session.userId) {
     res.send({ error_code: -1, message: "请登录" });
     return;
@@ -122,10 +122,8 @@ router.post('/api/getOrderToday', (req, res) => {
   let userId = req.session.userId; */
   let userId = req.body.userId;
   if (userId) {
-    // 要求：1.当天订座 2.订座未结束
-    let sql = 'SELECT shop_name,seat_info,order_date,start_time,end_time FROM t_order A,t_shop B ';
-    sql += ' WHERE A.user_id = ? AND A.shop_id=B.shop_id ';
-    sql += ' AND TO_DAYS(start_time) = TO_DAYS(now()) AND end_time >= current_time() LIMIT 1;';
+    let sql = 'SELECT order_id,shop_name,seat_info,order_date,start_time,end_time FROM t_order A,t_shop B ';
+    sql += ' WHERE A.user_id = ? AND A.shop_id=B.shop_id AND end_time >= current_time() LIMIT 1;';
     pool.query(sql, [userId], (err, result) => {
       if (err) {
         res.send({ error_code: 1, message: '获取订座信息失败' });
@@ -150,14 +148,14 @@ router.post('/api/getOrderAll', (req, res) => {
   let userId = req.session.userId; */
   let userId = req.body.userId;
   if (userId) {
-    let sql = 'SELECT shop_name,seat_info,order_date,start_time,end_time FROM t_order A,t_shop B ';
+    let sql = 'SELECT order_id,shop_name,seat_info,order_date,start_time,end_time FROM t_order A,t_shop B ';
     sql += ' WHERE A.user_id = ? AND A.shop_id=B.shop_id  AND end_time >= current_time();';
     pool.query(sql, [userId], (err, result) => {
       if (err) {
         res.send({ error_code: 1, message: '获取订座信息失败' });
       } else {
         console.log(result)
-        if (result) {
+        if (result.length) {
           res.send({ success_code: 200, data: result})
         } else {
           res.send({ error_code: 1, message: '没有订座信息' });
@@ -165,6 +163,25 @@ router.post('/api/getOrderAll', (req, res) => {
       }
     })
   }
+});
+
+// 获取指定订单信息（已登录）
+router.post('/api/getOrderDetails', (req, res) => {  
+  let { userId, orderId } = req.body;
+  let sql = 'SELECT order_id,shop_name,seat_info,order_date,start_time,end_time FROM t_order A,t_shop B ';
+  sql += ' WHERE A.user_id = ? AND A.order_id=? AND A.shop_id=B.shop_id;';
+  pool.query(sql, [userId,orderId], (err, result) => {
+    if (err) {
+      res.send({ error_code: 1, message: '获取订座信息失败' });
+    } else {
+      console.log(result)
+      if (result[0]) {
+        res.send({ success_code: 200, data: result })
+      } else {
+        res.send({ error_code: 1, message: '没有订座信息' });
+      }
+    }
+  })
 });
 
 // 退出登录

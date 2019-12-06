@@ -1,5 +1,5 @@
 <template>
-  <div id="app" v-cloak>
+  <div id="app">
     <my-header></my-header>
     <router-view/>
     <tab-bar v-if="$route.meta.showTabbar"/>
@@ -23,14 +23,14 @@
 * 
   margin 0 
   padding 0 
+body
+  background rgb(239,239,244)
 #app  
   width 100% 
   min-height  100vh 
   button 
     background #222 
     color #fff 
-  .mint-header 
-      height 50px 
   img   
     content normal !important  
   a 
@@ -38,4 +38,15 @@
     color #000 !important 
   .float-left 
     float left 
+  .navigate-right:after  
+    font-family  Muiicons 
+    content  "\e583" 
+    position  absolute 
+    font-size  28px 
+    right  15px 
+    top  50% 
+    -webkit-transform  translateY(-50%) 
+    transform  translateY(-50%) 
+    color  #222 
+    -webkit-font-smoothing  antialiased 
 </style>

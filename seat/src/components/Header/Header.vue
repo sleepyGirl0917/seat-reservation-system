@@ -33,6 +33,9 @@
         }else if(this.$route.path=='/login'){
           this.title="登录";
           this.icon="";
+        }else if(this.$route.path=='/purchase'){
+          this.title="消费记录";
+          this.icon="";
         }else{
           this.title="";
           this.icon="";

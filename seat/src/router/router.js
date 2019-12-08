@@ -11,11 +11,12 @@ VueRouter.prototype.push = function push(location) {
 
 import Home from '../views/Home/Home'
 import Order from '../views/Order/Order'
+import OrderDetails from '../views/OrderDetails/OrderDetails'
 import User from '../views/User/User'
 import Login from '../views/Login/Login'
 import Logout from '../views/Logout/Logout'
-import OrderDetails from '../views/OrderDetails/OrderDetails'
 import Error from '../views/Error/Error'
+import Purchase from '../views/Purchase/Purchase'
 
 Vue.use(VueRouter)
 
@@ -69,6 +70,13 @@ const routes = [
     component: Logout,
     meta: {
       title: '退出登录',
+    }
+  },
+  {
+    path:'/purchase',
+    component:Purchase,
+    meta:{
+      title:'消费记录'
     }
   },
   {

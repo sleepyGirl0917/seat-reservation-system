@@ -2,7 +2,7 @@
   <div id="order-detail">
     <order-item :orderData=jsonData[0] v-if="jsonData[0]"></order-item>
     <div class="btn-container">
-      <button @click.prevent="deleteOrder">取消订单</button>
+      <button @click.prevent="cancelOrder">取消订单</button>
       <button @click.prevent="$router.go(-1)">返回</button>
     </div>
   </div>
@@ -40,7 +40,7 @@ export default {
       }
       Indicator.close();
     },
-    deleteOrder(){
+    cancelOrder(){
       
     }
   }

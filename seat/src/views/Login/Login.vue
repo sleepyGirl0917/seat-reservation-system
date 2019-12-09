@@ -1,6 +1,5 @@
 <template>
   <div id="app-login">
-    <go-back :icon="icon"></go-back>
     <div class="login-head">
       <img src="../../assets/img/logo.jpg" class="logo" />
     </div>
@@ -26,14 +25,12 @@
 
 <script>
 import { Toast, MessageBox } from "mint-ui";
-import Back from "../../components/Back/Back";
 import { getPhoneCode, phoneLogin } from "../../api/index";
 import * as types from "../../store/mutation-types";
 export default {
   name: "Login",
   data() {
     return {
-      icon: "close",
       phone: "",
       phoneCode: "",
       countDown: 0 // 倒计时
@@ -44,9 +41,6 @@ export default {
     checkPhone() {
       return /^1[3|4|5|6|7|8][0-9]{9}$/.test(this.phone);
     }
-  },
-  components: {
-    "go-back": Back
   },
   methods: {
     // 获取验证码

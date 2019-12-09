@@ -15,7 +15,7 @@ import OrderDetails from '../views/OrderDetails/OrderDetails'
 import User from '../views/User/User'
 import Login from '../views/Login/Login'
 import Logout from '../views/Logout/Logout'
-import Error from '../views/Error/Error'
+import NotFound from '../views/NotFound/NotFound'
 import Purchase from '../views/Purchase/Purchase'
 
 Vue.use(VueRouter)
@@ -27,6 +27,7 @@ const routes = [
   },
   {
     path: '/home',
+    name:'home',
     component: Home,
     meta: {
       title: '众独自习室',
@@ -35,6 +36,7 @@ const routes = [
   },
   {
     path: '/order',
+    name:'order',
     component: Order,
     meta: {
       title: '我的预定',
@@ -44,6 +46,7 @@ const routes = [
   },
   {
     path: '/OrderDetails/:order_id',
+    name:'orderDetails',
     component: OrderDetails,
     props: true,
     meta: {
@@ -52,6 +55,7 @@ const routes = [
   },
   {
     path: '/user',
+    name:'user',
     component: User,
     meta: {
       title: '个人中心',
@@ -60,6 +64,7 @@ const routes = [
   },
   {
     path: '/login',
+    name:'login',
     component: Login,
     meta: {
       title: '用户登录',
@@ -67,23 +72,49 @@ const routes = [
   },
   {
     path: '/logout',
+    name:'logout',
     component: Logout,
     meta: {
       title: '退出登录',
     }
   },
+  // vue多个路由使用同一个页面,通过name判断参数,渲染页面数据
   {
-    path:'/purchase',
-    component:Purchase,
-    meta:{
-      title:'消费记录'
-    }
+    path: '/purchase',
+    name: 'purchase-all',
+    component: Purchase,
+    meta: { title: '消费记录' },
+  },
+  {
+    path: '/purchase/delay',
+    name: 'purchase-delay',
+    component: Purchase,
+    meta: { title: '消费记录-延长时段' },
+  },
+  {
+    path: '/purchase/cancel',
+    name: 'purchase-cancel',
+    component: Purchase,
+    meta: { title: '消费记录-取消订单' },
+  },
+  {
+    path: '/purchase/end',
+    name: 'purchase-end',
+    component: Purchase,
+    meta: { title: '消费记录-结束' },
+  },
+  {
+    path: '/purchase/overdue',
+    name: 'purchase-overdue',
+    component: Purchase,
+    meta: { title: '消费记录-逾期' },
   },
   {
     path: '/*',
-    component: Error,
+    name:'404',
+    component: NotFound,
     meta: {
-      title: '众独自习室',
+      title: '404-Not Found',
     }
   }
 ];

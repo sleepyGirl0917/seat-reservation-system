@@ -1,56 +1,61 @@
 <template>
-    <div id="app-purchase" class="order-box">
-        <div class="media">
-            <a class="navigate-right" @click="$router.push(`/OrderDetails/${jsonData.order_id}`)">
-                <img class="media-object float-left" src="../../assets/img/ordered.png" />
-                <div class="media-body">
-                <div>{{jsonData.shop_name}}</div>
-                <div>
-                    <p>座位{{jsonData.seat_info}}</p>
-                    <p>日期：{{jsonData.start_time|dateTimeFilter('dateOnly')}} {{jsonData.start_time|dateTimeFilter('timeOnly')}}-{{jsonData.end_time|dateTimeFilter('timeOnly')}}</p>
-                    <p>状态：{{jsonData.start_time|orderStatusFilter}}</p>
-                </div>
-                </div>
-            </a>
-        </div>
+  <div id="app-purchase">
+    <div v-for="(item,i) of jsonData" :key="i">
+      <purchase-item :myData="item"></purchase-item>
     </div>
+  </div>
 </template>
 
 <script>
+import PurchaseItem from "../../components/PurchaseItem/PurchaseItem";
+import {
+  getMyDataAll,
+  getMyDataDelay,
+  getMyDataCancel,
+  getMyDataEnd,
+  getMyDataOverdue
+} from "../../api/index";
+import { Indicator } from "mint-ui";
+import { mapGetters } from "vuex";
 export default {
-    data(){
-        return  {
-            jsonData:{order_id:'1',start_time:'1',end_time:'1',shop_name:'1'}
+  data() {
+    return {
+      jsonData: []
+    };
+  },
+  computed: {
+    // 通过mapGetters获取store中state设置的变量
+    ...mapGetters(["userInfo"])
+  },
+  components: {
+    "purchase-item": PurchaseItem
+  },
+  created() {
+    this.loadPurchaseData();
+  },
+  methods: {
+    async loadPurchaseData() {
+        Indicator.open();
+        let result;
+        if (this.$route.name == "purchase-all") {
+            result = await getMyDataAll(this.userInfo.user_id);
+        } else if (this.$route.name == "purchase-delay") {
+            result = await getMyDataDelay(this.userInfo.user_id);
+        } else if (this.$route.name == "purchase-cancel") {
+            result = await getMyDataCancel(this.userInfo.user_id);
+        } else if ((this.$route.name == "purchase-end")) {
+            result = await getMyDataEnd(this.userInfo.user_id);
+        } else {
+            result = await getMyDataOverdue(this.userInfo.user_id);
         }
-    },
-    created(){
-        // this.loadPurchaseAll();
-    },
-    methods:{
-        async loadPurchaseAll(){
-            // let result = await 
+        if (result.success_code == 200) {
+            this.jsonData = result.data;
         }
+        Indicator.close();
     }
-}
+  }
+};
 </script>
 
-<style lang="stylus" scoped>
-.order-box  
-    position  relative 
-    background  #fff 
-    height 150px 
-    
-    .media,
-    .media .media-body  
-        overflow  hidden 
-    .media  
-        padding  15px 65px 15px 15px 
-        height 150px 
-        .media-object 
-            margin 30px 15px 30px 0 
-            width  60px 
-            height  60px 
-        .media-body * 
-            margin 10px 0 
-</style>
+<style lang="stylus" scoped></style>
 

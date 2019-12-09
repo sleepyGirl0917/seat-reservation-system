@@ -11,8 +11,15 @@
             {{orderData.start_time|dateTimeFilter('timeOnly')}}-{{orderData.end_time|dateTimeFilter('timeOnly')}}
           </p>
         </div>
-        <div class="order-status" :class="{'border-top':$route.path==='/order'}">状态：{{orderData.start_time|orderStatusFilter}}</div>
-        <a v-if="$route.path=='/order'" class="navigate-right border-top" @click="$router.push(`/OrderDetails/${orderData.order_id}`)">查看详情</a>
+        <div 
+          class="order-status" 
+          :class="{'border-top':$route.path==='/order'}"
+        >状态：{{orderData.start_time|orderStatusFilter}}</div>
+        <a 
+          v-if="$route.path=='/order'" 
+          class="navigate-right border-top" 
+          @click="$router.push(`/OrderDetails/${orderData.order_id}`)"
+        >查看详情</a>
       </div>
   </div>
 </template>

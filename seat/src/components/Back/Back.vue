@@ -15,12 +15,10 @@ export default {
 
 <style lang="stylus">
 #app-icon
-  position absolute
+  position fixed
   left 8px
-  top 10px
-  z-index 1100
-  .mui-icon
-    font-size 28px
-    font-weight 700
+  // .mui-icon
+  //   font-size 28px
+  //   font-weight 700
 </style>
 

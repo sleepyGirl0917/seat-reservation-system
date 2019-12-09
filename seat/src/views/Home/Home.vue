@@ -14,24 +14,27 @@
       </li>
     </ul>
     <!-- 可用的订座 -->
-    <div class="order-now">
-      <div class="order-box">
-        <div class="media" v-if="Object.keys(jsonData).length">
-          <a class="navigate-right" @click="$router.push(`/OrderDetails/${jsonData.order_id}`)">
-            <img class="media-object float-left" src="../../assets/img/ordered.png" />
-            <div class="media-body">
-              <div>{{jsonData.shop_name}}</div>
-              <div>
-                <p>{{jsonData.seat_info}}</p>
-                <p>日期：{{jsonData.start_time|dateTimeFilter('dateOnly')}} {{jsonData.start_time|dateTimeFilter('timeOnly')}}-{{jsonData.end_time|dateTimeFilter('timeOnly')}}</p>
-                <p>状态：{{jsonData.start_time|orderStatusFilter}}</p>
-              </div>
+    <div class="order-box">
+      <div class="media" v-if="Object.keys(jsonData).length">
+        <a class="navigate-right" @click="$router.push(`/OrderDetails/${jsonData.order_id}`)">
+          <img class="media-object float-left" src="../../assets/img/ordered.png" />
+          <div class="media-body">
+            <div>{{jsonData.shop_name}}</div>
+            <div>
+              <p>{{jsonData.seat_info}}</p>
+              <p>
+                日期：
+                {{jsonData.start_time|dateTimeFilter('dateOnly')}} 
+                {{jsonData.start_time|dateTimeFilter('timeOnly')}}-
+                {{jsonData.end_time|dateTimeFilter('timeOnly')}}
+              </p>
+              <p>状态：{{jsonData.start_time|orderStatusFilter}}</p>
             </div>
-          </a>
-        </div>
-        <div class="media-none" v-else>
-          <img src="../../assets/img/check.png" />&nbsp;暂无可用的订座记录
-        </div>
+          </div>
+        </a>
+      </div>
+      <div class="media-none" v-else>
+        <img src="../../assets/img/check.png" />&nbsp;暂无可用的订座记录
       </div>
     </div>
   </div>
@@ -119,14 +122,13 @@ export default {
         display  block 
         font-size  18px 
         margin  15px 
-  .order-now  
-    margin  20px 15px 0 
  
 
   .order-box  
     position  relative 
     background  #fff 
     height 150px 
+    margin  20px 15px 0 
     .media,
     .media .media-body  
         overflow  hidden 

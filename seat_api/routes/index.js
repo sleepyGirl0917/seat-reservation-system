@@ -38,7 +38,7 @@ router.post('/api/phoneLogin', (req, res) => {
       if (result[0]) {// 用户存在
         req.session.userId = result[0].user_id;
         res.cookie('user_id', result[0].user_id);
-        res.send({ success_code: 200, message: '登录成功',data:result[0] });
+        res.send({ success_code: 200, message: '登录成功', data: result[0] });
       } else {// 用户不存在，注册为新用户
         let sql = 'INSERT INTO t_user(user_name,phone,password) VALUES(?,?,?);';
         pool.query(sql, [phone, phone, 123456], (err, result) => {
@@ -156,7 +156,7 @@ router.post('/api/getOrderAll', (req, res) => {
       } else {
         console.log(result)
         if (result.length) {
-          res.send({ success_code: 200, data: result})
+          res.send({ success_code: 200, data: result })
         } else {
           res.send({ error_code: 1, message: '没有订座信息' });
         }
@@ -165,12 +165,12 @@ router.post('/api/getOrderAll', (req, res) => {
   }
 });
 
-// 获取指定订单信息（已登录）
-router.post('/api/getOrderDetails', (req, res) => {  
+// 获取订单详情（已登录）
+router.post('/api/getOrderDetails', (req, res) => {
   let { userId, orderId } = req.body;
   let sql = 'SELECT order_id,shop_name,seat_info,order_date,start_time,end_time FROM t_order A,t_shop B ';
   sql += ' WHERE A.user_id = ? AND A.order_id=? AND A.shop_id=B.shop_id;';
-  pool.query(sql, [userId,orderId], (err, result) => {
+  pool.query(sql, [userId, orderId], (err, result) => {
     if (err) {
       res.send({ error_code: 1, message: '获取订座信息失败' });
     } else {
@@ -183,6 +183,107 @@ router.post('/api/getOrderDetails', (req, res) => {
     }
   })
 });
+
+// 获取所有订座记录(test)
+router.post('/api/getMyDataAll', (req, res) => { 
+  let userId = req.body.userId;
+  if (userId) {
+    let sql = 'SELECT order_id,shop_name,seat_info,order_date,start_time,end_time FROM t_order A,t_shop B ';
+    sql += ' WHERE A.user_id = ?;';
+    pool.query(sql, [userId], (err, result) => {
+      if (err) {
+        res.send({ error_code: 1, message: '获取订座信息失败' });
+      } else {
+        console.log(result)
+        if (result.length) {
+          res.send({ success_code: 200, data: result })
+        } else {
+          res.send({ error_code: 1, message: '没有订座信息' });
+        }
+      }
+    })
+  }
+})
+// 获取延长时段记录(test)
+router.post('/api/getMyDataDelay', (req, res) => {
+  let userId = req.body.userId;
+  if (userId) {
+    let sql = 'SELECT order_id,shop_name,seat_info,order_date,start_time,end_time FROM t_order A,t_shop B ';
+    sql += ' WHERE A.user_id = ?;';
+    pool.query(sql, [userId], (err, result) => {
+      if (err) {
+        res.send({ error_code: 1, message: '获取订座信息失败' });
+      } else {
+        console.log(result)
+        if (result.length) {
+          res.send({ success_code: 200, data: result })
+        } else {
+          res.send({ error_code: 1, message: '没有订座信息' });
+        }
+      }
+    })
+  }
+})
+// 获取取消订单记录(test)
+router.post('/api/getMyDataCancel', (req, res) => {
+  let userId = req.body.userId;
+  if (userId) {
+    let sql = 'SELECT order_id,shop_name,seat_info,order_date,start_time,end_time FROM t_order A,t_shop B ';
+    sql += ' WHERE A.user_id = ?;';
+    pool.query(sql, [userId], (err, result) => {
+      if (err) {
+        res.send({ error_code: 1, message: '获取订座信息失败' });
+      } else {
+        console.log(result)
+        if (result.length) {
+          res.send({ success_code: 200, data: result })
+        } else {
+          res.send({ error_code: 1, message: '没有订座信息' });
+        }
+      }
+    })
+  }
+})
+// 获取完成订单记录(test)
+router.post('/api/getMyDataEnd', (req, res) => { 
+  let userId = req.body.userId;
+  if (userId) {
+    let sql = 'SELECT order_id,shop_name,seat_info,order_date,start_time,end_time FROM t_order A,t_shop B ';
+    sql += ' WHERE A.user_id = ?;';
+    pool.query(sql, [userId], (err, result) => {
+      if (err) {
+        res.send({ error_code: 1, message: '获取订座信息失败' });
+      } else {
+        console.log(result)
+        if (result.length) {
+          res.send({ success_code: 200, data: result })
+        } else {
+          res.send({ error_code: 1, message: '没有订座信息' });
+        }
+      }
+    })
+  }
+})
+// 获取逾期订单记录(test)
+router.post('/api/getMyDataOverdue', (req, res) => { 
+  let userId = req.body.userId;
+  if (userId) {
+    let sql = 'SELECT order_id,shop_name,seat_info,order_date,start_time,end_time FROM t_order A,t_shop B ';
+    sql += ' WHERE A.user_id = ?;';
+    pool.query(sql, [userId], (err, result) => {
+      if (err) {
+        res.send({ error_code: 1, message: '获取订座信息失败' });
+      } else {
+        console.log(result)
+        if (result.length) {
+          res.send({ success_code: 200, data: result })
+        } else {
+          res.send({ error_code: 1, message: '没有订座信息' });
+        }
+      }
+    })
+  }
+})
 
 // 退出登录
 router.get("/api/logout", (req, res) => {

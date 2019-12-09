@@ -15,11 +15,11 @@
     data(){
       return{
         orderList:[
-          {name:'订座',img_url:require('../../assets/img/user/my_order.png'),path:'/order'},
-          {name:'延长时段',img_url:require('../../assets/img/user/my_order_delay.png'),path:'/order/delay'},
-          {name:'取消',img_url:require('../../assets/img/user/my_order_cancel.png'),path:'/order/cancel'},
-          {name:'结束',img_url:require('../../assets/img/user/my_order_end.png'),path:'/order/end'},
-          {name:'逾期',img_url:require('../../assets/img/user/my_order_overdue.png'),path:'/order/overdue'}
+          {name:'订座',img_url:require('../../assets/img/user/my_order.png'),path:'/purchase'},
+          {name:'延长时段',img_url:require('../../assets/img/user/my_order_delay.png'),path:'/purchase/delay'},
+          {name:'取消',img_url:require('../../assets/img/user/my_order_cancel.png'),path:'/purchase/cancel'},
+          {name:'结束',img_url:require('../../assets/img/user/my_order_end.png'),path:'/purchase/end'},
+          {name:'逾期',img_url:require('../../assets/img/user/my_order_overdue.png'),path:'/purchase/overdue'}
         ]
       }
     }

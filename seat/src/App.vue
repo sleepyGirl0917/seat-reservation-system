@@ -38,9 +38,6 @@ body
     color #000 !important 
   .float-left 
     float left 
-  .navigate-right
-      display   block
-      position  relative
   .navigate-right:after  
     font-family  Muiicons 
     content  "\e583" 

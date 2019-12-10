@@ -17,6 +17,7 @@ import Login from '../views/Login/Login'
 import Logout from '../views/Logout/Logout'
 import NotFound from '../views/NotFound/NotFound'
 import Purchase from '../views/Purchase/Purchase'
+import PurchaseDetails from '../views/PurchaseDetails/PurchaseDetails'
 
 Vue.use(VueRouter)
 
@@ -83,7 +84,10 @@ const routes = [
     path: '/purchase',
     name: 'purchase-all',
     component: Purchase,
-    meta: { title: '消费记录' },
+    meta: {
+      title: '消费记录',
+      requireAuth: true,
+    },
   },
   {
     path: '/purchase/delay',
@@ -95,19 +99,68 @@ const routes = [
     path: '/purchase/cancel',
     name: 'purchase-cancel',
     component: Purchase,
-    meta: { title: '消费记录-取消订单' },
+    meta: {
+      title: '消费记录-取消订单',
+      requireAuth: true,
+    },
   },
   {
     path: '/purchase/end',
     name: 'purchase-end',
     component: Purchase,
-    meta: { title: '消费记录-结束' },
+    meta: {
+      title: '消费记录-结束',
+      requireAuth: true,
+    },
   },
   {
     path: '/purchase/overdue',
     name: 'purchase-overdue',
     component: Purchase,
-    meta: { title: '消费记录-逾期' },
+    meta: {
+      title: '消费记录-逾期',
+      requireAuth: true,
+    },
+  },
+  {
+    path: '/purchase/details/:order_id',
+    name: 'purchaseDetails-all',
+    component:PurchaseDetails,
+    meta:{
+      title:'消费详情'
+    }
+  },
+  {
+    path: '/purchase/delay/details/:order_id',
+    name: 'purchaseDetails-delay',
+    component: PurchaseDetails,
+    meta: {
+      title: '消费详情-延长时段'
+    }
+  },
+  {
+    path: '/purchase/cancel/details/:order_id',
+    name: 'purchaseDetails-cancel',
+    component: PurchaseDetails,
+    meta: {
+      title: '消费详情-取消订单'
+    }
+  },
+  {
+    path: '/purchase/end/details/:order_id',
+    name: 'purchaseDetails-end',
+    component: PurchaseDetails,
+    meta: {
+      title: '消费详情-结束'
+    }
+  },
+  {
+    path: '/purchase/overdue/details/:order_id',
+    name: 'purchaseDetails-overdue',
+    component: PurchaseDetails,
+    meta: {
+      title: '消费详情-逾期'
+    }
   },
   {
     path: '/*',
@@ -116,7 +169,7 @@ const routes = [
     meta: {
       title: '404-Not Found',
     }
-  }
+  },
 ];
 
 // 页面刷新时，重新赋值token

@@ -23,7 +23,7 @@
     },
     methods:{
       getRoute(){
-        console.log(this.$route);
+        // console.log(this.$route);
         if(this.$route.name=='404'){
           this.title=this.$route.meta.title;
           this.icon="close";
@@ -31,6 +31,7 @@
         }else if(this.$route.path=='/home'){
           this.title="众独空间";
           this.icon="";
+          this.hasBorder=false;
         }else if(this.$route.path=='/order'){
           this.title="我的预定";
           this.icon="";

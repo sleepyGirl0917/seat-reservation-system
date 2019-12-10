@@ -2,19 +2,14 @@
     <div id="purchase-item">
         <div class="order-box ignore">
             <div class="media">
-                <a class="navigate-right" @click="$router.push(`/OrderDetails/${myData.order_id}`)">
+                <a class="navigate-right" @click="$router.push(`${$route.path}/details/${myData.order_id}`)">
                     <img class="media-object float-left" src="../../assets/img/ordered.png" />
                     <div class="media-body">
                     <div>{{myData.shop_name}}</div>
                     <div>
-                        <p>座位{{myData.seat_info}}</p>
-                        <p>
-                            日期：
-                            {{myData.start_time|dateTimeFilter('dateOnly')}} 
-                            {{myData.start_time|dateTimeFilter('timeOnly')}}-
-                            {{myData.end_time|dateTimeFilter('timeOnly')}}
-                        </p>
-                        <p>状态：{{myData.start_time|orderStatusFilter}}</p>
+                        <p>{{myData.seat_info.slice(0,3)}}</p>
+                        <p>{{myData.pay_time|dateTimeFilter}}</p>
+                        <p>支付类型：<span class="font_orange">{{myData.pay_type|payTypeFilter}}</span></p>
                     </div>
                     </div>
                 </a>
@@ -43,7 +38,7 @@ export default {
         position  relative 
         background  #fff 
         height 150px 
-        margin  10px 15px 25px
+        margin  15px 15px 25px
         
         .media,
         .media .media-body  
@@ -55,7 +50,14 @@ export default {
                 margin 30px 15px 30px 0 
                 width  60px 
                 height  60px 
-            .media-body * 
-                margin 10px 0 
+            .media-body
+                * 
+                    margin 10px 0 
+                div
+                    font-size   18px
+                    font-weight 500
+                    p
+                        font-size  16px
+                        font-weight 400
 </style>
 

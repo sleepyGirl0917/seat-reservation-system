@@ -49,4 +49,6 @@ body
     transform  translateY(-50%) 
     color  #222 
     -webkit-font-smoothing  antialiased 
+  .font_orange
+    color #cc921c
 </style>

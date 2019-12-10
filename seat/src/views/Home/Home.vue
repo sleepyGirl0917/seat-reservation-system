@@ -138,8 +138,15 @@ export default {
         margin 30px 15px 30px 0 
         width  60px 
         height  60px 
-      .media-body * 
-        margin 10px 0 
+      .media-body
+        * 
+          margin 10px 0 
+        div
+          font-size   18px
+          font-weight 500
+          p
+            font-size  16px
+            font-weight 400
     .media-none 
       position  relative 
       top 50% 

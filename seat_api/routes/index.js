@@ -123,8 +123,9 @@ router.post('/api/getOrderLatest', (req, res) => {
   let userId = req.body.userId;
   if (userId) {
     let sql = 'SELECT order_id,shop_name,seat_info,order_date,start_time,end_time FROM t_order A,t_shop B ';
-    sql += ' WHERE A.user_id = ? AND A.shop_id=B.shop_id AND end_time >= current_time() LIMIT 1;';
-    pool.query(sql, [userId], (err, result) => {
+    // sql += ' WHERE A.user_id = ? AND A.shop_id=B.shop_id AND end_time >= current_time() LIMIT 1;';
+    sql += ' WHERE A.user_id = ? AND A.shop_id=B.shop_id AND A.order_status=? LIMIT 1;';
+    pool.query(sql, [userId,0], (err, result) => {
       if (err) {
         res.send({ error_code: 1, message: '获取订座信息失败' });
       } else {
@@ -149,8 +150,9 @@ router.post('/api/getOrderAll', (req, res) => {
   let userId = req.body.userId;
   if (userId) {
     let sql = 'SELECT order_id,shop_name,seat_info,order_date,start_time,end_time FROM t_order A,t_shop B ';
-    sql += ' WHERE A.user_id = ? AND A.shop_id=B.shop_id  AND end_time >= current_time();';
-    pool.query(sql, [userId], (err, result) => {
+    // sql += ' WHERE A.user_id = ? AND A.shop_id=B.shop_id  AND end_time >= current_time();';
+    sql += ' WHERE A.user_id = ? AND A.shop_id=B.shop_id AND A.order_status=?;';
+    pool.query(sql, [userId,0], (err, result) => {
       if (err) {
         res.send({ error_code: 1, message: '获取订座信息失败' });
       } else {
@@ -184,15 +186,16 @@ router.post('/api/getOrderDetails', (req, res) => {
   })
 });
 
-// 获取所有订座记录(test)
+// 获取所有订座记录
 router.post('/api/getMyDataAll', (req, res) => { 
   let userId = req.body.userId;
   if (userId) {
-    let sql = 'SELECT order_id,shop_name,seat_info,order_date,start_time,end_time FROM t_order A,t_shop B ';
-    sql += ' WHERE A.user_id = ?;';
+    // 订单编号，店铺名，座位信息，下单时间，支付方式
+    let sql = 'SELECT order_id,shop_name,seat_info,pay_time,pay_type ';
+    sql += ' FROM t_order A,t_shop B WHERE A.user_id = ? AND A.shop_id=B.shop_id;';
     pool.query(sql, [userId], (err, result) => {
       if (err) {
-        res.send({ error_code: 1, message: '获取订座信息失败' });
+        res.send({ error_code: 1, message: '获取订座记录失败' });
       } else {
         console.log(result)
         if (result.length) {
@@ -204,15 +207,15 @@ router.post('/api/getMyDataAll', (req, res) => {
     })
   }
 })
-// 获取延长时段记录(test)
+// 获取延长时段记录
 router.post('/api/getMyDataDelay', (req, res) => {
   let userId = req.body.userId;
   if (userId) {
-    let sql = 'SELECT order_id,shop_name,seat_info,order_date,start_time,end_time FROM t_order A,t_shop B ';
-    sql += ' WHERE A.user_id = ?;';
-    pool.query(sql, [userId], (err, result) => {
+    let sql = 'SELECT order_id,shop_name,seat_info,pay_time,pay_type FROM t_order A,t_shop B ';
+    sql += ' WHERE A.user_id = ? AND A.shop_id=B.shop_id AND A.is_delay=?;';
+    pool.query(sql, [userId,1], (err, result) => {
       if (err) {
-        res.send({ error_code: 1, message: '获取订座信息失败' });
+        res.send({ error_code: 1, message: '获取订座记录失败' });
       } else {
         console.log(result)
         if (result.length) {
@@ -224,15 +227,15 @@ router.post('/api/getMyDataDelay', (req, res) => {
     })
   }
 })
-// 获取取消订单记录(test)
+// 获取取消订单记录
 router.post('/api/getMyDataCancel', (req, res) => {
   let userId = req.body.userId;
   if (userId) {
-    let sql = 'SELECT order_id,shop_name,seat_info,order_date,start_time,end_time FROM t_order A,t_shop B ';
-    sql += ' WHERE A.user_id = ?;';
-    pool.query(sql, [userId], (err, result) => {
+    let sql = 'SELECT order_id,shop_name,seat_info,pay_time,pay_type FROM t_order A,t_shop B ';
+    sql += ' WHERE A.user_id = ? AND A.shop_id=B.shop_id AND A.order_status=?;';
+    pool.query(sql, [userId,1], (err, result) => {
       if (err) {
-        res.send({ error_code: 1, message: '获取订座信息失败' });
+        res.send({ error_code: 1, message: '获取订座记录失败' });
       } else {
         console.log(result)
         if (result.length) {
@@ -244,15 +247,15 @@ router.post('/api/getMyDataCancel', (req, res) => {
     })
   }
 })
-// 获取完成订单记录(test)
+// 获取完成订单记录
 router.post('/api/getMyDataEnd', (req, res) => { 
   let userId = req.body.userId;
   if (userId) {
-    let sql = 'SELECT order_id,shop_name,seat_info,order_date,start_time,end_time FROM t_order A,t_shop B ';
-    sql += ' WHERE A.user_id = ?;';
-    pool.query(sql, [userId], (err, result) => {
+    let sql = 'SELECT order_id,shop_name,seat_info,pay_time,pay_type FROM t_order A,t_shop B ';
+    sql += ' WHERE A.user_id = ? AND A.shop_id=B.shop_id AND A.order_status=?;';
+    pool.query(sql, [userId, 2], (err, result) => {
       if (err) {
-        res.send({ error_code: 1, message: '获取订座信息失败' });
+        res.send({ error_code: 1, message: '获取订座记录失败' });
       } else {
         console.log(result)
         if (result.length) {
@@ -264,15 +267,15 @@ router.post('/api/getMyDataEnd', (req, res) => {
     })
   }
 })
-// 获取逾期订单记录(test)
+// 获取逾期订单记录
 router.post('/api/getMyDataOverdue', (req, res) => { 
   let userId = req.body.userId;
   if (userId) {
-    let sql = 'SELECT order_id,shop_name,seat_info,order_date,start_time,end_time FROM t_order A,t_shop B ';
-    sql += ' WHERE A.user_id = ?;';
-    pool.query(sql, [userId], (err, result) => {
+    let sql = 'SELECT order_id,shop_name,seat_info,pay_time,pay_type FROM t_order A,t_shop B ';
+    sql += ' WHERE A.user_id = ? AND A.shop_id=B.shop_id AND A.order_status=?;';
+    pool.query(sql, [userId, 3], (err, result) => {
       if (err) {
-        res.send({ error_code: 1, message: '获取订座信息失败' });
+        res.send({ error_code: 1, message: '获取订座记录失败' });
       } else {
         console.log(result)
         if (result.length) {

@@ -29,9 +29,12 @@ Vue.filter("dateTimeFilter", (val, type) => {
   let h = date.getHours();
   let min = date.getMinutes();
   let s = date.getSeconds();
-  // 月份和日期补0
+  // 不满10补0
   m < 10 && (m = "0" + m);
   d < 10 && (d = "0" + d);
+  h < 10 && (h = "0" + h);
+  min < 10 && (min = "0" + min);
+  s < 10 && (s = "0" + s);
   // 返回字符串
   if (type == 'dateOnly') {
     return `${y}-${m}-${d}`;
@@ -50,6 +53,18 @@ Vue.filter("orderStatusFilter", (val) => {
     return '未开始'
   } else {
     return '进行中'
+  }
+})
+
+// 创建支付类型过滤器
+Vue.filter("payTypeFilter", (val) => {
+  switch (val) {
+    case 0:
+      return '体验卡';
+    case 1:
+      return '储值卡';
+    case 2:
+      return '包时卡';
   }
 })
 

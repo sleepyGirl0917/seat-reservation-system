@@ -1,29 +1,32 @@
 <template>
-  <div id="purchase-details">
+  <div id="purchase-details" v-if="loadingStatus">
     <div class="container">
       <div>
         <span>店铺名称:</span>
-        <span>店铺名称</span>
+        <span>{{jsonData.shop_name}}</span>
       </div>
       <div>
         <span>时间段:</span>
-        <span>20191210 12:00-19:30</span>
+        <span>
+          {{jsonData.start_time|dateTimeFilter('dateOnly')}} 
+          {{jsonData.start_time|dateTimeFilter('timeOnly')}}-{{jsonData.end_time|dateTimeFilter('timeOnly')}}
+        </span>
       </div>
       <div>
         <span>小计:</span>
-        <span>&yen;4.5</span>
+        <span>&yen;{{jsonData.order_cost}}</span>
       </div>
       <div>
         <span>类型:</span>
-        <span>订座</span>
+        <span>{{routeName|orderFilter}}</span>
       </div>
       <div>
         <span>支付方式:</span>
-        <span>储值卡</span>
+        <span>{{jsonData.pay_type|payTypeFilter}}</span>
       </div>
       <div>
         <span>余额抵扣:</span>
-        <span>- &yen;4.5</span>
+        <span>- &yen;{{jsonData.order_cost}}</span>
       </div>
       <div>
         <span>实际支付:</span>
@@ -31,8 +34,8 @@
       </div>
     </div>
     <div class="container">
-      <div>支付时间：。。。</div>
-      <div>订单编号：</div>
+      <div>支付时间：{{jsonData.pay_time|dateTimeFilter}}</div>
+      <div>订单编号：{{jsonData.order_num}}</div>
     </div>
   </div>
 </template>
@@ -45,16 +48,19 @@ export default {
   name: "Order",
   data() {
     return {
-      jsonData:{}
+      loadingStatus:false,
+      jsonData:{},
     };
   },
   props:['order_id'],
   computed:{
     // 通过mapGetters获取store中state设置的变量
     ...mapGetters(['userInfo']),
+    routeName(){
+      return this.$route.name
+    }
   },
   created() {
-    console.log(this.order_id)
     this.loadPurchaseDetails();
   },
   methods: {
@@ -64,8 +70,10 @@ export default {
       console.log(result)
       if(result.success_code==200){
         this.jsonData=result.data;
+        this.loadingStatus=true;
       }
       Indicator.close();
+      
     }
   }
 };

@@ -1,5 +1,5 @@
 <template>
-  <div id="order-detail">
+  <div id="order-detail" v-if="loadingStatus">
     <div class="order-title">{{jsonData.order_date|dateTimeFilter('dateOnly')}}</div>
     <div class="order-info">
       <p>{{jsonData.shop_name}}</p>
@@ -24,6 +24,7 @@ export default {
   name: "Order",
   data() {
     return {
+      loadingStatus:false,
       jsonData:{}
     };
   },
@@ -33,7 +34,6 @@ export default {
     ...mapGetters(['userInfo']),
   },
   created() {
-    console.log(this.order_id)
     this.loadOrderDetails();
   },
   methods: {
@@ -43,8 +43,10 @@ export default {
       console.log(result)
       if(result.success_code==200){
         this.jsonData=result.data;
+        this.loadingStatus=true;
       }
       Indicator.close();
+      
     },
     cancelOrder(){
       

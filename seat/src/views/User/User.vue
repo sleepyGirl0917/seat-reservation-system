@@ -44,9 +44,9 @@
           // console.log(result);
           if(result.success_code===200){
             this.jsonData=result.data;
+            this.loadingStatus=true;
           }
           Indicator.close();
-          this.loadingStatus=true;
         }
       }
     },

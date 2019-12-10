@@ -125,7 +125,8 @@ const routes = [
   {
     path: '/purchase/details/:order_id',
     name: 'purchaseDetails-all',
-    component:PurchaseDetails,
+    component: PurchaseDetails,
+    props: true,
     meta:{
       title:'消费详情'
     }
@@ -134,6 +135,7 @@ const routes = [
     path: '/purchase/delay/details/:order_id',
     name: 'purchaseDetails-delay',
     component: PurchaseDetails,
+    props: true,
     meta: {
       title: '消费详情-延长时段'
     }
@@ -142,6 +144,7 @@ const routes = [
     path: '/purchase/cancel/details/:order_id',
     name: 'purchaseDetails-cancel',
     component: PurchaseDetails,
+    props: true,
     meta: {
       title: '消费详情-取消订单'
     }
@@ -150,6 +153,7 @@ const routes = [
     path: '/purchase/end/details/:order_id',
     name: 'purchaseDetails-end',
     component: PurchaseDetails,
+    props: true,
     meta: {
       title: '消费详情-结束'
     }
@@ -158,13 +162,14 @@ const routes = [
     path: '/purchase/overdue/details/:order_id',
     name: 'purchaseDetails-overdue',
     component: PurchaseDetails,
+    props: true,
     meta: {
       title: '消费详情-逾期'
     }
   },
   {
     path: '/*',
-    name:'404',
+    name: '404',
     component: NotFound,
     meta: {
       title: '404-Not Found',

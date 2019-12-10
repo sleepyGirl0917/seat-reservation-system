@@ -38,17 +38,45 @@
 </template>
 
 <script>
+import { getPurchaseDetails } from '../../api/index'
+import { Indicator } from "mint-ui"
+import { mapGetters } from 'vuex'
 export default {
-    
-}
+  name: "Order",
+  data() {
+    return {
+      jsonData:{}
+    };
+  },
+  props:['order_id'],
+  computed:{
+    // 通过mapGetters获取store中state设置的变量
+    ...mapGetters(['userInfo']),
+  },
+  created() {
+    console.log(this.order_id)
+    this.loadPurchaseDetails();
+  },
+  methods: {
+    async loadPurchaseDetails(){
+      Indicator.open('加载中...');
+      let result= await getPurchaseDetails(this.userInfo.user_id,this.order_id);
+      console.log(result)
+      if(result.success_code==200){
+        this.jsonData=result.data;
+      }
+      Indicator.close();
+    }
+  }
+};
 </script>
 
 <style lang="stylus" scoped>
 #purchase-details
   .container
     background #fff
-    border-top  1px solid rgba(88, 88,88,0.3) 
-    border-bottom  1px solid rgba(88, 88,88,0.3) 
+    border-top  1px solid rgba(88,88,88,0.3) 
+    border-bottom  1px solid rgba(88,88,88,0.3) 
     margin 15px
       
     &:nth-child(1)

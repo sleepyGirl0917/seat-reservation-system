@@ -24,6 +24,8 @@ export const getMyDataCancel = (userId) => ajax('/api/getMyDataCancel', { userId
 export const getMyDataEnd = (userId) => ajax('/api/getMyDataEnd', { userId }, 'POST')
 // 获取逾期订单记录
 export const getMyDataOverdue = (userId) => ajax('/api/getMyDataOverdue', { userId }, 'POST')
+// 获取消费记录
+export const getPurchaseDetails = (userId, orderId) => ajax('/api/getPurchaseDetails', { userId, orderId },'POST')
 //更新用户头像
 export const updateUserAvatar = (userId, avatar) => ajax('/api/updateUserAvatar', { userId, avatar }, 'POST')
 //更新用户名

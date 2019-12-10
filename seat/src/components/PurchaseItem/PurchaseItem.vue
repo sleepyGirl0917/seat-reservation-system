@@ -20,13 +20,9 @@
 
 <script>
 export default {
-    data(){
-        return  {
-        }
-    },
     props:{
       myData:{}
-    },
+    }
 }
 </script>
 

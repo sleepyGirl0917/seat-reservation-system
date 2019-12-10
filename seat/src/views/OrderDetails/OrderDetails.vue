@@ -1,9 +1,18 @@
 <template>
   <div id="order-detail">
-    <order-item :orderData=jsonData[0] v-if="jsonData[0]"></order-item>
-    <div class="btn-container">
-      <button @click.prevent="cancelOrder">取消订单</button>
-      <button @click.prevent="$router.go(-1)">返回</button>
+    <div class="order-title">{{jsonData.order_date|dateTimeFilter('dateOnly')}}</div>
+    <div class="order-info">
+      <p>{{jsonData.shop_name}}</p>
+      <p>{{jsonData.seat_info}}</p>
+      <p class="small">
+        时间段：{{jsonData.order_date|dateTimeFilter('dateOnly')}}
+        {{jsonData.start_time|dateTimeFilter('timeOnly')}}-{{jsonData.end_time|dateTimeFilter('timeOnly')}}
+      </p>
+      <p>状态：{{jsonData.start_time|orderStatusFilter}}</p>
+    </div>
+    <div class="btn-container"> 
+      <button class="ignore" @click.prevent="cancelOrder">取消订单</button>
+      <button class="ignore" @click.prevent="$router.go(-1)">返回</button>
     </div>
   </div>
 </template>
@@ -11,23 +20,20 @@
 import { getOrderDetails } from '../../api/index'
 import { Indicator } from "mint-ui"
 import { mapGetters } from 'vuex'
-import OrderItem from '../../components/OrderItem/OrderItem'
 export default {
   name: "Order",
   data() {
     return {
-      jsonData:[]
+      jsonData:{}
     };
   },
   props:['order_id'],
   computed:{
     // 通过mapGetters获取store中state设置的变量
     ...mapGetters(['userInfo']),
-  }, 
-  components:{
-    "order-item":OrderItem
   },
   created() {
+    console.log(this.order_id)
     this.loadOrderDetails();
   },
   methods: {
@@ -49,8 +55,28 @@ export default {
 <style lang="stylus">
 #order-detail
   width 100%
-  height  100%
   background-color #fff
+
+  .order-title 
+    padding 15px 0
+    font-size 17px
+    color #999
+    text-align center
+      
+  .order-info 
+    padding  0 25px
+    p 
+      font-size 18px
+      font-weight 500
+      color #333
+      padding 15px 0
+      margin 0
+
+      &.small 
+        font-size 17px
+        font-weight 500
+        color #999
+            
   .btn-container
     width 100%
     display flex
@@ -63,5 +89,7 @@ export default {
       height  50px
       font-size 18px
       font-weight 500
+      &.ignore
+        border-radius 5px
 </style>
 

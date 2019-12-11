@@ -11,14 +11,15 @@
       <p>状态：{{jsonData.start_time|orderStatusFilter}}</p>
     </div>
     <div class="btn-container"> 
-      <button class="ignore" @click.prevent="cancelOrder">取消订单</button>
+      <button v-if="`jsonData.start_time|orderStatusFilter`=='未开始'" class="ignore" @click.prevent="cancel">取消订单</button>
+      <button v-else class="ignore" @click.prevent="end">结束订单</button>
       <button class="ignore" @click.prevent="$router.go(-1)">返回</button>
     </div>
   </div>
 </template>
 <script>
-import { getOrderDetails } from '../../api/index'
-import { Indicator } from "mint-ui"
+import { getOrderDetails,cancelOrder,endOrder } from '../../api/index'
+import { Toast,MessageBox,Indicator } from "mint-ui"
 import { mapGetters } from 'vuex'
 export default {
   name: "Order",
@@ -46,10 +47,26 @@ export default {
         this.loadingStatus=true;
       }
       Indicator.close();
-      
     },
-    cancelOrder(){
-      
+    // 取消订单
+    async cancel(){
+      let result = await cancelOrder(this.userInfo.user_id,this.order_id);
+      if(result.success_code==200){
+        Toast('取消成功');
+        this.$router.go(-1);
+      }else {
+        MessageBox.alert("取消失败，请稍后重试");
+      }
+    },
+    // 结束订单
+    async end(){
+      let result = await endOrder(this.userInfo.user_id,this.order_id);
+      if(result.success_code==200){
+        Toast('结束成功');
+        this.$router.go(-1);
+      }else {
+        MessageBox.alert("结束失败，请稍后重试");
+      }
     }
   }
 };

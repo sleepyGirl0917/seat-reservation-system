@@ -125,7 +125,7 @@ router.post('/api/getOrderLatest', (req, res) => {
     let sql = 'SELECT order_id,shop_name,seat_info,order_date,start_time,end_time FROM t_order A,t_shop B ';
     // sql += ' WHERE A.user_id = ? AND A.shop_id=B.shop_id AND end_time >= current_time() LIMIT 1;';
     sql += ' WHERE A.shop_id=B.shop_id AND A.user_id = ? AND A.order_status=? LIMIT 1;';
-    pool.query(sql, [userId,0], (err, result) => {
+    pool.query(sql, [userId, 0], (err, result) => {
       if (err) {
         res.send({ error_code: 1, message: '获取订座信息失败' });
       } else {
@@ -152,7 +152,7 @@ router.post('/api/getOrderAll', (req, res) => {
     let sql = 'SELECT order_id,shop_name,seat_info,order_date,start_time,end_time FROM t_order A,t_shop B ';
     // sql += ' WHERE A.user_id = ? AND A.shop_id=B.shop_id  AND end_time >= current_time();';
     sql += ' WHERE A.shop_id=B.shop_id AND A.user_id = ? AND A.order_status=?;';
-    pool.query(sql, [userId,0], (err, result) => {
+    pool.query(sql, [userId, 0], (err, result) => {
       if (err) {
         res.send({ error_code: 1, message: '获取订座信息失败' });
       } else {
@@ -186,8 +186,86 @@ router.post('/api/getOrderDetails', (req, res) => {
   })
 });
 
+// 取消订单
+router.post('/api/cancelOrder', (req, res) => {
+  let { userId, orderId } = req.body;
+  let sql = `
+    UPDATE t_order SET order_status=?,order_refund=order_cost,status_change_time WHERE user_id = ? AND order_id=?;
+    UPDATE t_user SET balance=balance+(SELECT order_refund from t_order WHERE order_id=?) WHERE user_id = ?;
+  `;
+  pool.query(sql, [1, userId, orderId, orderId, userId], (err, result) => {
+    if (err) {
+      res.send({ error_code: 1, message: '获取订座信息失败' });
+    } else {
+      res.send({ success_code: 200, message: '取消订座执行完毕' });
+    }
+  })
+})
+
+// 结束订单
+router.post('/api/endOrder', (req, res) => {
+  let { userId, orderId } = req.body;
+  let timeBefore, timeNow, distance, refund;
+  // 获得当天已完结的订单时长
+  let sql = 'SELECT SUM(TIMESTAMPDIFF(minute, start_time,status_change_time)) as time from t_order where order_status=? AND user_id=? '
+  sql += ' AND date(start_time)=date(NOW());'
+  pool.query(sql, [2, userId], (err, result) => {
+    if (err) throw err;
+    timeBefore = Math.ceil(result[0].time / 30);
+    if (timeBefore < 12) { // 还没有达到封顶时长，需要计算应返还的费用  4.5：单人座半小时费用  10：双人座半小时费用
+      sql = 'SELECT TIMESTAMPDIFF(minute, start_time,NOW()) as time,order_cost FROM t_order where user_id=? AND order_id =?'
+      pool.query(sql, [userId, orderId], (err, result) => {
+        if (err) throw err;
+        timeNow = Math.ceil(result[0].time / 30);
+        distance = 12 - timeBefore; // 离封顶时长的距离
+        if (timeNow >= distance) { // 到达封顶时长，应付distance*4.5，返还=已付-应付
+          refund = result[0].order_cost - distance * 4.5
+        } else { // 未到达封顶时长
+          refund = result[0].order_cost - timeNow * 4.5
+        }
+        console.log(refund)
+        sql = `
+          UPDATE t_order SET order_status=?,order_refund=?,status_change_time=NOW() WHERE user_id = ? AND order_id=?;
+          UPDATE t_user SET balance=balance+? WHERE user_id = ?;
+        `;
+        pool.query(sql, [2, refund, userId, orderId, refund, userId], (err, result) => {
+          if (err) throw err;
+          res.send({ success_code: 200, message: '结束订座执行完毕' });
+        })
+      })
+    } else { // 已经达到封顶时长，退还订座费用
+      sql = `
+        UPDATE t_order SET order_status=?,order_refund=order_cost,status_change_time=NOW() WHERE user_id = ? AND order_id=?;
+        UPDATE t_user SET balance=balance+(SELECT order_refund from t_order WHERE order_id=?) WHERE user_id = ?;
+      `;
+      pool.query(sql, [2, userId, orderId, orderId, userId], (err, result) => {
+        if (err) throw err;
+        res.send({ success_code: 200, message: '结束订座执行完毕' });
+      })
+    }
+  })
+})
+
+// 订座
+router.get('/api/order', (req, res) => {
+  let { shopId,userId,date,startTime,endTime,seatInfo,orderCost,payType } = req.query;
+  let sql = 'INSERT INTO t_order(shop_id,user_id,order_date,start_time,end_time,seat_info,order_cost,pay_type) '
+  sql += ' VALUES(?,?,?,?,?,?,?,?,);';
+  pool.query(sql, [shopId, userId, date, startTime, endTime, seatInfo, orderCost, payType], (err, result) => {
+    if (err) throw err;
+    if (result.affectedRows > 0) {
+      res.send({ success_code: 200, message: '订座成功' });
+    } else {
+      res.send({ error_code: 1, message: '订座失败' });
+    }
+  })
+})
+
+// 请求可用的座位
+
+
 // 获取所有订座记录
-router.post('/api/getMyDataAll', (req, res) => { 
+router.post('/api/getMyDataAll', (req, res) => {
   let userId = req.body.userId;
   if (userId) {
     // 订单编号，店铺名，座位信息，下单时间，支付方式
@@ -214,7 +292,7 @@ router.post('/api/getMyDataDelay', (req, res) => {
   if (userId) {
     let sql = 'SELECT order_id,shop_name,seat_info,pay_time,pay_type FROM t_order A,t_shop B ';
     sql += ' WHERE A.shop_id=B.shop_id AND A.user_id = ? AND A.is_delay=?;';
-    pool.query(sql, [userId,1], (err, result) => {
+    pool.query(sql, [userId, 1], (err, result) => {
       if (err) {
         res.send({ error_code: 1, message: '获取订座记录失败' });
       } else {
@@ -235,7 +313,7 @@ router.post('/api/getMyDataCancel', (req, res) => {
   if (userId) {
     let sql = 'SELECT order_id,shop_name,seat_info,pay_time,pay_type FROM t_order A,t_shop B ';
     sql += ' WHERE A.shop_id=B.shop_id AND A.user_id = ? AND A.order_status=?;';
-    pool.query(sql, [userId,1], (err, result) => {
+    pool.query(sql, [userId, 1], (err, result) => {
       if (err) {
         res.send({ error_code: 1, message: '获取订座记录失败' });
       } else {
@@ -251,7 +329,7 @@ router.post('/api/getMyDataCancel', (req, res) => {
 })
 
 // 获取完成订单记录
-router.post('/api/getMyDataEnd', (req, res) => { 
+router.post('/api/getMyDataEnd', (req, res) => {
   let userId = req.body.userId;
   if (userId) {
     let sql = 'SELECT order_id,shop_name,seat_info,pay_time,pay_type FROM t_order A,t_shop B ';
@@ -272,7 +350,7 @@ router.post('/api/getMyDataEnd', (req, res) => {
 })
 
 // 获取逾期订单记录
-router.post('/api/getMyDataOverdue', (req, res) => { 
+router.post('/api/getMyDataOverdue', (req, res) => {
   let userId = req.body.userId;
   if (userId) {
     let sql = 'SELECT order_id,shop_name,seat_info,pay_time,pay_type FROM t_order A,t_shop B ';
@@ -296,8 +374,8 @@ router.post('/api/getMyDataOverdue', (req, res) => {
 router.post('/api/getPurchaseDetails', (req, res) => {
   let { userId, orderId } = req.body;
   if (userId) {
-    let sql = 'SELECT * FROM t_order A,t_shop B WHERE A.shop_id=B.shop_id ';
-    sql +=' AND A.user_id = ? AND A.order_id=?;'
+    let sql = 'SELECT shop_name,order_num,order_date,start_time,end_time,order_cost,order_refund,is_delay,pay_time,pay_type ';
+    sql += ' FROM t_order A,t_shop B WHERE A.shop_id=B.shop_id  AND A.user_id = ? AND A.order_id=?;'
     pool.query(sql, [userId, orderId], (err, result) => {
       if (err) {
         res.send({ error_code: 1, message: '获取订座记录失败' });

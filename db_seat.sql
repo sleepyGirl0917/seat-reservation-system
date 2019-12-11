@@ -73,7 +73,7 @@ CREATE TABLE `t_user`  (
 -- ----------------------------
 INSERT INTO `t_user` VALUES (1, 'Ann', '/img/avatar/default.png', '123456', '13414850282', '0', '300.8');
 INSERT INTO `t_user` VALUES (2, 'Tom', '/img/avatar/default.png', '123456', '13672606065', '1', '644.9');
-INSERT INTO `t_user` VALUES (3, 'Ali', '/img/avatar/default.png', '123456', '18162536357', '9', '1644.9');
+INSERT INTO `t_user` VALUES (3, 'Ali', '/img/avatar/default.png', '123456', '18162536357', '1', '1000.0');
 
 -- ----------------------------
 -- Table structure for t_recharge
@@ -109,16 +109,17 @@ CREATE TABLE `t_order`  (
   `user_id` int(8) UNSIGNED NULL DEFAULT NULL COMMENT '用户id',
   `shop_id` int(8) UNSIGNED NULL DEFAULT NULL COMMENT '店铺id',
   `order_num` varchar(32) DEFAULT NULL COMMENT '订单编号（18位）',
-  `order_phone` varchar(20) DEFAULT NULL COMMENT '下单手机',
+  `seat_id` varchar(8) DEFAULT NULL COMMENT '座位编号',
   `seat_info` varchar(8) DEFAULT NULL COMMENT '座位信息',
   `order_date`  date DEFAULT NULL COMMENT '订座日期',
   `start_time` datetime DEFAULT NULL COMMENT '订座开始时间',
   `end_time` datetime DEFAULT NULL COMMENT '订座结束时间',
+  `status_change_time` datetime DEFAULT NULL COMMENT '状态改变时间',
   `order_cost` decimal(10,1) DEFAULT 0  COMMENT '订座费用',
   `order_refund` decimal(10,1) DEFAULT 0  COMMENT '订座退款',
   `is_delay` int(4) DEFAULT 0 COMMENT '是否为延长时段', -- 0：不是 1：是
   `order_status` int(4) DEFAULT 0 COMMENT '订单状态',  -- 0：未开始 1：取消 2：结束 3：逾期
-  `pay_time` varchar(32) DEFAULT NULL COMMENT '支付时间',
+  `pay_time` datetime NULL DEFAULT CURRENT_TIMESTAMP COMMENT '支付时间',
   `pay_type` int(4) DEFAULT NULL COMMENT '支付方式',  -- 0：体验卡 1：储值卡 2：包时卡
   PRIMARY KEY (`order_id`) USING BTREE
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
@@ -126,13 +127,13 @@ CREATE TABLE `t_order`  (
 -- ----------------------------
 -- Records of t_order
 -- ----------------------------
-INSERT INTO `t_order` VALUES (1, 1, 1, '20190000000000001','13414850282','单人座：25', '2019-5-6','2019-5-6 09:15','2019-5-6 19:15','54','54','0','1','2019-5-6 09:00','1');
-INSERT INTO `t_order` VALUES (2, 1, 2, '20190000000000002','13414850282', '单人座：36', '2019-5-7','2019-5-7 09:30','2019-5-7 18:00','54','37.8','0','3','2019-5-7 09:00','1');
-INSERT INTO `t_order` VALUES (3, 2, 2, '20190000000000003','13672606065', '双人座：V1', '2019-5-9','2019-5-9 10:30','2019-5-9 18:30','54','0','0','2','2019-5-9 09:00','1');
-INSERT INTO `t_order` VALUES (4, 3, 2, '20190000000000004','18162536357', '双人座：V1', '2019-12-5','2019-12-5 12:30','2019-12-5 18:30','54','0','0','2','2019-12-5 09:00','1');
-INSERT INTO `t_order` VALUES (5, 3, 2, '20190000000000005','18162536357', '单人座：1', '2019-12-5','2019-12-5 18:30','2019-12-5 21:30','27','27','1','2','2019-12-5 09:00','1');
-INSERT INTO `t_order` VALUES (6, 3, 2, '20190000000000006','18162536357', '单人座：25', '2019-12-6','2019-12-6 9:30','2019-12-6 18:30','54','0','0','2','2019-12-5 09:00','1');
-INSERT INTO `t_order` VALUES (7, 3, 2, '20190000000000007','18162536357', '双人座：V2', '2019-12-7','2019-12-7 12:30','2019-12-7 18:30','54','0','0','2','2019-12-6 09:00','1');
+INSERT INTO `t_order` VALUES (1, 1, 1, '20190000000000001','25','单人座：25', '2019-5-6','2019-5-6 09:15','2019-5-6 19:15',NULL,'54','54','0','1','2019-5-6 09:00','1');
+INSERT INTO `t_order` VALUES (2, 1, 2, '20190000000000002','36', '单人座：36', '2019-5-7','2019-5-7 09:30','2019-5-7 18:00',NULL,'54','37.8','0','3','2019-5-7 09:00','1');
+INSERT INTO `t_order` VALUES (3, 2, 2, '20190000000000003','V1', '双人座：V1', '2019-5-9','2019-5-9 10:30','2019-5-9 18:30',NULL,'54','0','0','2','2019-5-9 09:00','1');
+INSERT INTO `t_order` VALUES (4, 3, 2, '20190000000000004','V1', '双人座：V1', '2019-12-5','2019-12-5 12:30','2019-12-5 18:30',NULL,'54','0','0','2','2019-12-5 09:00','1');
+INSERT INTO `t_order` VALUES (5, 3, 2, '20190000000000005','1', '单人座：1', '2019-12-5','2019-12-5 18:30','2019-12-5 21:30',NULL,'27','27','1','2','2019-12-5 09:00','1');
+INSERT INTO `t_order` VALUES (6, 3, 2, '20190000000000006','25', '单人座：25', '2019-12-12','2019-12-12 8:30','2019-12-12 10:30','2019-12-12 10:30','18','0','0','2','2019-12-10 09:00','1');
+INSERT INTO `t_order` VALUES (7, 3, 2, '20190000000000007','29', '单人座：29', '2019-12-12','2019-12-12 15:30','2019-12-12 18:30',NULL,'54','0','0','0','2019-12-10 09:00','1');
 
 -- ----------------------------
 -- Table structure for t_admin

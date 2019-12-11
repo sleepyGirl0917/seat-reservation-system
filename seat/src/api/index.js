@@ -14,6 +14,10 @@ export const getOrderLatest = (userId) => ajax('/api/getOrderLatest', { userId }
 export const getOrderAll = (userId) => ajax('/api/getOrderAll', { userId }, 'POST')
 // 获取订单详情
 export const getOrderDetails = (userId, orderId) => ajax('/api/getOrderDetails', { userId, orderId }, 'POST')
+// 取消订单
+export const cancelOrder = (userId, orderId) => ajax('/api/cancelOrder', { userId, orderId }, 'POST')
+// 结束订单
+export const endOrder = (userId, orderId) => ajax('/api/endOrder', { userId, orderId }, 'POST')
 // 获取所有订座记录
 export const getMyDataAll = (userId) => ajax('/api/getMyDataAll', { userId }, 'POST')
 // 获取延长时段记录

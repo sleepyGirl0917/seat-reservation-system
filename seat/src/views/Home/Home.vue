@@ -58,7 +58,6 @@ export default {
         { id: 2, title: "加入会员", img_url: require("../../assets/img/home/menu2.jpg"), path: "/" },
         { id: 3, title: "预定座位", img_url: require("../../assets/img/home/menu3.jpg"), path: "/" }
       ],
-      loadingStatus:false,
       jsonData: {}
     };
   },
@@ -79,7 +78,6 @@ export default {
           this.jsonData = result.data;
         } 
         Indicator.close();
-        this.loadingStatus=true;
       }
     }
   }

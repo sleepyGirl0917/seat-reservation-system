@@ -34,9 +34,9 @@ DROP TABLE IF EXISTS `t_shop_seat`;
 CREATE TABLE `t_shop_seat`  (
   `sid` int(8) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT '座位表id',
   `shop_id` int(4) UNSIGNED NOT NULL COMMENT '店铺id',
-  `seat_info` varchar(8) DEFAULT NULL COMMENT '座位信息',
   `seat_id` varchar(8) DEFAULT NULL COMMENT '座位编号',
-  `seat_type` varchar(8) DEFAULT NULL COMMENT '座位类别',   -- 0:单人座 1：双人座
+  `seat_info` varchar(8) DEFAULT NULL COMMENT '座位信息',
+  `seat_type` int(4) DEFAULT NULL COMMENT '座位类别',   -- 0:单人座 1：双人座
   `seat_price` int(4) DEFAULT NULL COMMENT '座位单价',
   PRIMARY KEY (`sid`) USING BTREE
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
@@ -44,14 +44,126 @@ CREATE TABLE `t_shop_seat`  (
 -- ----------------------------
 -- Records of t_shop_seat
 -- ----------------------------
-INSERT INTO `t_shop_seat` VALUES (null, '1','双人座：V1','V1','1','20');
-INSERT INTO `t_shop_seat` VALUES (null, '1','双人座：V2','V2','1','20');
-INSERT INTO `t_shop_seat` VALUES (null, '1','单人座：1','1','0','9');
-INSERT INTO `t_shop_seat` VALUES (null, '1','单人座：55','55','0','9');
-INSERT INTO `t_shop_seat` VALUES (null, '2','双人座：V1','V1','1','20');
-INSERT INTO `t_shop_seat` VALUES (null, '2','双人座：V2','V2','1','20');
-INSERT INTO `t_shop_seat` VALUES (null, '2','单人座：1','1','0','9');
-INSERT INTO `t_shop_seat` VALUES (null, '2','单人座：64','64','0','9');
+INSERT INTO `t_shop_seat`(shop_id,seat_id,seat_info,seat_type,seat_price) VALUES(1,1,'单人座：1',0,9);
+INSERT INTO `t_shop_seat`(shop_id,seat_id,seat_info,seat_type,seat_price) VALUES(1,2,'单人座：2',0,9);
+INSERT INTO `t_shop_seat`(shop_id,seat_id,seat_info,seat_type,seat_price) VALUES(1,3,'单人座：3',0,9);
+INSERT INTO `t_shop_seat`(shop_id,seat_id,seat_info,seat_type,seat_price) VALUES(1,4,'单人座：4',0,9);
+INSERT INTO `t_shop_seat`(shop_id,seat_id,seat_info,seat_type,seat_price) VALUES(1,5,'单人座：5',0,9);
+INSERT INTO `t_shop_seat`(shop_id,seat_id,seat_info,seat_type,seat_price) VALUES(1,6,'单人座：6',0,9);
+INSERT INTO `t_shop_seat`(shop_id,seat_id,seat_info,seat_type,seat_price) VALUES(1,7,'单人座：7',0,9);
+INSERT INTO `t_shop_seat`(shop_id,seat_id,seat_info,seat_type,seat_price) VALUES(1,8,'单人座：8',0,9);
+INSERT INTO `t_shop_seat`(shop_id,seat_id,seat_info,seat_type,seat_price) VALUES(1,9,'单人座：9',0,9);
+INSERT INTO `t_shop_seat`(shop_id,seat_id,seat_info,seat_type,seat_price) VALUES(1,10,'单人座：10',0,9);
+INSERT INTO `t_shop_seat`(shop_id,seat_id,seat_info,seat_type,seat_price) VALUES(1,11,'单人座：11',0,9);
+INSERT INTO `t_shop_seat`(shop_id,seat_id,seat_info,seat_type,seat_price) VALUES(1,12,'单人座：12',0,9);
+INSERT INTO `t_shop_seat`(shop_id,seat_id,seat_info,seat_type,seat_price) VALUES(1,13,'单人座：13',0,9);
+INSERT INTO `t_shop_seat`(shop_id,seat_id,seat_info,seat_type,seat_price) VALUES(1,14,'单人座：14',0,9);
+INSERT INTO `t_shop_seat`(shop_id,seat_id,seat_info,seat_type,seat_price) VALUES(1,15,'单人座：15',0,9);
+INSERT INTO `t_shop_seat`(shop_id,seat_id,seat_info,seat_type,seat_price) VALUES(1,16,'单人座：16',0,9);
+INSERT INTO `t_shop_seat`(shop_id,seat_id,seat_info,seat_type,seat_price) VALUES(1,17,'单人座：17',0,9);
+INSERT INTO `t_shop_seat`(shop_id,seat_id,seat_info,seat_type,seat_price) VALUES(1,18,'单人座：18',0,9);
+INSERT INTO `t_shop_seat`(shop_id,seat_id,seat_info,seat_type,seat_price) VALUES(1,19,'单人座：19',0,9);
+INSERT INTO `t_shop_seat`(shop_id,seat_id,seat_info,seat_type,seat_price) VALUES(1,20,'单人座：20',0,9);
+INSERT INTO `t_shop_seat`(shop_id,seat_id,seat_info,seat_type,seat_price) VALUES(1,21,'单人座：21',0,9);
+INSERT INTO `t_shop_seat`(shop_id,seat_id,seat_info,seat_type,seat_price) VALUES(1,22,'单人座：22',0,9);
+INSERT INTO `t_shop_seat`(shop_id,seat_id,seat_info,seat_type,seat_price) VALUES(1,23,'单人座：23',0,9);
+INSERT INTO `t_shop_seat`(shop_id,seat_id,seat_info,seat_type,seat_price) VALUES(1,24,'单人座：24',0,9);
+INSERT INTO `t_shop_seat`(shop_id,seat_id,seat_info,seat_type,seat_price) VALUES(1,25,'单人座：25',0,9);
+INSERT INTO `t_shop_seat`(shop_id,seat_id,seat_info,seat_type,seat_price) VALUES(1,26,'单人座：26',0,9);
+INSERT INTO `t_shop_seat`(shop_id,seat_id,seat_info,seat_type,seat_price) VALUES(1,27,'单人座：27',0,9);
+INSERT INTO `t_shop_seat`(shop_id,seat_id,seat_info,seat_type,seat_price) VALUES(1,28,'单人座：28',0,9);
+INSERT INTO `t_shop_seat`(shop_id,seat_id,seat_info,seat_type,seat_price) VALUES(1,29,'单人座：29',0,9);
+INSERT INTO `t_shop_seat`(shop_id,seat_id,seat_info,seat_type,seat_price) VALUES(1,30,'单人座：30',0,9);
+INSERT INTO `t_shop_seat`(shop_id,seat_id,seat_info,seat_type,seat_price) VALUES(1,31,'单人座：31',0,9);
+INSERT INTO `t_shop_seat`(shop_id,seat_id,seat_info,seat_type,seat_price) VALUES(1,32,'单人座：32',0,9);
+INSERT INTO `t_shop_seat`(shop_id,seat_id,seat_info,seat_type,seat_price) VALUES(1,33,'单人座：33',0,9);
+INSERT INTO `t_shop_seat`(shop_id,seat_id,seat_info,seat_type,seat_price) VALUES(1,34,'单人座：34',0,9);
+INSERT INTO `t_shop_seat`(shop_id,seat_id,seat_info,seat_type,seat_price) VALUES(1,35,'单人座：35',0,9);
+INSERT INTO `t_shop_seat`(shop_id,seat_id,seat_info,seat_type,seat_price) VALUES(1,36,'单人座：36',0,9);
+INSERT INTO `t_shop_seat`(shop_id,seat_id,seat_info,seat_type,seat_price) VALUES(1,37,'单人座：37',0,9);
+INSERT INTO `t_shop_seat`(shop_id,seat_id,seat_info,seat_type,seat_price) VALUES(1,38,'单人座：38',0,9);
+INSERT INTO `t_shop_seat`(shop_id,seat_id,seat_info,seat_type,seat_price) VALUES(1,39,'单人座：39',0,9);
+INSERT INTO `t_shop_seat`(shop_id,seat_id,seat_info,seat_type,seat_price) VALUES(1,40,'单人座：40',0,9);
+INSERT INTO `t_shop_seat`(shop_id,seat_id,seat_info,seat_type,seat_price) VALUES(1,41,'单人座：41',0,9);
+INSERT INTO `t_shop_seat`(shop_id,seat_id,seat_info,seat_type,seat_price) VALUES(1,42,'单人座：42',0,9);
+INSERT INTO `t_shop_seat`(shop_id,seat_id,seat_info,seat_type,seat_price) VALUES(1,43,'单人座：43',0,9);
+INSERT INTO `t_shop_seat`(shop_id,seat_id,seat_info,seat_type,seat_price) VALUES(1,44,'单人座：44',0,9);
+INSERT INTO `t_shop_seat`(shop_id,seat_id,seat_info,seat_type,seat_price) VALUES(1,45,'单人座：45',0,9);
+INSERT INTO `t_shop_seat`(shop_id,seat_id,seat_info,seat_type,seat_price) VALUES(1,46,'单人座：46',0,9);
+INSERT INTO `t_shop_seat`(shop_id,seat_id,seat_info,seat_type,seat_price) VALUES(1,47,'单人座：47',0,9);
+INSERT INTO `t_shop_seat`(shop_id,seat_id,seat_info,seat_type,seat_price) VALUES(1,48,'单人座：48',0,9);
+INSERT INTO `t_shop_seat`(shop_id,seat_id,seat_info,seat_type,seat_price) VALUES(1,49,'单人座：49',0,9);
+INSERT INTO `t_shop_seat`(shop_id,seat_id,seat_info,seat_type,seat_price) VALUES(1,50,'单人座：50',0,9);
+INSERT INTO `t_shop_seat`(shop_id,seat_id,seat_info,seat_type,seat_price) VALUES(1,51,'单人座：51',0,9);
+INSERT INTO `t_shop_seat`(shop_id,seat_id,seat_info,seat_type,seat_price) VALUES(1,52,'单人座：52',0,9);
+INSERT INTO `t_shop_seat`(shop_id,seat_id,seat_info,seat_type,seat_price) VALUES(1,53,'单人座：53',0,9);
+INSERT INTO `t_shop_seat`(shop_id,seat_id,seat_info,seat_type,seat_price) VALUES(1,54,'单人座：54',0,9);
+INSERT INTO `t_shop_seat`(shop_id,seat_id,seat_info,seat_type,seat_price) VALUES(1,55,'单人座：55',0,9);
+INSERT INTO `t_shop_seat`(shop_id,seat_id,seat_info,seat_type,seat_price) VALUES(1,56,'单人座：56',0,9);
+INSERT INTO `t_shop_seat`(shop_id,seat_id,seat_info,seat_type,seat_price) VALUES(1,57,'单人座：57',0,9);
+INSERT INTO `t_shop_seat`(shop_id,seat_id,seat_info,seat_type,seat_price) VALUES(1,58,'单人座：58',0,9);
+INSERT INTO `t_shop_seat`(shop_id,seat_id,seat_info,seat_type,seat_price) VALUES(1,'V1','双人座：V1',1,20);
+INSERT INTO `t_shop_seat`(shop_id,seat_id,seat_info,seat_type,seat_price) VALUES(1,'V2','双人座：V2',1,20);
+INSERT INTO `t_shop_seat`(shop_id,seat_id,seat_info,seat_type,seat_price) VALUES(2,1,'单人座：1',0,9);
+INSERT INTO `t_shop_seat`(shop_id,seat_id,seat_info,seat_type,seat_price) VALUES(2,2,'单人座：2',0,9);
+INSERT INTO `t_shop_seat`(shop_id,seat_id,seat_info,seat_type,seat_price) VALUES(2,3,'单人座：3',0,9);
+INSERT INTO `t_shop_seat`(shop_id,seat_id,seat_info,seat_type,seat_price) VALUES(2,4,'单人座：4',0,9);
+INSERT INTO `t_shop_seat`(shop_id,seat_id,seat_info,seat_type,seat_price) VALUES(2,5,'单人座：5',0,9);
+INSERT INTO `t_shop_seat`(shop_id,seat_id,seat_info,seat_type,seat_price) VALUES(2,6,'单人座：6',0,9);
+INSERT INTO `t_shop_seat`(shop_id,seat_id,seat_info,seat_type,seat_price) VALUES(2,7,'单人座：7',0,9);
+INSERT INTO `t_shop_seat`(shop_id,seat_id,seat_info,seat_type,seat_price) VALUES(2,8,'单人座：8',0,9);
+INSERT INTO `t_shop_seat`(shop_id,seat_id,seat_info,seat_type,seat_price) VALUES(2,9,'单人座：9',0,9);
+INSERT INTO `t_shop_seat`(shop_id,seat_id,seat_info,seat_type,seat_price) VALUES(2,10,'单人座：10',0,9);
+INSERT INTO `t_shop_seat`(shop_id,seat_id,seat_info,seat_type,seat_price) VALUES(2,11,'单人座：11',0,9);
+INSERT INTO `t_shop_seat`(shop_id,seat_id,seat_info,seat_type,seat_price) VALUES(2,12,'单人座：12',0,9);
+INSERT INTO `t_shop_seat`(shop_id,seat_id,seat_info,seat_type,seat_price) VALUES(2,13,'单人座：13',0,9);
+INSERT INTO `t_shop_seat`(shop_id,seat_id,seat_info,seat_type,seat_price) VALUES(2,14,'单人座：14',0,9);
+INSERT INTO `t_shop_seat`(shop_id,seat_id,seat_info,seat_type,seat_price) VALUES(2,15,'单人座：15',0,9);
+INSERT INTO `t_shop_seat`(shop_id,seat_id,seat_info,seat_type,seat_price) VALUES(2,16,'单人座：16',0,9);
+INSERT INTO `t_shop_seat`(shop_id,seat_id,seat_info,seat_type,seat_price) VALUES(2,17,'单人座：17',0,9);
+INSERT INTO `t_shop_seat`(shop_id,seat_id,seat_info,seat_type,seat_price) VALUES(2,18,'单人座：18',0,9);
+INSERT INTO `t_shop_seat`(shop_id,seat_id,seat_info,seat_type,seat_price) VALUES(2,19,'单人座：19',0,9);
+INSERT INTO `t_shop_seat`(shop_id,seat_id,seat_info,seat_type,seat_price) VALUES(2,20,'单人座：20',0,9);
+INSERT INTO `t_shop_seat`(shop_id,seat_id,seat_info,seat_type,seat_price) VALUES(2,21,'单人座：21',0,9);
+INSERT INTO `t_shop_seat`(shop_id,seat_id,seat_info,seat_type,seat_price) VALUES(2,22,'单人座：22',0,9);
+INSERT INTO `t_shop_seat`(shop_id,seat_id,seat_info,seat_type,seat_price) VALUES(2,23,'单人座：23',0,9);
+INSERT INTO `t_shop_seat`(shop_id,seat_id,seat_info,seat_type,seat_price) VALUES(2,24,'单人座：24',0,9);
+INSERT INTO `t_shop_seat`(shop_id,seat_id,seat_info,seat_type,seat_price) VALUES(2,25,'单人座：25',0,9);
+INSERT INTO `t_shop_seat`(shop_id,seat_id,seat_info,seat_type,seat_price) VALUES(2,26,'单人座：26',0,9);
+INSERT INTO `t_shop_seat`(shop_id,seat_id,seat_info,seat_type,seat_price) VALUES(2,27,'单人座：27',0,9);
+INSERT INTO `t_shop_seat`(shop_id,seat_id,seat_info,seat_type,seat_price) VALUES(2,28,'单人座：28',0,9);
+INSERT INTO `t_shop_seat`(shop_id,seat_id,seat_info,seat_type,seat_price) VALUES(2,29,'单人座：29',0,9);
+INSERT INTO `t_shop_seat`(shop_id,seat_id,seat_info,seat_type,seat_price) VALUES(2,30,'单人座：30',0,9);
+INSERT INTO `t_shop_seat`(shop_id,seat_id,seat_info,seat_type,seat_price) VALUES(2,31,'单人座：31',0,9);
+INSERT INTO `t_shop_seat`(shop_id,seat_id,seat_info,seat_type,seat_price) VALUES(2,32,'单人座：32',0,9);
+INSERT INTO `t_shop_seat`(shop_id,seat_id,seat_info,seat_type,seat_price) VALUES(2,33,'单人座：33',0,9);
+INSERT INTO `t_shop_seat`(shop_id,seat_id,seat_info,seat_type,seat_price) VALUES(2,34,'单人座：34',0,9);
+INSERT INTO `t_shop_seat`(shop_id,seat_id,seat_info,seat_type,seat_price) VALUES(2,35,'单人座：35',0,9);
+INSERT INTO `t_shop_seat`(shop_id,seat_id,seat_info,seat_type,seat_price) VALUES(2,36,'单人座：36',0,9);
+INSERT INTO `t_shop_seat`(shop_id,seat_id,seat_info,seat_type,seat_price) VALUES(2,37,'单人座：37',0,9);
+INSERT INTO `t_shop_seat`(shop_id,seat_id,seat_info,seat_type,seat_price) VALUES(2,38,'单人座：38',0,9);
+INSERT INTO `t_shop_seat`(shop_id,seat_id,seat_info,seat_type,seat_price) VALUES(2,39,'单人座：39',0,9);
+INSERT INTO `t_shop_seat`(shop_id,seat_id,seat_info,seat_type,seat_price) VALUES(2,40,'单人座：40',0,9);
+INSERT INTO `t_shop_seat`(shop_id,seat_id,seat_info,seat_type,seat_price) VALUES(2,41,'单人座：41',0,9);
+INSERT INTO `t_shop_seat`(shop_id,seat_id,seat_info,seat_type,seat_price) VALUES(2,42,'单人座：42',0,9);
+INSERT INTO `t_shop_seat`(shop_id,seat_id,seat_info,seat_type,seat_price) VALUES(2,43,'单人座：43',0,9);
+INSERT INTO `t_shop_seat`(shop_id,seat_id,seat_info,seat_type,seat_price) VALUES(2,44,'单人座：44',0,9);
+INSERT INTO `t_shop_seat`(shop_id,seat_id,seat_info,seat_type,seat_price) VALUES(2,45,'单人座：45',0,9);
+INSERT INTO `t_shop_seat`(shop_id,seat_id,seat_info,seat_type,seat_price) VALUES(2,46,'单人座：46',0,9);
+INSERT INTO `t_shop_seat`(shop_id,seat_id,seat_info,seat_type,seat_price) VALUES(2,47,'单人座：47',0,9);
+INSERT INTO `t_shop_seat`(shop_id,seat_id,seat_info,seat_type,seat_price) VALUES(2,48,'单人座：48',0,9);
+INSERT INTO `t_shop_seat`(shop_id,seat_id,seat_info,seat_type,seat_price) VALUES(2,49,'单人座：49',0,9);
+INSERT INTO `t_shop_seat`(shop_id,seat_id,seat_info,seat_type,seat_price) VALUES(2,50,'单人座：50',0,9);
+INSERT INTO `t_shop_seat`(shop_id,seat_id,seat_info,seat_type,seat_price) VALUES(2,51,'单人座：51',0,9);
+INSERT INTO `t_shop_seat`(shop_id,seat_id,seat_info,seat_type,seat_price) VALUES(2,52,'单人座：52',0,9);
+INSERT INTO `t_shop_seat`(shop_id,seat_id,seat_info,seat_type,seat_price) VALUES(2,53,'单人座：53',0,9);
+INSERT INTO `t_shop_seat`(shop_id,seat_id,seat_info,seat_type,seat_price) VALUES(2,54,'单人座：54',0,9);
+INSERT INTO `t_shop_seat`(shop_id,seat_id,seat_info,seat_type,seat_price) VALUES(2,55,'单人座：55',0,9);
+INSERT INTO `t_shop_seat`(shop_id,seat_id,seat_info,seat_type,seat_price) VALUES(2,56,'单人座：56',0,9);
+INSERT INTO `t_shop_seat`(shop_id,seat_id,seat_info,seat_type,seat_price) VALUES(2,57,'单人座：57',0,9);
+INSERT INTO `t_shop_seat`(shop_id,seat_id,seat_info,seat_type,seat_price) VALUES(2,58,'单人座：58',0,9);
+INSERT INTO `t_shop_seat`(shop_id,seat_id,seat_info,seat_type,seat_price) VALUES(2,'V1','双人座：V1',1,20);
+INSERT INTO `t_shop_seat`(shop_id,seat_id,seat_info,seat_type,seat_price) VALUES(2,'V2','双人座：V2',1,20);
 
 -- ----------------------------
 -- Table structure for t_user
@@ -109,7 +221,7 @@ CREATE TABLE `t_order`  (
   `user_id` int(8) UNSIGNED NULL DEFAULT NULL COMMENT '用户id',
   `shop_id` int(8) UNSIGNED NULL DEFAULT NULL COMMENT '店铺id',
   `order_num` varchar(32) DEFAULT NULL COMMENT '订单编号（18位）',
-  `seat_id` varchar(8) DEFAULT NULL COMMENT '座位编号',
+  `sid` int(8) UNSIGNED NULL DEFAULT NULL COMMENT '座位id',
   `seat_info` varchar(8) DEFAULT NULL COMMENT '座位信息',
   `order_date`  date DEFAULT NULL COMMENT '订座日期',
   `start_time` datetime DEFAULT NULL COMMENT '订座开始时间',
@@ -127,13 +239,13 @@ CREATE TABLE `t_order`  (
 -- ----------------------------
 -- Records of t_order
 -- ----------------------------
-INSERT INTO `t_order` VALUES (1, 1, 1, '20190000000000001','25','单人座：25', '2019-5-6','2019-5-6 09:15','2019-5-6 19:15',NULL,'54','54','0','1','2019-5-6 09:00','1');
-INSERT INTO `t_order` VALUES (2, 1, 2, '20190000000000002','36', '单人座：36', '2019-5-7','2019-5-7 09:30','2019-5-7 18:00',NULL,'54','37.8','0','3','2019-5-7 09:00','1');
-INSERT INTO `t_order` VALUES (3, 2, 2, '20190000000000003','V1', '双人座：V1', '2019-5-9','2019-5-9 10:30','2019-5-9 18:30',NULL,'54','0','0','2','2019-5-9 09:00','1');
-INSERT INTO `t_order` VALUES (4, 3, 2, '20190000000000004','V1', '双人座：V1', '2019-12-5','2019-12-5 12:30','2019-12-5 18:30',NULL,'54','0','0','2','2019-12-5 09:00','1');
-INSERT INTO `t_order` VALUES (5, 3, 2, '20190000000000005','1', '单人座：1', '2019-12-5','2019-12-5 18:30','2019-12-5 21:30',NULL,'27','27','1','2','2019-12-5 09:00','1');
-INSERT INTO `t_order` VALUES (6, 3, 2, '20190000000000006','25', '单人座：25', '2019-12-12','2019-12-12 8:30','2019-12-12 10:30','2019-12-12 10:30','18','0','0','2','2019-12-10 09:00','1');
-INSERT INTO `t_order` VALUES (7, 3, 2, '20190000000000007','29', '单人座：29', '2019-12-12','2019-12-12 15:30','2019-12-12 18:30',NULL,'54','0','0','0','2019-12-10 09:00','1');
+INSERT INTO `t_order` VALUES (null, 1, 1, '20190000000000001','25', '单人座：25', '2019-5-6','2019-5-6 09:15','2019-5-6 19:15',NULL,'54','54','0','1','2019-5-6 09:00','1');
+INSERT INTO `t_order` VALUES (null, 1, 1, '20190000000000002','36', '单人座：36', '2019-5-7','2019-5-7 09:30','2019-5-7 18:00',NULL,'54','37.8','0','3','2019-5-7 09:00','1');
+INSERT INTO `t_order` VALUES (null, 2, 2, '20190000000000003','61', '单人座：1', '2019-5-9','2019-5-9 10:30','2019-5-9 18:30',NULL,'54','0','0','2','2019-5-9 09:00','1');
+INSERT INTO `t_order` VALUES (null, 3, 2, '20190000000000004','61', '单人座：1','2019-12-5','2019-12-5 12:30','2019-12-5 18:30',NULL,'54','0','0','2','2019-12-5 09:00','1');
+INSERT INTO `t_order` VALUES (null, 3, 2, '20190000000000005','61', '单人座：1', '2019-12-5','2019-12-5 18:30','2019-12-5 21:30',NULL,'27','27','1','2','2019-12-5 09:00','1');
+INSERT INTO `t_order` VALUES (null, 3, 2, '20190000000000006','85', '单人座：25', '2019-12-12','2019-12-12 8:30','2019-12-12 10:30','2019-12-12 10:30','18','0','0','2','2019-12-10 09:00','1');
+INSERT INTO `t_order` VALUES (null, 3, 2, '20190000000000007','89', '单人座：29', '2019-12-12','2019-12-12 15:30','2019-12-12 18:30',NULL,'54','0','0','0','2019-12-10 09:00','1');
 
 -- ----------------------------
 -- Table structure for t_admin

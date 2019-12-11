@@ -45,7 +45,6 @@ import { getPurchaseDetails } from '../../api/index'
 import { Indicator } from "mint-ui"
 import { mapGetters } from 'vuex'
 export default {
-  name: "Order",
   data() {
     return {
       loadingStatus:false,

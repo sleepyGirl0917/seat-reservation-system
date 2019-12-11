@@ -11,7 +11,7 @@
       <p>状态：{{jsonData.start_time|orderStatusFilter}}</p>
     </div>
     <div class="btn-container"> 
-      <button v-if="`jsonData.start_time|orderStatusFilter`=='未开始'" class="ignore" @click.prevent="cancel">取消订单</button>
+      <button v-if="`${jsonData.start_time|orderStatusFilter}=='未开始'`" class="ignore" @click.prevent="cancel">取消订单</button>
       <button v-else class="ignore" @click.prevent="end">结束订单</button>
       <button class="ignore" @click.prevent="$router.go(-1)">返回</button>
     </div>
@@ -22,7 +22,6 @@ import { getOrderDetails,cancelOrder,endOrder } from '../../api/index'
 import { Toast,MessageBox,Indicator } from "mint-ui"
 import { mapGetters } from 'vuex'
 export default {
-  name: "Order",
   data() {
     return {
       loadingStatus:false,

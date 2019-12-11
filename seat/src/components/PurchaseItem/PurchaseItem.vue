@@ -7,7 +7,8 @@
                     <div class="media-body">
                     <div>{{myData.shop_name}}</div>
                     <div>
-                        <p>{{myData.seat_info.slice(0,3)}}</p>
+                        <!-- <p>{{myData.seat_info.slice(0,3)}}</p> -->
+                        <p>{{myData.seat_type|seatTypeFilter}}</p>
                         <p>{{myData.pay_time|dateTimeFilter}}</p>
                         <p>支付类型：<span class="font_orange">{{myData.pay_type|payTypeFilter}}</span></p>
                     </div>
@@ -22,6 +23,15 @@
 export default {
     props:{
       myData:{}
+    },
+    filters:{ // 局部过滤器：座位类型
+        seatTypeFilter(val){
+            if(val===0){
+                return  '单人座';
+            }else{
+                return  '双人座';
+            }
+        }
     }
 }
 </script>

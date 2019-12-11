@@ -12,7 +12,6 @@ import { Indicator } from "mint-ui"
 import { mapGetters } from 'vuex'
 import OrderItem from '../../components/OrderItem/OrderItem'
 export default {
-  name: "Order",
   data() {
     return {
       jsonData:[]

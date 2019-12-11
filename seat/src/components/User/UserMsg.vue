@@ -3,11 +3,11 @@
     <!-- 余额和手机号 -->
     <ul class="row user-msg">
       <li>
-        <div class="num">{{jsonData?jsonData.balance.toFixed(1):'登录后查看'}}</div>
+        <div class="num">{{Object.keys(jsonData).length?jsonData.balance.toFixed(1):'登录后查看'}}</div>
         <div class="text">余额</div>
       </li>
       <li>
-        <div class="num">{{jsonData?jsonData.phone:'登录后查看'}}</div>
+        <div class="num">{{Object.keys(jsonData).length?jsonData.phone:'登录后查看'}}</div>
         <div class="text">手机号</div>
       </li>
     </ul>

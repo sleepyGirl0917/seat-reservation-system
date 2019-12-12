@@ -36,6 +36,9 @@
       "order-record":OrderRecord,
       "member-list":MemberList
     },
+    created(){
+      this.getUserData();
+    },
     methods:{
       async getUserData(){
         if(this.isLogin){
@@ -49,9 +52,6 @@
         }
         this.loadingStatus=true;
       }
-    },
-    created(){
-      this.getUserData();
     }
   }
 </script>

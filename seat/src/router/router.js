@@ -10,7 +10,7 @@ VueRouter.prototype.push = function push(location) {
 }
 
 import Home from '../views/Home/Home'
-import Order from '../views/Order/Order'
+import MyOrder from '../views/MyOrder/MyOrder'
 import OrderDetails from '../views/OrderDetails/OrderDetails'
 import User from '../views/User/User'
 import Login from '../views/Login/Login'
@@ -28,7 +28,7 @@ const routes = [
   },
   {
     path: '/home',
-    name:'home',
+    name: 'home',
     component: Home,
     meta: {
       title: '众独自习室',
@@ -37,8 +37,8 @@ const routes = [
   },
   {
     path: '/order',
-    name:'order',
-    component: Order,
+    name: 'myOrder',
+    component: MyOrder,
     meta: {
       title: '我的预定',
       showTabbar: true,
@@ -47,7 +47,7 @@ const routes = [
   },
   {
     path: '/OrderDetails/:order_id',
-    name:'orderDetails',
+    name: 'orderDetails',
     component: OrderDetails,
     props: true,
     meta: {
@@ -56,7 +56,7 @@ const routes = [
   },
   {
     path: '/user',
-    name:'user',
+    name: 'user',
     component: User,
     meta: {
       title: '个人中心',
@@ -65,7 +65,7 @@ const routes = [
   },
   {
     path: '/login',
-    name:'login',
+    name: 'login',
     component: Login,
     meta: {
       title: '用户登录',
@@ -73,7 +73,7 @@ const routes = [
   },
   {
     path: '/logout',
-    name:'logout',
+    name: 'logout',
     component: Logout,
     meta: {
       title: '退出登录',
@@ -127,8 +127,8 @@ const routes = [
     name: 'purchaseDetails-all',
     component: PurchaseDetails,
     props: true,
-    meta:{
-      title:'消费详情'
+    meta: {
+      title: '消费详情'
     }
   },
   {

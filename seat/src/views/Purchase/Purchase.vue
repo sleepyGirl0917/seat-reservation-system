@@ -48,6 +48,7 @@ export default {
         } else {
             result = await getMyDataOverdue(this.userInfo.user_id);
         }
+        // console.log(result)
         if (result.success_code == 200) {
             this.jsonData = result.data;
         }

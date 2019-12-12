@@ -10,7 +10,7 @@
           </p>
         </div>
         <div class="order-status border-top">状态：{{orderData.start_time|orderStatusFilter}}</div>
-        <a class="navigate-right border-top" @click="$router.push(`/OrderDetails/${orderData.order_id}`)">查看详情</a>
+        <a class="navigate-right border-top" @click="$router.push(`/order_details/${orderData.order_id}`)">查看详情</a>
       </div>
   </div>
 </template>

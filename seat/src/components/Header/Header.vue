@@ -1,8 +1,8 @@
 <template>
-  <div id="app-header" v-if="title">
+  <div id="app-header">
     <div class="title" :class="`${$route.path=='/home'?'normal':'strong fixed'} ${hasBorder?'border':''}`">
       <go-back :icon="icon"></go-back>
-      <div>{{title}}</div>
+      <div>{{$route.path=='/home'?'众独空间':$route.meta.title}}</div>
     </div>
   </div>
 </template>
@@ -13,7 +13,6 @@
     name:"Header",
     data(){
       return{
-        title:"",
         icon:"",
         hasBorder:false
       }
@@ -24,40 +23,20 @@
     methods:{
       getRoute(){
         // console.log(this.$route);
-        if(this.$route.name=='404'){
-          this.title=this.$route.meta.title;
-          this.icon="close";
+        if(['home','my_order'].indexOf(this.$route.name)!==-1){
+          this.icon='';
           this.hasBorder=false;
-        }else if(this.$route.path=='/home'){
-          this.title="众独空间";
-          this.icon="";
-          this.hasBorder=false;
-        }else if(this.$route.path=='/order'){
-          this.title="我的预定";
-          this.icon="";
-          this.hasBorder=false;
-        }else if(this.$route.path.includes('/OrderDetails')){
-          this.title="预定详情";
-          this.icon="back";
-          this.hasBorder=false;
-        }else if(this.$route.path.includes('/purchase')){
-          this.title=this.$route.meta.title;
-          this.icon="back";
+        }else if(['login','logout','404'].indexOf(this.$route.name)!==-1){
+          this.icon='close';
           this.hasBorder=true;
-        }else if(this.$route.path=='/login'){
-          this.title="登录";
-          this.icon="close";
+        }else if((['purchase'].some((val)=>this.$route.path.includes(val)))){
+          this.icon='back';
           this.hasBorder=true;
-        }else if(this.$route.path=='/logout'){
-          this.title="退出登录";
-          this.icon="close";
-          this.hasBorder=true;
-        }else{
-          this.title="";
-          this.icon="";
+        }else{         
+          this.icon='back';
           this.hasBorder=false;
         }
-      }
+      } 
     },
     watch:{
       '$route'(){

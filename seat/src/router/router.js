@@ -18,6 +18,10 @@ import Logout from '../views/Logout/Logout'
 import NotFound from '../views/NotFound/NotFound'
 import Purchase from '../views/Purchase/Purchase'
 import PurchaseDetails from '../views/PurchaseDetails/PurchaseDetails'
+import JoinMember from '../views/JoinMember/JoinMember'
+import SelectShop from '../views/SelectShop/SelectShop'
+import SelectSeat from '../views/SelectSeat/SelectSeat'
+import OrderConfirm from '../views/OrderConfirm/OrderConfirm'
 
 Vue.use(VueRouter)
 
@@ -32,26 +36,30 @@ const routes = [
     component: Home,
     meta: {
       title: '众独自习室',
+      showHeader:true,
       showTabbar: true
     }
   },
   {
-    path: '/order',
-    name: 'myOrder',
+    path: '/my_order',
+    name: 'my_order',
     component: MyOrder,
     meta: {
       title: '我的预定',
+      showHeader: true,
       showTabbar: true,
       requireAuth: true,
     }
   },
   {
-    path: '/OrderDetails/:order_id',
-    name: 'orderDetails',
+    path: '/order_details/:order_id',
+    name: 'order_details',
     component: OrderDetails,
     props: true,
     meta: {
       title: '预定详情',
+      showHeader: true,
+      requireAuth: true,
     }
   },
   {
@@ -69,6 +77,7 @@ const routes = [
     component: Login,
     meta: {
       title: '用户登录',
+      showHeader: true,
     }
   },
   {
@@ -77,6 +86,47 @@ const routes = [
     component: Logout,
     meta: {
       title: '退出登录',
+      showHeader: true,
+    }
+  },
+  {
+    path: '/join_member',
+    name: 'join_member',
+    component: JoinMember,
+    meta: {
+      title: '加入会员',
+      showHeader: true,
+      requireAuth: true,
+    }
+  },
+  {
+    path: '/select_shop',
+    name:'select_shop',
+    component: SelectShop,
+    meta: {
+      title: '选择店铺',
+      showHeader: true,
+      requireAuth: true,
+    }
+  },
+  {
+    path: '/select_seat',
+    name:'select_seat',
+    component: SelectSeat,
+    meta: {
+      title: '预定座位',
+      showHeader: true,
+      requireAuth: true,
+    }
+  },
+  {
+    path: '/order_confirm',
+    name: 'order_confirm',
+    component: OrderConfirm,
+    meta: {
+      title: '确认订单',
+      showHeader: true,
+      requireAuth: true,
     }
   },
   // vue多个路由使用同一个页面,通过name判断参数,渲染页面数据
@@ -86,6 +136,7 @@ const routes = [
     component: Purchase,
     meta: {
       title: '消费记录',
+      showHeader: true,
       requireAuth: true,
     },
   },
@@ -93,7 +144,11 @@ const routes = [
     path: '/purchase/delay',
     name: 'purchase-delay',
     component: Purchase,
-    meta: { title: '消费记录-延长时段' },
+    meta: {
+      title: '消费记录-延长时段',
+      showHeader: true,
+      requireAuth: true,
+    },
   },
   {
     path: '/purchase/cancel',
@@ -101,6 +156,7 @@ const routes = [
     component: Purchase,
     meta: {
       title: '消费记录-取消订单',
+      showHeader: true,
       requireAuth: true,
     },
   },
@@ -110,6 +166,7 @@ const routes = [
     component: Purchase,
     meta: {
       title: '消费记录-结束',
+      showHeader: true,
       requireAuth: true,
     },
   },
@@ -119,6 +176,7 @@ const routes = [
     component: Purchase,
     meta: {
       title: '消费记录-逾期',
+      showHeader: true,
       requireAuth: true,
     },
   },
@@ -128,43 +186,53 @@ const routes = [
     component: PurchaseDetails,
     props: true,
     meta: {
-      title: '消费详情'
+      title: '消费详情',
+      showHeader: true,
+      requireAuth: true,
     }
   },
   {
     path: '/purchase/delay/details/:order_id',
-    name: 'purchaseDetails-delay',
+    name: 'purchase-details-delay',
     component: PurchaseDetails,
     props: true,
     meta: {
-      title: '消费详情-延长时段'
+      title: '消费详情-延长时段',
+      showHeader: true,
+      requireAuth: true,
     }
   },
   {
     path: '/purchase/cancel/details/:order_id',
-    name: 'purchaseDetails-cancel',
+    name: 'purchase-details-cancel',
     component: PurchaseDetails,
     props: true,
     meta: {
-      title: '消费详情-取消订单'
+      title: '消费详情-取消订单',
+      showHeader: true,
+      requireAuth: true,
     }
   },
   {
     path: '/purchase/end/details/:order_id',
-    name: 'purchaseDetails-end',
+    name: 'purchase-details-end',
     component: PurchaseDetails,
     props: true,
     meta: {
-      title: '消费详情-结束'
+      title: '消费详情-结束',
+      showHeader: true,
+      requireAuth: true,
     }
   },
   {
     path: '/purchase/overdue/details/:order_id',
-    name: 'purchaseDetails-overdue',
+    name: 'purchase-details-overdue',
     component: PurchaseDetails,
     props: true,
     meta: {
-      title: '消费详情-逾期'
+      title: '消费详情-逾期',
+      showHeader: true,
+      requireAuth: true,
     }
   },
   {
@@ -173,6 +241,7 @@ const routes = [
     component: NotFound,
     meta: {
       title: '404-Not Found',
+      showHeader: true,
     }
   },
 ];

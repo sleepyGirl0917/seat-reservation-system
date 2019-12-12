@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <my-header></my-header>
+    <my-header v-if="$route.meta.showHeader"></my-header>
     <router-view/>
     <tab-bar v-if="$route.meta.showTabbar"/>
     

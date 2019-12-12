@@ -4,8 +4,8 @@
       <img :src="$route.path.includes('/home') ? tabBarImgArr[0].active:tabBarImgArr[0].normal">
       <span>首页</span>
     </span>
-    <span class="tab-item" @click="jumpTo('/order')">
-      <img :src="$route.path.includes('/order') ? tabBarImgArr[1].active:tabBarImgArr[1].normal">
+    <span class="tab-item" @click="jumpTo('/my_order')">
+      <img :src="$route.path.includes('/my_order') ? tabBarImgArr[1].active:tabBarImgArr[1].normal">
       <span>我的预定</span>
     </span>
     <span class="tab-item" @click="jumpTo('/user')">

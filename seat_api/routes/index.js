@@ -9,6 +9,19 @@ router.get('/', function (req, res, next) {
   res.render('index', { title: 'Express' });
 });
 
+// 加载店铺信息
+router.get('/api/getShopInfo', (req, res) => {
+  let sql = 'SELECT shop_id,shop_name,address FROM t_shop';
+  pool.query(sql, (err, result) => {
+    if (err) throw err;
+    if (result[0]) {
+      res.send({success_code:200,data:result})
+    } else {
+      res.send({ error_code: 1, message: '获取店铺信息失败'  })
+    }
+  })
+})
+
 //获取手机验证码
 router.post('/api/getPhoneCode', (req, res) => {
   let phone = req.body.phone;

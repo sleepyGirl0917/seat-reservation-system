@@ -55,8 +55,8 @@ export default {
       ],
       menuList: [
         { id: 1, title: "预约体验", img_url: require("../../assets/img/home/menu1.jpg"), path: "/" },
-        { id: 2, title: "加入会员", img_url: require("../../assets/img/home/menu2.jpg"), path: "/" },
-        { id: 3, title: "预定座位", img_url: require("../../assets/img/home/menu3.jpg"), path: "/" }
+        { id: 2, title: "加入会员", img_url: require("../../assets/img/home/menu2.jpg"), path: "/join_member" },
+        { id: 3, title: "预定座位", img_url: require("../../assets/img/home/menu3.jpg"), path: "/select_shop" }
       ],
       jsonData: {}
     };

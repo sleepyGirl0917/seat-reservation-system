@@ -16,7 +16,7 @@ CREATE TABLE `t_shop`  (
   `province` varchar(8) DEFAULT NULL COMMENT '店铺所在省份',
   `city` varchar(8) DEFAULT NULL COMMENT '店铺所在市',
   `district` varchar(8) DEFAULT NULL COMMENT '店铺所在区县',
-  `specified_address` varchar(128) DEFAULT NULL COMMENT '店铺详细地址',
+  `address` varchar(128) DEFAULT NULL COMMENT '店铺详细地址',
   PRIMARY KEY (`shop_id`) USING BTREE
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 

@@ -35,6 +35,8 @@ export const updateUserAvatar = (userId, avatar) => ajax('/api/updateUserAvatar'
 //更新用户名
 export const updateUserName = (userId, userName) => ajax('/api/updateUserName', { userId, userName }, 'POST')
 //更新座位信息
-export const updateScheduleSeat = (seatId, seatInfo) => ajax('/api/updateScheduleSeat', { seatId, seatInfo }, 'POST');
+export const updateScheduleSeat = (seatId, seatInfo) => ajax('/api/updateScheduleSeat', { seatId, seatInfo }, 'POST')
 // 退出登录
-export const logout = () => ajax('/api/logout');
+export const logout = () => ajax('/api/logout')
+// 加载店铺信息
+export const getShopInfo=()=>ajax('/api/getShopInfo')

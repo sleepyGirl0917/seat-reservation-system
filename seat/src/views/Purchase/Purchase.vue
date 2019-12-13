@@ -58,5 +58,13 @@ export default {
 };
 </script>
 
-<style lang="stylus" scoped></style>
+<style lang="stylus" scoped>
+#app-purchase
+  width 100%
+  min-height 100vh
+  padding-top 60px
+  &:after
+    content ''
+    display table
+</style>
 

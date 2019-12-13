@@ -1,8 +1,8 @@
 <template>
   <div id="app-header">
-    <div class="title" :class="`${$route.path=='/home'?'normal':'strong fixed'} ${hasBorder?'border':''}`">
+    <div class="title strong" :class="`${hasBorder?'border':''}`">
       <go-back :icon="icon"></go-back>
-      <div>{{$route.path=='/home'?'众独空间':$route.meta.title}}</div>
+      <div>{{$route.meta.title}}</div>
     </div>
   </div>
 </template>
@@ -23,7 +23,7 @@
     methods:{
       getRoute(){
         // console.log(this.$route);
-        if(['home','my_order'].indexOf(this.$route.name)!==-1){
+        if(['my_order'].indexOf(this.$route.name)!==-1){
           this.icon='';
           this.hasBorder=false;
         }else if(['login','logout','404'].indexOf(this.$route.name)!==-1){
@@ -51,8 +51,10 @@
 
 <style lang="stylus">
 #app-header
-  width 100%
+  width   100%
   height  60px 
+  position fixed
+  z-index  1000
   
   .title  
     width  100% 
@@ -62,15 +64,9 @@
     white-space  nowrap 
     color  #000 
     background-color rgb(239,239,244)
-  .normal
-    font-size 18px
-    font-weight 500
   .strong
     font-size 22px 
     font-weight 700
-  .fixed
-    position fixed
-    z-index  1000
   .border 
     // border-bottom  1px solid rgba(120, 120, 120,0.12) 
     box-shadow   0 1px 1px rgba(88, 88, 88, 0.15)

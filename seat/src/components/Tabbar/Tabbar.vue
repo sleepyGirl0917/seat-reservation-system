@@ -37,11 +37,10 @@
 
 <style lang="stylus">
 #app-tab
+  position fixed
   bottom  0
   width  100%
   height  80px
-  padding  0
-  position fixed
   display flex
   z-index 1000
   background-color rgb(53,68,58)

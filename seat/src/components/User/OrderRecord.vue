@@ -1,7 +1,7 @@
 <template>
   <div class="middle">
     <!-- 消费记录 -->
-    <ul class="row order-record">
+    <ul class="row order-record ignore">
       <li v-for="(item,i) in orderList" :key="i" @click="$router.push(item.path)">
         <img :src="item.img_url" alt="">
         <div class="text">{{item.name}}</div>
@@ -32,7 +32,6 @@
     margin 15px 
     list-style-type  none 
     background  #fff 
-    border-radius  5px 
     li 
       position  relative 
       padding 15px 

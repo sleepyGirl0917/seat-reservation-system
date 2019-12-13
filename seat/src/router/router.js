@@ -36,7 +36,6 @@ const routes = [
     component: Home,
     meta: {
       title: '众独自习室',
-      showHeader:true,
       showTabbar: true
     }
   },

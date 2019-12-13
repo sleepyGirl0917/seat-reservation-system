@@ -1,5 +1,8 @@
 <template>
   <div id="app-home">
+    <div class="title">
+      众独空间
+    </div>
     <!-- 轮播图 -->
     <mt-swipe>
       <mt-swipe-item v-for="item in swipeList" :key="item.id">
@@ -86,9 +89,16 @@ export default {
 
 <style  lang="stylus" scoped>
 #app-home 
-  width  100% 
-  height  100% 
-
+  width 100%
+  min-height 100vh
+  padding-bottom 80px
+  .title
+    width 100%
+    height  60px
+    line-height  60px
+    font-size 18px
+    font-weight 500
+    text-align  center 
   .mint-swipe  
     height  300px 
     margin-left  25px 
@@ -126,7 +136,7 @@ export default {
     position  relative 
     background  #fff 
     height 150px 
-    margin  20px 15px 0 
+    margin  20px 15px
     .media,
     .media .media-body  
         overflow  hidden 

@@ -1,7 +1,7 @@
 <template>
   <div class="middle">
     <!-- 底部列表 -->
-    <ul class="member-list">
+    <ul class="member-list ignore">
       <li class="navigate-right" v-for="(item,i) in memberList" :key="i" @click="$router.push(item.path)">
         <img :src="item.img_url" class="">
         <div>{{item.name}}</div>
@@ -32,7 +32,6 @@
     margin 15px 
     list-style-type  none 
     background  #fff 
-    border-radius  5px 
     li 
       position  relative 
       padding 15px 

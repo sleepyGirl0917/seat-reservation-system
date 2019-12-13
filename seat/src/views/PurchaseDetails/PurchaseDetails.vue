@@ -80,6 +80,10 @@ export default {
 
 <style lang="stylus" scoped>
 #purchase-details
+  width 100%
+  min-height 100vh
+  padding-top 60px
+  
   .container
     background #fff
     border-top  1px solid rgba(88,88,88,0.3) 

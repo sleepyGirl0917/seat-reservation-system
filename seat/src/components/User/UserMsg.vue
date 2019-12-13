@@ -1,7 +1,7 @@
 <template>
   <div class="middle">
     <!-- 余额和手机号 -->
-    <ul class="row user-msg">
+    <ul class="row user-msg ignore">
       <li>
         <div class="num">{{Object.keys(jsonData).length?jsonData.balance.toFixed(1):'登录后查看'}}</div>
         <div class="text">余额</div>
@@ -33,7 +33,6 @@
     margin 15px 
     list-style-type  none 
     background  #fff 
-    border-radius  5px 
     li 
       position  relative 
       padding 15px 

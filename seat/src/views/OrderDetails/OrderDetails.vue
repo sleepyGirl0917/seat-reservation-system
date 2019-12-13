@@ -73,6 +73,8 @@ export default {
 <style lang="stylus">
 #order-detail
   width 100%
+  min-height 100vh
+  padding-top 60px
   background-color #fff
 
   .order-title 
@@ -107,7 +109,5 @@ export default {
       height  50px
       font-size 18px
       font-weight 500
-      &.ignore
-        border-radius 5px
 </style>
 

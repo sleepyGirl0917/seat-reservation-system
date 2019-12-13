@@ -1,6 +1,6 @@
 <template>
   <div id="app-logout">
-    <button @click.prevent="btnLogout">退出登录</button>
+    <button class="ignore" @click.prevent="btnLogout">退出登录</button>
   </div>
 </template>
 <script>
@@ -28,14 +28,18 @@ export default {
 };
 </script>
 <style lang="stylus" scoped>
-#app-logout {
-  button {
-    display: block;
-    width: 70%;
-    margin: 100px auto;
-    font-size: 25px;
-    border-radius: 5px;
-  }
-}
+#app-logout 
+  width 100%
+  min-height 100vh
+  padding-top 60px
+  &:after
+    content ''
+    display table
+
+  button 
+    display block
+    width 70%
+    margin  100px auto
+    font-size 25px
 </style>
 

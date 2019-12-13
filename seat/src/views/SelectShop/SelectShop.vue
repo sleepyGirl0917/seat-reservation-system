@@ -127,7 +127,5 @@
       font-size 20px
       font-weight 500
       letter-spacing 2px
-    .ignore
-      border-radius 5px  
 </style>
 

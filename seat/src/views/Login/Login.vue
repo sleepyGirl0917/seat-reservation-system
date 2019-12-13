@@ -13,7 +13,7 @@
       <div class="login-info login-verify">
         <input type="tel" class placeholder="请输入验证码" v-model="phoneCode" />
       </div>
-      <button class="login-submit" @click.prevent="btnLogin">登录</button>
+      <button class="login-submit ignore" @click.prevent="btnLogin">登录</button>
       <div class="login-remind">
         温馨提示：未注册的手机号，验证后将自动注册账户，且代表已阅读并同意
         <a href="javascript:;">《用户服务协议》</a>、
@@ -99,66 +99,52 @@ export default {
 </script>
 
 <style lang="stylus" scoped>
-#app-login {
-  width: 100%;
-  height: 80%;
+#app-login 
+  width 100%
+  min-height 100vh
+  padding-top 60px
+  &:after
+    content ''
+    display table
 
-  .login-head {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin: 100px auto;
+  .login-head 
+    display  flex
+    justify-content  center
+    align-items  center
+    margin  100px auto
+    img 
+      display  block
+      width  100px
+      height  100px
 
-    img {
-      display: block;
-      width: 100px;
-      height: 100px;
-    }
-  }
-
-  .login-box {
-    width: 70%;
-    margin: 0 auto;
-
-    .login-submit {
-      width: 100%;
-      margin: 10px 0;
-      font-size: 25px;
-      border-radius: 5px;
-    }
-
-    .login-remind {
-      font-size: 17px;
-      color: #666;
-      margin: 10px 5px;
-
-      a {
-        color: #007aff !important;
-      }
-    }
-
-    .login-info {
-      position: relative;
-
-      button {
-        position: absolute;
-        right: 5px;
-        bottom: 20px;
-        height: 70%;
-        font-size: 20px;
-      }
-    }
-
-    input {
-      font-size: 25px;
-      height: 50px;
-      line-height: 50px;
-      width: 100%;
-      border: none;
-      border-bottom: 1px solid #222;
-      background: transparent;
-    }
-  }
-}
+  .login-box 
+    width  70%
+    margin  20px auto
+    .login-submit 
+      width  100%
+      margin  10px 0
+      font-size  25px
+    .login-remind 
+      font-size  17px
+      color  #666
+      margin  10px 5px
+      a 
+        color  #007aff !important   
+    .login-info 
+      position  relative
+      button 
+        position  absolute
+        right  5px
+        bottom  20px
+        height  70%
+        font-size  20px   
+    input 
+      font-size  25px
+      height  50px
+      line-height  50px
+      width  100%
+      border  none
+      border-bottom  1px solid #222
+      background  transparent
 </style>
 

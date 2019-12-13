@@ -20,14 +20,19 @@
 </script>
 
 <style lang="stylus">
+// reset
 * 
-  margin 0 
-  padding 0 
+  outline 0
+  padding 0
+  margin  0
+  border  0
+
 body
-  background rgb(239,239,244)
+  background rgb(239,239,244)  
+  
 #app  
   width 100% 
-  min-height  100vh 
+
   button 
     background #222 
     color #fff 
@@ -51,4 +56,6 @@ body
     -webkit-font-smoothing  antialiased 
   .font_orange
     color #cc921c
+  .ignore
+    border-radius 5px  
 </style>

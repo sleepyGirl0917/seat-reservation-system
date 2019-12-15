@@ -19,7 +19,7 @@
     <!-- 可用的订座 -->
     <div class="order-box">
       <div class="media" v-if="Object.keys(jsonData).length">
-        <a class="navigate-right" @click="$router.push(`/OrderDetails/${jsonData.order_id}`)">
+        <a class="navigate-right" @click="$router.push(`/order_details/${jsonData.order_id}`)">
           <img class="media-object float-left" src="../../assets/img/ordered.png" />
           <div class="media-body">
             <div>{{jsonData.shop_name}}</div>

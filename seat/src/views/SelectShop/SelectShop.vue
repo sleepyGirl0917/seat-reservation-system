@@ -1,5 +1,5 @@
 <template>
-  <div id="select-shop">
+  <div id="select-shop" v-if="jsonData[0]">
     <div class="shop-container">
       <div class="shop-item" v-for="(item,i) of jsonData" :key="i">
         <div class="left">
@@ -19,7 +19,7 @@
 </template>
 
 <script>
-  import {Toast} from 'mint-ui'
+  import {Toast,Indicator} from 'mint-ui'
   import {getShopInfo} from '../../api/index'
   export default {
     data(){
@@ -33,11 +33,13 @@
     },
     methods:{
       async loadShopData(){
+        Indicator.open('加载中')
         let result=await getShopInfo();
         console.log(result)
         if(result.success_code==200){
           this.jsonData=result.data;
         }
+        Indicator.close();
       },
       checked(i){
         // 取消所有选中项
@@ -66,6 +68,10 @@
 
 <style lang="stylus" scoped>
 #select-shop
+  width 100%
+  min-height 100vh
+  padding-top 60px
+
   .shop-container
     background #fff
     border-top  1px solid rgba(88,88,88,0.3) 

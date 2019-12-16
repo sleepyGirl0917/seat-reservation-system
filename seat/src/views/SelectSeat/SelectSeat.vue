@@ -17,24 +17,9 @@
       </div>
     </div>
     <div class="seat-container">
-      <!-- 
-        座位号用自定义属性 
-        座位写2个组件
-        根据shop_id，响应不同的组件 
-        或者把座位表写在一个json中
-       seat [
-          'shop_1':[
-            {id:1,status:single-kexuan,position:...},
-          ]
-        ]
-        v-for=(item,i) of seat[shop_id]
-        座位号：  item.id
-        座位类型：item.status 
-        座位定位：item.position
-        class="item.status item.position" data-item.id(自定义属性)
-      -->
-      <div class="seat seat-single seat-bg1 seat-position-dz-1"></div>
-      <div class="seat seat-double seat-bg4 seat-position-dz-2"></div>
+      <div v-for="(item,i) in seatJson" :key="i">
+        <div class="seat" :class="item.class" :style="item.style"></div>
+      </div>
     </div>
   </div>
 </template>
@@ -46,14 +31,23 @@ export default {
   data(){
     return {
       // 选择的座位
-      selectedSeatInfo:{}
+      selectedSeatInfo:{},
+      // 座位表
+      seatJson:[]
     }
   },
   components:{
     "time-picker":DateTimePicker
   },
   created(){
-
+    this.axios.get("seat.json").then(res=>{
+      if(res.data.code==200){//请求成功
+        console.log(res.data.data)
+        this.seatJson=res.data.data[1]
+      }else{
+        console.log("请求的数据不见了，去看一下你的json文件")
+      }
+    })
   },
   methods:{
     // 加载座位信息
@@ -112,12 +106,6 @@ export default {
       background-image url('../../assets/img/seat/double-seat-sold.png')
     .seat-bg6
       background-image url('../../assets/img/seat/double-seat-choose.png')
-    // .seat-position-dz-1
-    //   top  50px
-    //   left 100px
-    // .seat-position-dz-2
-    //   top  20px
-    //   left 30px
 
      
 </style>

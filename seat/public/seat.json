@@ -5,14 +5,12 @@
       {
         "seatId": "1",
         "isSold": false,
-        "class": "seat seat-single seat-bg1",
-        "style": "position: absolute; top: 455px; left: 50px;"
+        "class": "seat seat-single seat-bg1 seat-1-1"
       },
       {
         "seatId": "2",
         "isSold": false,
-        "class": "seat seat-single seat-bg1",
-        "style": "position: absolute; top: 420px; left: 50px;"
+        "class": "seat seat-single seat-bg1 seat-1-2"
       },
       {
         "seatId": "3",

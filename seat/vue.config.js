@@ -21,6 +21,18 @@ module.exports = {
       config.mode = 'development'
     }
   },  
+  chainWebpack: (config) => {
+    config.module
+      .rule('vue')
+      .test(/\.vue$/)
+      .use('style-vw-loader')
+      .loader('style-vw-loader')
+      .options({
+        unitToConvert: 'px',
+        viewportWidth: 750,
+        viewportUnit: 'vw',
+      })
+  },
   // webpack-dev-server 相关配置
   devServer: {
     open: false,    // 是否自动打开页面

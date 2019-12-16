@@ -17,9 +17,7 @@
       </div>
     </div>
     <div class="seat-container">
-      <div v-for="(item,i) in seatJson" :key="i">
-        <div class="seat" :class="item.class" :style="item.style"></div>
-      </div>
+      <div v-for="(item,i) in seatJson" :key="i" :class="item.class" :style="item.style"></div>
     </div>
   </div>
 </template>
@@ -33,7 +31,7 @@ export default {
       // 选择的座位
       selectedSeatInfo:{},
       // 座位表
-      seatJson:[]
+      seatJson:[],
     }
   },
   components:{
@@ -84,7 +82,9 @@ export default {
         padding-left  10px
 
   .seat-container  
-    position relative    
+    position relative  
+    overflow hidden
+    height   calc(100vh - 210px)
     .seat
       position absolute
       height  30px
@@ -106,7 +106,5 @@ export default {
       background-image url('../../assets/img/seat/double-seat-sold.png')
     .seat-bg6
       background-image url('../../assets/img/seat/double-seat-choose.png')
-
-     
 </style>
 

@@ -17,7 +17,7 @@
       </div>
     </div>
     <div class="seat-container">
-      <div v-for="(item,i) in seatJson" :key="i" :class="item.class" :style="item.style"></div>
+      <div v-for="(item,i) in seatJson" :key="i" :class="item.class"></div>
     </div>
   </div>
 </template>
@@ -41,7 +41,7 @@ export default {
     this.axios.get("seat.json").then(res=>{
       if(res.data.code==200){//请求成功
         console.log(res.data.data)
-        this.seatJson=res.data.data[1]
+        this.seatJson=res.data.data[2]
       }else{
         console.log("请求的数据不见了，去看一下你的json文件")
       }
@@ -83,8 +83,8 @@ export default {
 
   .seat-container  
     position relative  
-    overflow hidden
-    height   calc(100vh - 210px)
+    // overflow hidden
+    height   calc(100vh - 100px)
     .seat
       position absolute
       height  30px

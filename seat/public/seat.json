@@ -1,7 +1,7 @@
 {
   "code": 200,
   "data": {
-    "1":[
+    "1": [
       {
         "seatId": "1",
         "isSold": false,
@@ -15,749 +15,625 @@
       {
         "seatId": "3",
         "isSold": false,
-        "class": "seat seat-single seat-bg1",
-        "style": "position: absolute; top: 385px; left: 50px;"
+        "class": "seat seat-single seat-bg1 seat-1-3"
       },
       {
         "seatId": "4",
         "isSold": false,
-        "class": "seat seat-single seat-bg1",
-        "style": "position: absolute; top: 350px; left: 50px;"
+        "class": "seat seat-single seat-bg1 seat-1-4"
       },
       {
         "seatId": "5",
         "isSold": false,
-        "class": "seat seat-single seat-bg1",
-        "style": "position: absolute; top: 435px; left: 150px;"
+        "class": "seat seat-single seat-bg1 seat-1-5"
       },
       {
         "seatId": "6",
         "isSold": false,
-        "class": "seat seat-single seat-bg1",
-        "style": "position: absolute; top: 435px; left: 190px;"
+        "class": "seat seat-single seat-bg1 seat-1-6"
       },
       {
         "seatId": "7",
         "isSold": false,
-        "class": "seat seat-single seat-bg1",
-        "style": "position: absolute; top: 435px; left: 230px;"
+        "class": "seat seat-single seat-bg1 seat-1-7"
       },
       {
         "seatId": "8",
         "isSold": false,
-        "class": "seat seat-single seat-bg1",
-        "style": "position: absolute; top: 435px; left: 270px;"
+        "class": "seat seat-single seat-bg1 seat-1-8"
       },
       {
         "seatId": "9",
         "isSold": false,
-        "class": "seat seat-single seat-bg1",
-        "style": "position: absolute; top: 405px; left: 270px;"
+        "class": "seat seat-single seat-bg1 seat-1-9"
       },
       {
         "seatId": "10",
         "isSold": false,
-        "class": "seat seat-single seat-bg1",
-        "style": "position: absolute; top: 405px; left: 230px;"
+        "class": "seat seat-single seat-bg1 seat-1-10"
       },
       {
         "seatId": "11",
         "isSold": false,
-        "class": "seat seat-single seat-bg1",
-        "style": "position: absolute; top: 405px; left: 190px;"
+        "class": "seat seat-single seat-bg1 seat-1-11"
       },
       {
         "seatId": "12",
         "isSold": false,
-        "class": "seat seat-single seat-bg1",
-        "style": "position: absolute; top: 405px; left: 150px;"
+        "class": "seat seat-single seat-bg1 seat-1-12"
       },
       {
         "seatId": "13",
         "isSold": false,
-        "class": "seat seat-single seat-bg1",
-        "style": "position: absolute; top: 365px; left: 150px;"
+        "class": "seat seat-single seat-bg1 seat-1-13"
       },
       {
         "seatId": "14",
         "isSold": false,
-        "class": "seat seat-single seat-bg1",
-        "style": "position: absolute; top: 365px; left: 190px;"
+        "class": "seat seat-single seat-bg1 seat-1-14"
       },
       {
         "seatId": "15",
         "isSold": false,
-        "class": "seat seat-single seat-bg1",
-        "style": "position: absolute; top: 365px; left: 230px;"
+        "class": "seat seat-single seat-bg1 seat-1-15"
       },
       {
         "seatId": "16",
         "isSold": false,
-        "class": "seat seat-single seat-bg1",
-        "style": "position: absolute; top: 365px; left: 270px;"
+        "class": "seat seat-single seat-bg1 seat-1-16"
       },
       {
         "seatId": "17",
         "isSold": false,
-        "class": "seat seat-single seat-bg1",
-        "style": "position: absolute; top: 320px; left: 170px;"
+        "class": "seat seat-single seat-bg1 seat-1-17"
       },
       {
         "seatId": "18",
         "isSold": false,
-        "class": "seat seat-single seat-bg1",
-        "style": "position: absolute; top: 320px; left: 210px;"
+        "class": "seat seat-single seat-bg1 seat-1-18"
       },
       {
         "seatId": "19",
         "isSold": false,
-        "class": "seat seat-single seat-bg1",
-        "style": "position: absolute; top: 320px; left: 250px;"
+        "class": "seat seat-single seat-bg1 seat-1-19"
       },
       {
         "seatId": "20",
         "isSold": false,
-        "class": "seat seat-single seat-bg1",
-        "style": "position: absolute; top: 285px; left: 250px;"
+        "class": "seat seat-single seat-bg1 seat-1-20"
       },
       {
         "seatId": "21",
         "isSold": false,
-        "class": "seat seat-single seat-bg1",
-        "style": "position: absolute; top: 285px; left: 210px;"
+        "class": "seat seat-single seat-bg1 seat-1-21"
       },
       {
         "seatId": "22",
         "isSold": false,
-        "class": "seat seat-single seat-bg1",
-        "style": "position: absolute; top: 285px; left: 170px;"
+        "class": "seat seat-single seat-bg1 seat-1-22"
       },
       {
         "seatId": "23",
         "isSold": false,
-        "class": "seat seat-single seat-bg1",
-        "style": "position: absolute; top: 295px; left: 50px;"
+        "class": "seat seat-single seat-bg1 seat-1-23"
       },
       {
         "seatId": "24",
         "isSold": false,
-        "class": "seat seat-single seat-bg1",
-        "style": "position: absolute; top: 260px; left: 50px;"
+        "class": "seat seat-single seat-bg1 seat-1-24"
       },
       {
         "seatId": "25",
         "isSold": false,
-        "class": "seat seat-single seat-bg1",
-        "style": "position: absolute; top: 225px; left: 50px;"
+        "class": "seat seat-single seat-bg1 seat-1-25"
       },
       {
         "seatId": "26",
         "isSold": false,
-        "class": "seat seat-single seat-bg1",
-        "style": "position: absolute; top: 190px; left: 50px;"
+        "class": "seat seat-single seat-bg1 seat-1-26"
       },
       {
         "seatId": "27",
         "isSold": false,
-        "class": "seat seat-single seat-bg1",
-        "style": "position: absolute; top: 155px; left: 50px;"
+        "class": "seat seat-single seat-bg1 seat-1-27"
       },
       {
         "seatId": "28",
         "isSold": false,
-        "class": "seat seat-single seat-bg1",
-        "style": "position: absolute; top: 240px; left: 150px;"
+        "class": "seat seat-single seat-bg1 seat-1-28"
       },
       {
         "seatId": "29",
         "isSold": false,
-        "class": "seat seat-single seat-bg1",
-        "style": "position: absolute; top: 240px; left: 190px;"
+        "class": "seat seat-single seat-bg1 seat-1-29"
       },
       {
         "seatId": "30",
         "isSold": false,
-        "class": "seat seat-single seat-bg1",
-        "style": "position: absolute; top: 240px; left: 230px;"
+        "class": "seat seat-single seat-bg1 seat-1-30"
       },
       {
         "seatId": "31",
         "isSold": false,
-        "class": "seat seat-single seat-bg1",
-        "style": "position: absolute; top: 240px; left: 270px;"
+        "class": "seat seat-single seat-bg1 seat-1-31"
       },
       {
         "seatId": "32",
         "isSold": false,
-        "class": "seat seat-single seat-bg1",
-        "style": "position: absolute; top: 200px; left: 270px;"
+        "class": "seat seat-single seat-bg1 seat-1-32"
       },
       {
         "seatId": "33",
         "isSold": false,
-        "class": "seat seat-single seat-bg1",
-        "style": "position: absolute; top: 200px; left: 230px;"
+        "class": "seat seat-single seat-bg1 seat-1-33"
       },
       {
         "seatId": "34",
         "isSold": false,
-        "class": "seat seat-single seat-bg1",
-        "style": "position: absolute; top: 200px; left: 190px;"
+        "class": "seat seat-single seat-bg1 seat-1-34"
       },
       {
         "seatId": "35",
         "isSold": false,
-        "class": "seat seat-single seat-bg1",
-        "style": "position: absolute; top: 200px; left: 150px;"
+        "class": "seat seat-single seat-bg1 seat-1-35"
       },
       {
         "seatId": "36",
         "isSold": false,
-        "class": "seat seat-single seat-bg1",
-        "style": "position: absolute; top: 170px; left: 150px;"
+        "class": "seat seat-single seat-bg1 seat-1-36"
       },
       {
         "seatId": "37",
         "isSold": false,
-        "class": "seat seat-single seat-bg1",
-        "style": "position: absolute; top: 170px; left: 190px;"
+        "class": "seat seat-single seat-bg1 seat-1-37"
       },
       {
         "seatId": "38",
         "isSold": false,
-        "class": "seat seat-single seat-bg1",
-        "style": "position: absolute; top: 170px; left: 230px;"
+        "class": "seat seat-single seat-bg1 seat-1-38"
       },
       {
         "seatId": "39",
         "isSold": false,
-        "class": "seat seat-single seat-bg1",
-        "style": "position: absolute; top: 170px; left: 270px;"
+        "class": "seat seat-single seat-bg1 seat-1-39"
       },
       {
         "seatId": "40",
         "isSold": false,
-        "class": "seat seat-single seat-bg1",
-        "style": "position: absolute; top: 130px; left: 150px;"
+        "class": "seat seat-single seat-bg1 seat-1-40"
       },
       {
         "seatId": "41",
         "isSold": false,
-        "class": "seat seat-single seat-bg1",
-        "style": "position: absolute; top: 130px; left: 190px;"
+        "class": "seat seat-single seat-bg1 seat-1-41"
       },
       {
         "seatId": "42",
         "isSold": false,
-        "class": "seat seat-single seat-bg1",
-        "style": "position: absolute; top: 130px; left: 230px;"
+        "class": "seat seat-single seat-bg1 seat-1-42"
       },
       {
         "seatId": "43",
         "isSold": false,
-        "class": "seat seat-single seat-bg1",
-        "style": "position: absolute; top: 130px; left: 270px;"
+        "class": "seat seat-single seat-bg1 seat-1-43"
       },
       {
         "seatId": "44",
         "isSold": false,
-        "class": "seat seat-single seat-bg1",
-        "style": "position: absolute; top: 100px; left: 270px;"
+        "class": "seat seat-single seat-bg1 seat-1-44"
       },
       {
         "seatId": "45",
         "isSold": false,
-        "class": "seat seat-single seat-bg1",
-        "style": "position: absolute; top: 100px; left: 230px;"
+        "class": "seat seat-single seat-bg1 seat-1-45"
       },
       {
         "seatId": "46",
         "isSold": false,
-        "class": "seat seat-single seat-bg1",
-        "style": "position: absolute; top: 100px; left: 190px;"
+        "class": "seat seat-single seat-bg1 seat-1-46"
       },
       {
         "seatId": "47",
         "isSold": false,
-        "class": "seat seat-single seat-bg1",
-        "style": "position: absolute; top: 100px; left: 150px;"
+        "class": "seat seat-single seat-bg1 seat-1-47"
       },
       {
         "seatId": "48",
         "isSold": false,
-        "class": "seat seat-single seat-bg1",
-        "style": "position: absolute; top: 60px; left: 150px;"
+        "class": "seat seat-single seat-bg1 seat-1-48"
       },
       {
         "seatId": "49",
         "isSold": false,
-        "class": "seat seat-single seat-bg1",
-        "style": "position: absolute; top: 60px; left: 190px;"
+        "class": "seat seat-single seat-bg1 seat-1-49"
       },
       {
         "seatId": "50",
         "isSold": false,
-        "class": "seat seat-single seat-bg1",
-        "style": "position: absolute; top: 60px; left: 230px;"
+        "class": "seat seat-single seat-bg1 seat-1-50"
       },
       {
         "seatId": "51",
         "isSold": false,
-        "class": "seat seat-single seat-bg1",
-        "style": "position: absolute; top: 60px; left: 270px;"
+        "class": "seat seat-single seat-bg1 seat-1-51"
       },
       {
         "seatId": "52",
         "isSold": false,
-        "class": "seat seat-single seat-bg1",
-        "style": "position: absolute; top: 30px; left: 270px;"
+        "class": "seat seat-single seat-bg1 seat-1-52"
       },
       {
         "seatId": "53",
         "isSold": false,
-        "class": "seat seat-single seat-bg1",
-        "style": "position: absolute; top: 30px; left: 230px;"
+        "class": "seat seat-single seat-bg1 seat-1-53"
       },
       {
         "seatId": "54",
         "isSold": false,
-        "class": "seat seat-single seat-bg1",
-        "style": "position: absolute; top: 30px; left: 190px;"
+        "class": "seat seat-single seat-bg1 seat-1-54"
       },
       {
         "seatId": "55",
         "isSold": false,
-        "class": "seat seat-single seat-bg1",
-        "style": "position: absolute; top: 30px; left: 150px;"
+        "class": "seat seat-single seat-bg1 seat-1-55"
       },
       {
         "seatId": "56",
         "isSold": false,
-        "class": "seat seat-single seat-bg1",
-        "style": "position: absolute; top: 100px; left: 50px;"
+        "class": "seat seat-single seat-bg1 seat-1-56"
       },
       {
         "seatId": "57",
         "isSold": false,
-        "class": "seat seat-single seat-bg1",
-        "style": "position: absolute; top: 65px; left: 50px;"
+        "class": "seat seat-single seat-bg1 seat-1-57"
       },
       {
         "seatId": "58",
         "isSold": false,
-        "class": "seat seat-single seat-bg1",
-        "style": "position: absolute; top: 30px; left: 50px;"
+        "class": "seat seat-single seat-bg1 seat-1-58"
       },
       {
         "seatId": "V1",
         "isSold": false,
-        "class": "seat seat-double seat-bg4",
-        "style": "position: absolute; top: 470px; left: 162px;"
+        "class": "seat seat-double seat-bg4 seat-1-V1"
       },
       {
         "seatId": "V2",
         "isSold": false,
-        "class": "seat seat-double seat-bg4",
-        "style": "position: absolute; top: 470px; left: 240px;"
+        "class": "seat seat-double seat-bg4 seat-1-V2"
       }
     ],
-    "2":[
+    "2": [
       {
         "seatId": "1",
         "isSold": false,
-        "class": "seat seat-single seat-bg1",
-        "style": "position: absolute; top: 240px; left: 310px;"
+        "class": "seat seat-single seat-bg1 seat-2-1"
       },
       {
         "seatId": "2",
         "isSold": false,
-        "class": "seat seat-single seat-bg1",
-        "style": "position: absolute; top: 200px; left: 310px;"
+        "class": "seat seat-single seat-bg1 seat-2-2"
       },
       {
         "seatId": "3",
         "isSold": false,
-        "class": "seat seat-single seat-bg1",
-        "style": "position: absolute; top: 160px; left: 310px;"
+        "class": "seat seat-single seat-bg1 seat-2-3"
       },
       {
         "seatId": "4",
         "isSold": false,
-        "class": "seat seat-single seat-bg1",
-        "style": "position: absolute; top: 120px; left: 310px;"
+        "class": "seat seat-single seat-bg1 seat-2-4"
       },
       {
         "seatId": "5",
         "isSold": false,
-        "class": "seat seat-single seat-bg1",
-        "style": "position: absolute; top: 80px; left: 310px;"
+        "class": "seat seat-single seat-bg1 seat-2-5"
       },
       {
         "seatId": "6",
         "isSold": false,
-        "class": "seat seat-single seat-bg1",
-        "style": "position: absolute; top: 40px; left: 310px;"
+        "class": "seat seat-single seat-bg1 seat-2-6"
       },
       {
         "seatId": "7",
         "isSold": false,
-        "class": "seat seat-single seat-bg1",
-        "style": "position: absolute; top: 60px; left: 270px;"
+        "class": "seat seat-single seat-bg1 seat-2-7"
       },
       {
         "seatId": "8",
         "isSold": false,
-        "class": "seat seat-single seat-bg1",
-        "style": "position: absolute; top: 100px; left: 270px;"
+        "class": "seat seat-single seat-bg1 seat-2-8"
       },
       {
         "seatId": "9",
         "isSold": false,
-        "class": "seat seat-single seat-bg1",
-        "style": "position: absolute; top: 140px; left: 270px;"
+        "class": "seat seat-single seat-bg1 seat-2-9"
       },
       {
         "seatId": "10",
         "isSold": false,
-        "class": "seat seat-single seat-bg1",
-        "style": "position: absolute; top: 180px; left: 270px;"
+        "class": "seat seat-single seat-bg1 seat-2-10"
       },
       {
         "seatId": "11",
         "isSold": false,
-        "class": "seat seat-single seat-bg1",
-        "style": "position: absolute; top: 220px; left: 270px;"
+        "class": "seat seat-single seat-bg1 seat-2-11"
       },
       {
         "seatId": "12",
         "isSold": false,
-        "class": "seat seat-single seat-bg1",
-        "style": "position: absolute; top: 200px; left: 205px;"
+        "class": "seat seat-single seat-bg1 seat-2-12"
       },
       {
         "seatId": "13",
         "isSold": false,
-        "class": "seat seat-single seat-bg1",
-        "style": "position: absolute; top: 225px; left: 205px;"
+        "class": "seat seat-single seat-bg1 seat-2-13"
       },
       {
         "seatId": "14",
         "isSold": false,
-        "class": "seat seat-single seat-bg1",
-        "style": "position: absolute; top: 250px; left: 205px;"
+        "class": "seat seat-single seat-bg1 seat-2-14"
       },
       {
         "seatId": "15",
         "isSold": false,
-        "class": "seat seat-single seat-bg1",
-        "style": "position: absolute; top: 250px; left: 155px;"
+        "class": "seat seat-single seat-bg1 seat-2-15"
       },
       {
         "seatId": "16",
         "isSold": false,
-        "class": "seat seat-single seat-bg1",
-        "style": "position: absolute; top: 225px; left: 155px;"
+        "class": "seat seat-single seat-bg1 seat-2-16"
       },
       {
         "seatId": "17",
         "isSold": false,
-        "class": "seat seat-single seat-bg1",
-        "style": "position: absolute; top: 200px; left: 155px;"
+        "class": "seat seat-single seat-bg1 seat-2-17"
       },
       {
         "seatId": "18",
         "isSold": false,
-        "class": "seat seat-single seat-bg1",
-        "style": "position: absolute; top: 160px; left: 155px;"
+        "class": "seat seat-single seat-bg1 seat-2-18"
       },
       {
         "seatId": "19",
         "isSold": false,
-        "class": "seat seat-single seat-bg1",
-        "style": "position: absolute; top: 130px; left: 155px;"
+        "class": "seat seat-single seat-bg1 seat-2-19"
       },
       {
         "seatId": "20",
         "isSold": false,
-        "class": "seat seat-single seat-bg1",
-        "style": "position: absolute; top: 100px; left: 155px;"
+        "class": "seat seat-single seat-bg1 seat-2-20"
       },
       {
         "seatId": "21",
         "isSold": false,
-        "class": "seat seat-single seat-bg1",
-        "style": "position: absolute; top: 70px; left: 155px;"
+        "class": "seat seat-single seat-bg1 seat-2-21"
       },
       {
         "seatId": "22",
         "isSold": false,
-        "class": "seat seat-single seat-bg1",
-        "style": "position: absolute; top: 70px; left: 205px;"
+        "class": "seat seat-single seat-bg1 seat-2-22"
       },
       {
         "seatId": "23",
         "isSold": false,
-        "class": "seat seat-single seat-bg1",
-        "style": "position: absolute; top: 100px; left: 205px;"
+        "class": "seat seat-single seat-bg1 seat-2-23"
       },
       {
         "seatId": "24",
         "isSold": false,
-        "class": "seat seat-single seat-bg1",
-        "style": "position: absolute; top: 130px; left: 205px;"
+        "class": "seat seat-single seat-bg1 seat-2-24"
       },
       {
         "seatId": "25",
         "isSold": false,
-        "class": "seat seat-single seat-bg1",
-        "style": "position: absolute; top: 160px; left: 205px;"
+        "class": "seat seat-single seat-bg1 seat-2-25"
       },
       {
         "seatId": "26",
         "isSold": false,
-        "class": "seat seat-single seat-bg1",
-        "style": "position: absolute; top: 40px; left: 205px;"
+        "class": "seat seat-single seat-bg1 seat-2-26"
       },
       {
         "seatId": "27",
         "isSold": false,
-        "class": "seat seat-single seat-bg1",
-        "style": "position: absolute; top: 40px; left: 180px;"
+        "class": "seat seat-single seat-bg1 seat-2-27"
       },
       {
         "seatId": "28",
         "isSold": false,
-        "class": "seat seat-single seat-bg1",
-        "style": "position: absolute; top: 40px; left: 155px;"
+        "class": "seat seat-single seat-bg1 seat-2-28"
       },
       {
         "seatId": "29",
         "isSold": false,
-        "class": "seat seat-single seat-bg1",
-        "style": "position: absolute; top: 10px; left: 155px;"
+        "class": "seat seat-single seat-bg1 seat-2-29"
       },
       {
         "seatId": "30",
         "isSold": false,
-        "class": "seat seat-single seat-bg1",
-        "style": "position: absolute; top: 10px; left: 180px;"
+        "class": "seat seat-single seat-bg1 seat-2-30"
       },
       {
         "seatId": "31",
         "isSold": false,
-        "class": "seat seat-single seat-bg1",
-        "style": "position: absolute; top: 10px; left: 205px;"
+        "class": "seat seat-single seat-bg1 seat-2-31"
       },
       {
         "seatId": "32",
         "isSold": false,
-        "class": "seat seat-single seat-bg1",
-        "style": "position: absolute; top: 10px; left: 230px;"
+        "class": "seat seat-single seat-bg1 seat-2-32"
       },
       {
         "seatId": "33",
         "isSold": false,
-        "class": "seat seat-single seat-bg1",
-        "style": "position: absolute; top: 100px; left: 115px;"
+        "class": "seat seat-single seat-bg1 seat-2-33"
       },
       {
         "seatId": "34",
         "isSold": false,
-        "class": "seat seat-single seat-bg1",
-        "style": "position: absolute; top: 70px; left: 115px;"
+        "class": "seat seat-single seat-bg1 seat-2-34"
       },
       {
         "seatId": "35",
         "isSold": false,
-        "class": "seat seat-single seat-bg1",
-        "style": "position: absolute; top: 40px; left: 115px;"
+        "class": "seat seat-single seat-bg1 seat-2-35"
       },
       {
         "seatId": "36",
         "isSold": false,
-        "class": "seat seat-single seat-bg1",
-        "style": "position: absolute; top: 10px; left: 115px;"
+        "class": "seat seat-single seat-bg1 seat-2-36"
       },
       {
         "seatId": "37",
         "isSold": false,
-        "class": "seat seat-single seat-bg1",
-        "style": "position: absolute; top: 10px; left: 60px;"
+        "class": "seat seat-single seat-bg1 seat-2-37"
       },
       {
         "seatId": "38",
         "isSold": false,
-        "class": "seat seat-single seat-bg1",
-        "style": "position: absolute; top: 40px; left: 60px;"
+        "class": "seat seat-single seat-bg1 seat-2-38"
       },
       {
         "seatId": "39",
         "isSold": false,
-        "class": "seat seat-single seat-bg1",
-        "style": "position: absolute; top: 70px; left: 60px;"
+        "class": "seat seat-single seat-bg1 seat-2-39"
       },
       {
         "seatId": "40",
         "isSold": false,
-        "class": "seat seat-single seat-bg1",
-        "style": "position: absolute; top: 100px; left: 60px;"
+        "class": "seat seat-single seat-bg1 seat-2-40"
       },
       {
         "seatId": "41",
         "isSold": false,
-        "class": "seat seat-single seat-bg1",
-        "style": "position: absolute; top: 100px; left: 30px;"
+        "class": "seat seat-single seat-bg1 seat-2-41"
       },
       {
         "seatId": "42",
         "isSold": false,
-        "class": "seat seat-single seat-bg1",
-        "style": "position: absolute; top: 70px; left: 30px;"
+        "class": "seat seat-single seat-bg1 seat-2-42"
       },
       {
         "seatId": "43",
         "isSold": false,
-        "class": "seat seat-single seat-bg1",
-        "style": "position: absolute; top: 40px; left: 30px;"
+        "class": "seat seat-single seat-bg1 seat-2-43"
       },
       {
         "seatId": "44",
         "isSold": false,
-        "class": "seat seat-single seat-bg1",
-        "style": "position: absolute; top: 10px; left: 30px;"
+        "class": "seat seat-single seat-bg1 seat-2-44"
       },
       {
         "seatId": "45",
         "isSold": false,
-        "class": "seat seat-single seat-bg1",
-        "style": "position: absolute; top: 150px; left: 90px;"
+        "class": "seat seat-single seat-bg1 seat-2-45"
       },
       {
         "seatId": "46",
         "isSold": false,
-        "class": "seat seat-single seat-bg1",
-        "style": "position: absolute; top: 150px; left: 60px;"
+        "class": "seat seat-single seat-bg1 seat-2-46"
       },
       {
         "seatId": "47",
         "isSold": false,
-        "class": "seat seat-single seat-bg1",
-        "style": "position: absolute; top: 150px; left: 30px;"
+        "class": "seat seat-single seat-bg1 seat-2-47"
       },
       {
         "seatId": "48",
         "isSold": false,
-        "class": "seat seat-single seat-bg1",
-        "style": "position: absolute; top: 185px; left: 30px;"
+        "class": "seat seat-single seat-bg1 seat-2-48"
       },
       {
         "seatId": "49",
         "isSold": false,
-        "class": "seat seat-single seat-bg1",
-        "style": "position: absolute; top: 185px; left: 60px;"
+        "class": "seat seat-single seat-bg1 seat-2-49"
       },
       {
         "seatId": "50",
         "isSold": false,
-        "class": "seat seat-single seat-bg1",
-        "style": "position: absolute; top: 185px; left: 90px;"
+        "class": "seat seat-single seat-bg1 seat-2-50"
       },
       {
         "seatId": "51",
         "isSold": false,
-        "class": "seat seat-single seat-bg1",
-        "style": "position: absolute; top: 210px; left: 90px;"
+        "class": "seat seat-single seat-bg1 seat-2-51"
       },
       {
         "seatId": "52",
         "isSold": false,
-        "class": "seat seat-single seat-bg1",
-        "style": "position: absolute; top: 210px; left: 60px;"
+        "class": "seat seat-single seat-bg1 seat-2-52"
       },
       {
         "seatId": "53",
         "isSold": false,
-        "class": "seat seat-single seat-bg1",
-        "style": "position: absolute; top: 210px; left: 30px;"
+        "class": "seat seat-single seat-bg1 seat-2-53"
       },
       {
         "seatId": "54",
         "isSold": false,
-        "class": "seat seat-single seat-bg1",
-        "style": "position: absolute; top: 245px; left: 30px;"
+        "class": "seat seat-single seat-bg1 seat-2-54"
       },
       {
         "seatId": "55",
         "isSold": false,
-        "class": "seat seat-single seat-bg1",
-        "style": "position: absolute; top: 245px; left: 60px;"
+        "class": "seat seat-single seat-bg1 seat-2-55"
       },
       {
         "seatId": "56",
         "isSold": false,
-        "class": "seat seat-single seat-bg1",
-        "style": "position: absolute; top: 245px; left: 90px;"
+        "class": "seat seat-single seat-bg1 seat-2-56"
       },
       {
         "seatId": "57",
         "isSold": false,
-        "class": "seat seat-single seat-bg1",
-        "style": "position: absolute; top: 290px; left: 155px;"
+        "class": "seat seat-single seat-bg1 seat-2-57"
       },
       {
         "seatId": "58",
         "isSold": false,
-        "class": "seat seat-single seat-bg1",
-        "style": "position: absolute; top: 290px; left: 180px;"
+        "class": "seat seat-single seat-bg1 seat-2-58"
       },
       {
         "seatId": "59",
         "isSold": false,
-        "class": "seat seat-single seat-bg1",
-        "style": "position: absolute; top: 290px; left: 205px;"
+        "class": "seat seat-single seat-bg1 seat-2-59"
       },
       {
         "seatId": "60",
         "isSold": false,
-        "class": "seat seat-single seat-bg1",
-        "style": "position: absolute; top: 320px; left: 205px;"
+        "class": "seat seat-single seat-bg1 seat-2-60"
       },
       {
         "seatId": "61",
         "isSold": false,
-        "class": "seat seat-single seat-bg1",
-        "style": "position: absolute; top: 320px; left: 180px;"
+        "class": "seat seat-single seat-bg1 seat-2-61"
       },
       {
         "seatId": "62",
         "isSold": false,
-        "class": "seat seat-single seat-bg1",
-        "style": "position: absolute; top: 320px; left: 155px;"
+        "class": "seat seat-single seat-bg1 seat-2-62"
       },
       {
         "seatId": "63",
         "isSold": false,
-        "class": "seat seat-single seat-bg1",
-        "style": "position: absolute; top: 290px; left: 90px;"
+        "class": "seat seat-single seat-bg1 seat-2-63"
       },
       {
         "seatId": "64",
         "isSold": false,
-        "class": "seat seat-single seat-bg1",
-        "style": "position: absolute; top: 320px; left: 90px;"
+        "class": "seat seat-single seat-bg1 seat-2-64"
       },
       {
         "seatId": "V1",
         "isSold": false,
-        "class": "seat seat-double seat-bg4",
-        "style": "position: absolute; top: 320px; left: 290px;"
+        "class": "seat seat-double seat-bg4 seat-2-V1"
       },
       {
         "seatId": "V2",
         "isSold": false,
-        "class": "seat seat-double seat-bg4",
-        "style": "position: absolute; top: 290px; left: 290px;"
+        "class": "seat seat-double seat-bg4 seat-2-V2"
       }
     ]
-  }  
-} 
+  }
+}

@@ -48,20 +48,22 @@ export default {
       margin  10px 0 
       border-radius  5Px 
 
-      .uni-input
-        flex  1
-        text-align center
-        height  40px
-        line-height  40px 
-        font-size    24px 
-        font-weight  500
+      // .uni-input
+      //   flex  1
+      //   text-align center
+      //   height  40px
+      //   line-height  40px 
+      //   font-size    24px 
+      //   font-weight  500
 
       .choosedate  
         height  60px 
         display  flex 
         justify-content  center 
         align-items  center 
-       
+        font-size   24px
+        text-align  center
+        
       .choosetime  
         height  40px 
         display  flex 

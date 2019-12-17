@@ -19,43 +19,4 @@
   }
 </script>
 
-<style lang="stylus">
-// reset
-* 
-  outline 0
-  padding 0
-  margin  0
-  border  0
-
-body
-  background rgb(239,239,244)  
-  
-#app  
-  width 100% 
-
-  button 
-    background #222 
-    color #fff 
-  img   
-    content normal !important  
-  a 
-    text-decoration  none 
-    color #000 !important 
-  .float-left 
-    float left 
-  .navigate-right:after  
-    font-family  Muiicons 
-    content  "\e583" 
-    position  absolute 
-    font-size  28px 
-    right  15px 
-    top  50% 
-    -webkit-transform  translateY(-50%) 
-    transform  translateY(-50%) 
-    color  #222 
-    -webkit-font-smoothing  antialiased 
-  .font_orange
-    color #cc921c
-  .ignore
-    border-radius 5px  
-</style>
+<style lang="stylus"></style>

@@ -13,7 +13,8 @@ Vue.config.productionTip = false;
 import 'mint-ui/lib/style.css'
 import './lib/mui/css/mui.css'
 import './lib/mui/css/icons-extra.css'
-import './seat/seat.css'
+import './seat/seat.styl'
+import './common/reset.styl'
 import { Header,Swipe, SwipeItem } from "mint-ui"
 Vue.component(Header.name, Header);
 Vue.component(Swipe.name, Swipe);

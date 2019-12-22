@@ -3,22 +3,20 @@
     <div class="shop">（店铺名）众独空间：昙华林店</div>
     <div class="dp-container">
       <div class="box ignore">
-        <div class="choosedate" @click.prevent="openPicker">
+        <div class="choosedate" @click.prevent="open">
           <span class="uni-input mui-icon-extra mui-icon-extra-calendar">{{day}}</span>
         </div>
         <!-- 日期弹窗 -->
+        <time-picker ref="picker" @confirmDate="getDate"></time-picker>
         <!-- <mt-datetime-picker
           v-model="pickerVisible"
           type="date"
           ref="picker"
-          year-format="{value} 年"
-          month-format="{value} 月"
-          date-format="{value} 日"
           :startDate="startDate" 
           :endDate="endDate" 
-          @confirm="handleConfirm"
-        ></mt-datetime-picker>-->
-        <!-- <mt-picker :slots="slots" ref="picker" @change="onValuesChange" style="display:none"></mt-picker> -->
+          @confirm="handleConfirm" 
+        >
+        </mt-datetime-picker> -->
       </div>
       <div class="box ignore" style="flex-direction: column;">
         <div class="choosetime">
@@ -75,28 +73,12 @@ export default {
       seatJson: [],
       day: formatDate(new Date(), "yyyy-MM-dd"),
       pickerVisible: null,
-      startDate: new Date(
-        new Date().getFullYear(),
-        new Date().getMonth(),
-        new Date().getDate()
-      ),
-      endDate: new Date(
-        new Date().getFullYear(),
-        new Date().getMonth(),
-        new Date().getDate() + 2
-      ),
-      slots: [
-        {
-          flex: 1,
-          values: ['2019-12-20','2019-12-21','2019-12-22'],
-          className: "slot1",
-          textAlign: "center"
-        }
-      ]
+      startDate: new Date(),
+      endDate: new Date(Date.parse(new Date())+1000 * 60 * 60 * 24 * 2)
     };
   },
   components: {
-    // "time-picker": DateTimePicker
+    "time-picker": DateTimePicker
   },
   created() {
     this.axios.get("seat.json").then(res => {
@@ -117,46 +99,12 @@ export default {
     confirmSelect() {
       console.log("确认选座");
     },
-    openPicker() {
-      // this.$refs.picker.open();
-      document.getElementsByClassName("picker")[0].style.display = "block";
-      // document.getElementsByClassName('picker-slot')[2].style.display = 'none';
+    open() {
+      this.$refs.picker.openPicker();
     },
-    handleConfirm() {
-      this.day = this.pickerVisible = formatDate(
-        this.pickerVisible,
-        "yyyy-MM-dd"
-      );
-    },
-    onValuesChange(picker, values) {
-      if (values[0] > values[1]) {
-        picker.setSlotValue(1, values[0]);
-      }
+    getDate(value){
+      this.day=value;
     }
-    // GetDay(day) {
-    //   var time = new Date();
-    //   time.setDate(time.getDate() + day);//获取Day天后的日期
-    //   var y = time.getFullYear();
-    //   var m = time.getMonth() + 1;//获取当前月份的日期
-    //   var d = time.getDate();
-    //   let date=y + "-" + m + "-" + d
-    //   return new Date(date);
-    // },
-    // Month(month) {
-    //   var time = new Date();
-    //   time.setDate(time.getDate());//获取Day天后的日期
-    //   var y = time.getFullYear();
-    //   var m;
-    //   if (time.getMonth() + month + 1>12){
-    //     y = y+1;
-    //     m = time.getMonth() + month - 11;//获取当前月份的日期 d
-    //   }else{
-    //     m = time.getMonth() + month + 1;//获取当前月份的日期 d
-    //   }
-    //   var d = time.getDate();
-    //   let date=y + "-" + m + "-" + d
-    //   return new Date(date);
-    // }
   }
 };
 </script>

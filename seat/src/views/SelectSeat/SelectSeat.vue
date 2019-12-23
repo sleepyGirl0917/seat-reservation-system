@@ -3,20 +3,9 @@
     <div class="shop">（店铺名）众独空间：昙华林店</div>
     <div class="dp-container">
       <div class="box ignore">
-        <div class="choosedate" @click.prevent="open">
-          <span class="uni-input mui-icon-extra mui-icon-extra-calendar">{{day}}</span>
+        <div class="choosedate" @click="selectDate">
+          <span class="uni-input mui-icon-extra mui-icon-extra-calendar">{{dateVal}}</span>
         </div>
-        <!-- 日期弹窗 -->
-        <time-picker ref="picker" @confirmDate="getDate"></time-picker>
-        <!-- <mt-datetime-picker
-          v-model="pickerVisible"
-          type="date"
-          ref="picker"
-          :startDate="startDate" 
-          :endDate="endDate" 
-          @confirm="handleConfirm" 
-        >
-        </mt-datetime-picker> -->
       </div>
       <div class="box ignore" style="flex-direction: column;">
         <div class="choosetime">
@@ -27,11 +16,19 @@
           <div>时长</div>
         </div>
         <div class="choosetime">
-          <div id="start-time" class="uni-input">12:00</div>
+          <div
+            id="start-time"
+            class="uni-input"
+            @click="selectStartTime"
+          >{{selectedStartValue?selectedStartValue:'请选择'}}</div>
           <div>-----</div>
-          <div id="end-time" class="uni-input">18:00</div>
+          <div
+            id="end-time"
+            class="uni-input"
+            @click="selectEndTime"
+          >{{selectedEndValue?selectedEndValue:'请选择'}}</div>
           <div>-----</div>
-          <div id="show-time" class="font-orange">6h</div>
+          <div id="show-time" class="font-orange">{{duration}}h</div>
         </div>
       </div>
     </div>
@@ -57,24 +54,35 @@
     <div class="btn-container">
       <button class="submit ignore" @click.prevent="confirmSelect">确认选座</button>
     </div>
+    <!-- 日期时间选择器弹窗 -->
+    <time-picker ref="pickerDate" :type="types[0]" @confirmDate="getDate"></time-picker>
+    <time-picker ref="pickerStartTime" :type="types[1]" @confirmTime="getStartTime"></time-picker>
+    <time-picker ref="pickerEndTime" :type="types[1]" @confirmTime="getEndTime"></time-picker>
   </div>
 </template>
 
 <script>
 import { Toast, Indicator, MessageBox } from "mint-ui";
 import DateTimePicker from "../../components/DateTimePicker/DateTimePicker";
-import { formatDate } from "../../api/formatDate";
+import { formatDate,checkTime, formatTime,parseTime } from "../../api/common";
+
 export default {
   data() {
     return {
-      // 选择的座位
-      selectedSeatInfo: {},
-      // 座位表
-      seatJson: [],
-      day: formatDate(new Date(), "yyyy-MM-dd"),
-      pickerVisible: null,
-      startDate: new Date(),
-      endDate: new Date(Date.parse(new Date())+1000 * 60 * 60 * 24 * 2)
+      selectedSeatInfo: {}, // 选择的座位
+      seatJson: [], // 座位表
+      types: ["date", "time", "datetime"], // 日期选择器类型
+      dateVal: formatDate(new Date(),'yyyy-MM-dd'), // 默认为当前日期
+      // selectedDate:null,
+      selectedStartValue: null,
+      selectedEndValue: null,
+      // startValue: null,
+      // endValue: null,
+      unit: 1000 * 60 * 30, // 时长单位：30分钟
+      duration: 0,
+      isToday:true, 
+      openTime:'08:30',  // 开业时间
+      closeTime:'23:00'  // 闭店时间
     };
   },
   components: {
@@ -91,6 +99,16 @@ export default {
       }
     });
   },
+  watch:{
+    dateVal(){
+      let today=formatDate(new Date,'yyyy-MM-dd');
+      if(this.dateVal==today){
+        this.isToday=true
+      }else{
+        this.isToday=false
+      }
+    }
+  },
   methods: {
     // 加载座位信息
     // 选择座位
@@ -99,11 +117,54 @@ export default {
     confirmSelect() {
       console.log("确认选座");
     },
-    open() {
-      this.$refs.picker.openPicker();
+    selectDate() {
+      this.$refs.pickerDate.openPicker();
     },
-    getDate(value){
-      this.day=value;
+    selectStartTime() {
+      this.$refs.pickerStartTime.openPicker();
+    },
+    selectEndTime() {
+      if (this.selectedStartValue) {
+        this.$refs.pickerEndTime.openPicker();
+      } else {
+        Toast("请先选择开始时间");
+      }
+    },
+    getDate(value) {
+      if(value){
+        this.dateVal = formatDate(value,'yyyy-MM-dd');
+      }
+    },
+    getStartTime(value) {
+      // 开始时间和结束时间要在开业时间范围内
+      let new_value=parseTime(value),
+          openTime=parseTime(this.openTime),
+          closeTime=parseTime(this.closeTime);
+      if(new_value<openTime||new_value>closeTime){
+        return;
+      }
+      // 如果是当天，只能选择当前时间之后的开始时间
+      if(this.isToday){
+        let now=formatTime(new Date());
+        value<now?value=now:''
+      }
+      this.selectedStartValue = value;
+      let startValue = parseTime(value);
+      let endValue = new Date(startValue + this.unit);
+      this.getEndTime(formatTime(endValue));
+    },
+    getEndTime(value) {
+      // 结束时间不能小于开始时间，不能大于闭店时间
+      let new_value=parseTime(value),
+          startValue=parseTime(this.selectedStartValue),
+          closeTime=parseTime(this.closeTime);
+      if(new_value>closeTime||new_value<=startValue||startValue==closeTime){
+        return;
+      }
+      this.selectedEndValue = value;
+      // 结束时间选择后，自动计算时长
+      let length =parseTime(this.selectedEndValue) -parseTime(this.selectedStartValue);
+      this.duration = Math.ceil(length / this.unit) * 0.5;
     }
   }
 };

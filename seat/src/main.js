@@ -2,6 +2,7 @@ import Vue from 'vue'
 import App from './App.vue'
 import store from './store/store'
 import router from './router/router'
+
 // import cookies from 'vue-cookies'
 // Vue.use(cookies)
 
@@ -10,6 +11,7 @@ Vue.prototype.axios = axios;
 
 Vue.config.productionTip = false;
 
+import './filters'
 import 'mint-ui/lib/style.css'
 import './lib/mui/css/mui.css'
 import './lib/mui/css/icons-extra.css'

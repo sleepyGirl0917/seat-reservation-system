@@ -224,8 +224,8 @@ CREATE TABLE `t_order`  (
   `sid` int(8) UNSIGNED NULL DEFAULT NULL COMMENT '座位id',
   `seat_info` varchar(8) DEFAULT NULL COMMENT '座位信息',
   `order_date`  date DEFAULT NULL COMMENT '订座日期',
-  `start_time` datetime DEFAULT NULL COMMENT '订座开始时间',
-  `end_time` datetime DEFAULT NULL COMMENT '订座结束时间',
+  `start_time` varchar(32) DEFAULT NULL COMMENT '订座开始时间',
+  `end_time` varchar(32) DEFAULT NULL COMMENT '订座结束时间',
   `status_change_time` datetime DEFAULT NULL COMMENT '状态改变时间',
   `order_cost` decimal(10,1) DEFAULT 0  COMMENT '订座费用',
   `order_refund` decimal(10,1) DEFAULT 0  COMMENT '订座退款',
@@ -246,6 +246,8 @@ INSERT INTO `t_order` VALUES (null, 3, 2, '20190000000000004','61', '单人座�
 INSERT INTO `t_order` VALUES (null, 3, 2, '20190000000000005','61', '单人座：1', '2019-12-5','2019-12-5 18:30','2019-12-5 21:30',NULL,'27','27','1','2','2019-12-5 09:00','1');
 INSERT INTO `t_order` VALUES (null, 3, 2, '20190000000000006','85', '单人座：25', '2019-12-12','2019-12-12 8:30','2019-12-12 10:30','2019-12-12 10:30','18','0','0','2','2019-12-10 09:00','1');
 INSERT INTO `t_order` VALUES (null, 3, 2, '20190000000000007','89', '单人座：29', '2019-12-12','2019-12-12 15:30','2019-12-12 18:30',NULL,'54','0','0','0','2019-12-10 09:00','1');
+INSERT INTO `t_order` VALUES (null, 3, 2, '20190000000000008','89', '单人座：29', '2019-12-24','16:45','18:30',NULL,'18','0','0','0','2019-12-10 09:00','1');
+INSERT INTO `t_order` VALUES (null, 3, 2, '20190000000000009','89', '单人座：29', '2019-12-25','15:30','22:30',NULL,'54','0','0','0','2019-12-10 09:00','1');
 
 -- ----------------------------
 -- Table structure for t_admin

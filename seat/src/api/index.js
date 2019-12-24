@@ -40,3 +40,5 @@ export const updateScheduleSeat = (seatId, seatInfo) => ajax('/api/updateSchedul
 export const logout = () => ajax('/api/logout')
 // 加载店铺信息
 export const getShopInfo=()=>ajax('/api/getShopInfo')
+// 获取已被预定的座位
+export const getSeatSoldInfo = (shopId, dateVal, startVal, endVal) => ajax('/api/getSeatSoldInfo', { shopId, dateVal, startVal, endVal },'POST')

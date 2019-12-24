@@ -22,6 +22,22 @@ router.get('/api/getShopInfo', (req, res) => {
   })
 })
 
+// 获取已被预定的座位
+router.post('/api/getSeatSoldInfo', (req, res) => {
+  let { shopId, dateVal, startVal, endVal } = req.body;
+  let seat = [];
+  let sql = 'SELECT A.order_date,A.start_time,A.end_time,B.seat_id from t_order A,t_shop_seat B WHERE A.sid=B.sid';
+  sql += ' AND A.shop_id= ? AND A.order_date=? AND A.start_time<=? AND A.end_time>=?';
+  // 除A.start_time>endVal OR A.end_val<startVal以外
+  pool.query(sql, [shopId, dateVal, endVal, startVal], (err, result) => {
+    if (err) throw err;
+    for (let i = 0; i < result.length; i++) {
+      seat.push(result[i].seat_id)
+    }
+    res.send({ success_code: 200, data: seat,detail:result})
+  })
+})
+
 //获取手机验证码
 router.post('/api/getPhoneCode', (req, res) => {
   let phone = req.body.phone;

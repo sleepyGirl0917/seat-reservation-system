@@ -51,10 +51,8 @@
         <div v-for="(item,i) in seatJson" :key="i" :class="[item.class,item.classBg]" @click="handleSelectSeat(i)"></div>
       </div>
     </div>
-    <div class="btn-container">
-      <button class="submit ignore" @click.prevent="confirmSelect">{{buttonText}}确认选座</button>
-    </div>
-    <mt-popup id="show-detail" v-model="popupVisible" popup-transition="popup-fade" v-show="seatSoldDetail">
+    <btn-container :text="btnText" @submit="confirmSelect"></btn-container>
+    <mt-popup class="show-detail" v-model="popupVisible" popup-transition="popup-fade" v-show="seatSoldDetail">
       <div class="popup-content">
         <p>座位：{{clickedSeatInfo}}</p>
         <p>已被预定的时段：</p>
@@ -70,6 +68,7 @@
 
 <script>
 import { Toast, Indicator, MessageBox } from "mint-ui";
+import Button from '../../components/Button/Button'
 import DateTimePicker from "../../components/DateTimePicker/DateTimePicker";
 import { formatDate,checkTime, formatTime,parseTime } from "../../api/common";
 import {getSeatSoldInfo,getSeatSoldDetail} from '../../api/index';
@@ -93,12 +92,14 @@ export default {
       unit: 1000 * 60 * 30, // 时长单位：30分钟
       duration: 0,
       isToday:true, 
+      btnText:'确认选座',
       openTime:'08:30',  // 开业时间
       closeTime:'23:00'  // 闭店时间
     };
   },
   components: {
-    "time-picker": DateTimePicker
+    "time-picker": DateTimePicker,
+    "btn-container":Button
   },
   created() {
     this.loadSeatJson();
@@ -217,26 +218,27 @@ export default {
     },
     // 选择座位
     handleSelectSeat(i){
+      let id=this.seatJson[i].seatId;
       if(!(this.selectedStartValue||this.selectedEndValue)){
         Toast('请选择时间');
         return;
       }
-      if (this.seatCount==1&&i!=this.selectedSeatInfo&&this.seatJson[i].isSold==false){ 
+      if (this.seatCount==1&&id!=this.selectedSeatInfo&&this.seatJson[i].isSold==false){ 
         Toast('只能选1个座位');
       } else{
         if(this.seatCount==0){  // 选择座位
           if(this.seatJson[i].isSold==false){
             this.seatJson[i].type==0?this.seatJson[i].classBg='seat-bg3':this.seatJson[i].classBg='seat-bg6';
-            this.selectedSeatInfo=i;
+            this.selectedSeatInfo=id;
             this.selectedSeatType=this.seatJson[i].type;
             this.seatCount=1;
             this.buttonText=(this.seatJson[i].type==0?'单人座：':'双人座：')+this.seatJson[i].seatId+' ';
           }else{
-            this.clickedSeatInfo=this.seatJson[i].seatId;
+            this.clickedSeatInfo=id;
             this.loadSeatSoldDetail();
             this.popupVisible=true;
           }
-        }else if(i==this.selectedSeatInfo){ // 取消选座
+        }else if(id==this.selectedSeatInfo){ // 取消选座
           this.seatJson[i].type==0?this.seatJson[i].classBg='seat-bg1':this.seatJson[i].classBg='seat-bg4';
           this.selectedSeatInfo=null;
           this.selectedSeatType=null;
@@ -248,7 +250,7 @@ export default {
     // 确认选座
     confirmSelect() {
       this.$router.push({
-        path:'/order_confirm',
+        name:'order_confirm',
         params:{
           shop_id:this.shopSelected,
           shop_name:this.shopName,
@@ -409,14 +411,11 @@ $bg6='../../assets/img/seat/double-seat-choose.png'
     width: 100%;
     position: fixed;
     z-index: 1000;
-    bottom: 20px;
-    padding: 15px 30px;
+    margin:-15px;
+    bottom: 50px;
+    padding: 0 30px;
 
     button.submit {
-      width: 100%;
-      height: 60px;
-      font-size: 20px;
-      font-weight: 500;
       opacity: 0.8;
     }
   }
@@ -435,7 +434,7 @@ $bg6='../../assets/img/seat/double-seat-choose.png'
       color: blue;
     }
   }
-  .mint-popup#show-detail{
+  .mint-popup.show-detail{
     width:300px;
     height:150px;
     border-radius:5Px;

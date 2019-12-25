@@ -12,13 +12,12 @@
         </div>
       </div>
     </div>
-    <div class="btn-container">
-      <button class="submit ignore" @click.prevent="toSelectSeat">确定</button>
-    </div>
+    <btn-container :text="btnText" @submit="toSelectSeat"></btn-container>
   </div>
 </template>
 
 <script>
+  import Button from '../../components/Button/Button'
   import {Toast,Indicator} from 'mint-ui'
   import {getShopInfo} from '../../api/index'
   export default {
@@ -26,7 +25,11 @@
       return {
         jsonData:[],
         shopSelected:null,
+        btnText:'确定'
       }
+    },
+    components:{
+      "btn-container":Button
     },
     created(){
       this.loadShopData();
@@ -69,7 +72,6 @@
 <style lang="stylus" scoped>
 #select-shop
   width 100%
-  min-height 100vh
   padding-top 60px
 
   .shop-container
@@ -125,13 +127,5 @@
       &:not(:last-child)
         border-bottom  1px solid rgba(88, 88,88,0.3) 
 
-  .btn-container       
-    padding 15px 30px
-    .submit
-      width 100%
-      height  60px
-      font-size 20px
-      font-weight 500
-      letter-spacing 2px
 </style>
 

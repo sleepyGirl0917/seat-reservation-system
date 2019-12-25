@@ -11,7 +11,18 @@ export default new Vuex.Store({
   state: {
     isLogin: false,
     token: null,
-    userInfo: {}
+    userInfo: {},
+    // orders: {
+    //   shop_id:null,
+    //   shop_name: null,
+    //   seat_id: null,
+    //   seat_count: 0,
+    //   seat_type: 0,
+    //   order_date: null,
+    //   start_time: null,
+    //   end_time: null,
+    //   duration: 0
+    // }
   },
   mutations: { // 同步修改state
     [types.UPDATE_LOGIN](state, payload) {

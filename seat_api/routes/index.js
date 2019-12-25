@@ -38,6 +38,19 @@ router.post('/api/getSeatSoldInfo', (req, res) => {
   })
 })
 
+// 获取座位被预定的时段详情
+router.post('/api/getSeatSoldDetail', (req, res) => {
+  let { shopId, dateVal, seatId } = req.body;
+  let sql = 'SELECT A.start_time,A.end_time FROM t_order A,t_shop_seat B WHERE A.sid=B.sid'
+  sql += ' AND A.shop_id=? AND A.order_date=? AND B.seat_id=?';
+  pool.query(sql, [shopId, dateVal, seatId], (err, result) => {
+    if (err) throw err;
+    if (result[0]) {
+      res.send({ success_code: 200, data:result})
+    }
+  })
+})
+
 //获取手机验证码
 router.post('/api/getPhoneCode', (req, res) => {
   let phone = req.body.phone;

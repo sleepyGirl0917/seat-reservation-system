@@ -1,6 +1,6 @@
 <template>
   <div id="select-seat">
-    <div class="shop">（店铺名）众独空间：昙华林店</div>
+    <div class="shop">{{shopName}}</div>
     <div class="dp-container">
       <div class="box ignore">
         <div class="choosedate" @click="selectDate">
@@ -54,6 +54,13 @@
     <div class="btn-container">
       <button class="submit ignore" @click.prevent="confirmSelect">{{buttonText}}确认选座</button>
     </div>
+    <mt-popup id="show-detail" v-model="popupVisible" popup-transition="popup-fade" v-show="seatSoldDetail">
+      <div class="popup-content">
+        <p>座位：{{clickedSeatInfo}}</p>
+        <p>已被预定的时段：</p>
+        <p>{{seatSoldDetail}}</p>
+      </div>
+    </mt-popup>
     <!-- 日期时间选择器弹窗 -->
     <time-picker ref="pickerDate" :type="types[0]" @confirmDate="getDate"></time-picker>
     <time-picker ref="pickerStartTime" :type="types[1]" @confirmTime="getStartTime"></time-picker>
@@ -65,14 +72,19 @@
 import { Toast, Indicator, MessageBox } from "mint-ui";
 import DateTimePicker from "../../components/DateTimePicker/DateTimePicker";
 import { formatDate,checkTime, formatTime,parseTime } from "../../api/common";
-import {getSeatSoldInfo} from '../../api/index';
+import {getSeatSoldInfo,getSeatSoldDetail} from '../../api/index';
 export default {
   data() {
     return {
+      shopName:null,
       seatJson: [], // 座位表
       seatSoldInfo:[], // 已被预定的座位
-      selectedSeatInfo: null, // 选择的座位
-      seatCount:0,  // 选中的座位数
+      seatSoldDetail:null, // 座位被预定的时段详情
+      clickedSeatInfo:null, // 点击的已被预定座位号
+      selectedSeatInfo: null, // 当前选中的座位号
+      selectedSeatType:null,  // 当前选中的座位类型
+      seatCount:0,  // 当前选中的座位数
+      popupVisible:null, // 控制popupVisible的显示和隐藏
       buttonText:null,
       types: ["date", "time", "datetime"], // 日期选择器类型
       dateVal: formatDate(new Date(),'yyyy-MM-dd'), // 默认为当前日期
@@ -108,7 +120,8 @@ export default {
         if (res.data.code == 200) {
           //请求成功
           console.log(res.data.data);
-          this.seatJson = res.data.data[this.$route.query.shop_id];
+          this.shopName=res.data.data[this.$route.query.shop_id]['shop_name'];
+          this.seatJson = res.data.data[this.$route.query.shop_id]['info'];
         } else {
           console.log("请求的数据不见了，去看一下你的json文件");
         }
@@ -144,10 +157,10 @@ export default {
         return;
       }
       // 如果是当天，只能选择当前时间之后的开始时间
-      // if(this.isToday){
-      //   let now=formatTime(new Date());
-      //   value<now?value=now:''
-      // }
+      if(this.isToday){
+        let now=formatTime(new Date());
+        value<now?value=now:''
+      }
       this.selectedStartValue = value;
       let startValue = parseTime(value);
       let endValue = new Date(startValue + this.unit);
@@ -183,11 +196,24 @@ export default {
               item.type==0?item.classBg='seat-bg2':item.classBg='seat-bg5';
             }else{
               item.isSold=false;
-              item.type==0?item.classBg='seat-bg1':item.classBg='seat-bg3';
+              item.type==0?item.classBg='seat-bg1':item.classBg='seat-bg4';
             }
           })
         }
       }
+    },
+    // 获取已被预定的时段
+    async loadSeatSoldDetail(){
+      Indicator.open();
+      let json=await getSeatSoldDetail(this.$route.query.shop_id,this.dateVal,this.clickedSeatInfo);
+      if(json.success_code==200){
+        let detail='';
+        json.data.forEach((item)=>{
+          detail+=item.start_time+'--'+item.end_time+'\xa0\xa0\xa0'
+        })
+        this.seatSoldDetail=detail;
+      }
+      Indicator.close();
     },
     // 选择座位
     handleSelectSeat(i){
@@ -195,17 +221,25 @@ export default {
         Toast('请选择时间');
         return;
       }
-      if (this.seatCount==1&&i!=this.selectedSeatInfo){ 
+      if (this.seatCount==1&&i!=this.selectedSeatInfo&&this.seatJson[i].isSold==false){ 
         Toast('只能选1个座位');
       } else{
         if(this.seatCount==0){  // 选择座位
-          this.seatJson[i].type==0?this.seatJson[i].classBg='seat-bg3':this.seatJson[i].classBg='seat-bg6';
-          this.selectedSeatInfo=i;
-          this.seatCount=1;
-          this.buttonText=(this.seatJson[i].type==0?'单人座：':'双人座：')+this.seatJson[i].seatId+' ';
+          if(this.seatJson[i].isSold==false){
+            this.seatJson[i].type==0?this.seatJson[i].classBg='seat-bg3':this.seatJson[i].classBg='seat-bg6';
+            this.selectedSeatInfo=i;
+            this.selectedSeatType=this.seatJson[i].type;
+            this.seatCount=1;
+            this.buttonText=(this.seatJson[i].type==0?'单人座：':'双人座：')+this.seatJson[i].seatId+' ';
+          }else{
+            this.clickedSeatInfo=this.seatJson[i].seatId;
+            this.loadSeatSoldDetail();
+            this.popupVisible=true;
+          }
         }else if(i==this.selectedSeatInfo){ // 取消选座
           this.seatJson[i].type==0?this.seatJson[i].classBg='seat-bg1':this.seatJson[i].classBg='seat-bg4';
           this.selectedSeatInfo=null;
+          this.selectedSeatType=null;
           this.seatCount=0;
           this.buttonText=null;
         }
@@ -213,13 +247,33 @@ export default {
     },
     // 确认选座
     confirmSelect() {
-      console.log("确认选座");
+      this.$router.push({
+        path:'/order_confirm',
+        params:{
+          shop_id:this.shopSelected,
+          shop_name:this.shopName,
+          seat_id:this.selectedSeatInfo,
+          seat_count:this.seatCount,
+          seat_type:this.selectedSeatType,
+          order_date:this.dateVal,
+          start_time:this.selectedStartValue,
+          end_time:this.selectedEndValue,
+          duration:this.duration
+        }
+      });
     }
   }
 };
 </script>
 
 <style lang="stylus">
+$bg1='../../assets/img/seat/seat-single.png'
+$bg2='../../assets/img/seat/seat-sold2.png'
+$bg3='../../assets/img/seat/single-seat-choose.png'
+$bg4='../../assets/img/seat/seat-double.png'
+$bg5='../../assets/img/seat/double-seat-sold.png'
+$bg6='../../assets/img/seat/double-seat-choose.png'
+
 #select-seat {
   width: 100%;
   min-height: 100vh;
@@ -326,27 +380,27 @@ export default {
       }
 
       .seat-bg1 {
-        background-image: url('../../assets/img/seat/seat-single.png');
+        background-image: url($bg1);
       }
 
       .seat-bg2 {
-        background-image: url('../../assets/img/seat/seat-sold2.png');
+        background-image: url($bg2);
       }
 
       .seat-bg3 {
-        background-image: url('../../assets/img/seat/single-seat-choose.png');
+        background-image: url($bg3);
       }
 
       .seat-bg4 {
-        background-image: url('../../assets/img/seat/seat-double.png');
+        background-image: url($bg4);
       }
 
       .seat-bg5 {
-        background-image: url('../../assets/img/seat/double-seat-sold.png');
+        background-image: url($bg5);
       }
 
       .seat-bg6 {
-        background-image: url('../../assets/img/seat/double-seat-choose.png');
+        background-image: url($bg6);
       }
     }
   }
@@ -381,6 +435,22 @@ export default {
       color: blue;
     }
   }
+  .mint-popup#show-detail{
+    width:300px;
+    height:150px;
+    border-radius:5Px;
+    .popup-content{
+      position: relative;
+      top: 50%;
+      transform: translateY(-50%);
+      text-align: center;
+      p{
+        font-size:15px;
+        font-weight:600;
+        color:#222;
+      }
+    }
+  } 
 }
 </style>
 

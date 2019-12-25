@@ -17,10 +17,11 @@ import './lib/mui/css/mui.css'
 import './lib/mui/css/icons-extra.css'
 import './seat/seat.styl'
 import './common/reset.styl'
-import { Header, Swipe, SwipeItem, Picker,DatetimePicker } from "mint-ui"
+import { Header, Swipe, SwipeItem, Popup,Picker,DatetimePicker } from "mint-ui"
 Vue.component(Header.name, Header);
 Vue.component(Swipe.name, Swipe);
 Vue.component(SwipeItem.name, SwipeItem);
+Vue.component(Popup.name, Popup);
 Vue.component(Picker.name, Picker);
 Vue.component(DatetimePicker.name, DatetimePicker);
 

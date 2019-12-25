@@ -25,7 +25,7 @@
     data(){
       return {
         jsonData:[],
-        shopSelected:'',
+        shopSelected:null,
       }
     },
     created(){

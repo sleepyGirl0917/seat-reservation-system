@@ -8,7 +8,7 @@
       <div>
         <span>时间段:</span>
         <span>
-          {{jsonData.start_time|dateTimeFilter('dateOnly')}} 
+          {{jsonData.order_date|dateTimeFilter('dateOnly')}} 
           {{jsonData.start_time|dateTimeFilter('timeOnly')}}-{{jsonData.end_time|dateTimeFilter('timeOnly')}}
         </span>
       </div>

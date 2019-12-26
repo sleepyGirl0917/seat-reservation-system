@@ -183,9 +183,9 @@ CREATE TABLE `t_user`  (
 -- ----------------------------
 -- Records of t_user
 -- ----------------------------
-INSERT INTO `t_user` VALUES (1, 'Ann', '/img/avatar/default.png', '123456', '13414850282', '0', '300.8');
-INSERT INTO `t_user` VALUES (2, 'Tom', '/img/avatar/default.png', '123456', '13672606065', '1', '644.9');
-INSERT INTO `t_user` VALUES (3, 'Ali', '/img/avatar/default.png', '123456', '18162536357', '1', '1000.0');
+INSERT INTO `t_user` VALUES (1, 'Ann', '/img/avatar/default.png', '123456', '13414850282', '0','300.8');
+INSERT INTO `t_user` VALUES (2, 'Tom', '/img/avatar/default.png', '123456', '13672606065', '1','644.9');
+INSERT INTO `t_user` VALUES (3, 'Ali', '/img/avatar/default.png', '123456', '18162536357', '1','1000.0');
 
 -- ----------------------------
 -- Table structure for t_recharge
@@ -195,7 +195,7 @@ CREATE TABLE `t_recharge`(
   `recharge_id` int(8) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT '充值id',
   `recharge_num` varchar(32) DEFAULT NULL COMMENT '订单编号（18位）',
   `user_id` int(8) UNSIGNED NULL DEFAULT NULL COMMENT '用户id',
-  `recharge_type` int(4) DEFAULT NULL COMMENT '充值类型', -- 0:储值卡 1：包时卡
+  `recharge_type` int(4) DEFAULT NULL COMMENT '充值类型', -- 0：体验卡 1：储值卡 2：包时卡
   `recharge_money` int(8) UNSIGNED NULL DEFAULT NULL COMMENT '充值（金额）',
   `recharge_send` int(8) UNSIGNED NULL DEFAULT NULL COMMENT '赠送金额',
   `recharge_time` int(8) DEFAULT NULL COMMENT '充值（时长）',
@@ -208,9 +208,10 @@ CREATE TABLE `t_recharge`(
 -- ----------------------------
 -- Records of t_recharge
 -- ----------------------------
-INSERT INTO `t_recharge` VALUES (1,'CZ2019010100000001','1','0','500','200',null,'2019-1-3 15:03:00','2020-1-3 15:03:00','500');
-INSERT INTO `t_recharge` VALUES (2,'CZ2019010100000002','2','0','1000','400',null,'2019-2-9 16:27:15','2021-2-9 16:27:15','1000');
-INSERT INTO `t_recharge` VALUES (3,'CZ2019010100000003','3','1',null,null,'365','2019-2-9 16:10:00','2020-2-9 16:10:00','4566');
+INSERT INTO `t_recharge` VALUES (1,'CZ2019010100000001','1','1','500','200',null,'2019-1-3 15:03:00','2020-1-3 15:03:00','500');
+INSERT INTO `t_recharge` VALUES (2,'CZ2019010100000002','2','1','1000','400',null,'2019-2-9 16:27:15','2021-2-9 16:27:15','1000');
+INSERT INTO `t_recharge` VALUES (3,'CZ2019010100000003','3','2',null,null,'365','2019-2-9 16:10:00','2020-2-9 16:10:00','4566');
+INSERT INTO `t_recharge` VALUES (4,'CZ2019010100000004','3','1','1000','400',null,'2019-2-9 16:11:00','2020-2-9 16:11:00','1000');
 
 -- ----------------------------
 -- Table structure for t_order

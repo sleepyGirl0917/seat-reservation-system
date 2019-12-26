@@ -27,7 +27,7 @@
               <p>{{jsonData.seat_info}}</p>
               <p>
                 日期：
-                {{jsonData.start_time|dateTimeFilter('dateOnly')}} 
+                {{jsonData.order_date|dateTimeFilter('dateOnly')}} 
                 {{jsonData.start_time|dateTimeFilter('timeOnly')}}-
                 {{jsonData.end_time|dateTimeFilter('timeOnly')}}
               </p>

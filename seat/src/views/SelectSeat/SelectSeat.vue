@@ -252,7 +252,7 @@ export default {
       this.$router.push({
         name:'order_confirm',
         params:{
-          shop_id:this.shopSelected,
+          shop_id:this.$route.query.shop_id,
           shop_name:this.shopName,
           seat_id:this.selectedSeatInfo,
           seat_count:this.seatCount,

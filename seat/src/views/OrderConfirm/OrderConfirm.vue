@@ -36,16 +36,22 @@
     <mt-popup v-model="popupVisible" position="bottom" class="select-card" popup-transition="popup-fade" >
       <div class="popup-content">
         <div class="card-title">选择会员卡</div>
-        <div class="card-box">
-          <div class="info-top">
-            <span class="bg"></span>
-            <div>储值卡</div>
-            <div>有效期:2020-10-23</div>
-          </div>
-          <div class="info-middle">充值后消费抵扣，预订座位按时计费，当日各门店累计完成单时长超过6小时后，超出时段免费</div>
-          <div class="info-bottom">
-            <div class="left">&yen;43.9</div>
-            <div class="right"><img src="../../assets/img/seat/select.png" alt=""></div>
+        <div class="card-container">
+          <div class="card-item" v-for="(item,i) in vipInfo" :key="i" @click="handlePayType(i)">
+            <div class="info-top">
+              <span class="bg"></span>
+              <div>{{item.recharge_type|payTypeFilter}}</div>
+              <div>有效期:{{item.deadline|dateTimeFilter('dateOnly')}}</div>
+            </div>
+            <div class="info-middle">充值后消费抵扣，预订座位按时计费，当日各门店累计完成单时长超过6小时后，超出时段免费</div>
+            <div class="info-bottom">
+              <div class="left">
+                <span v-if="item.recharge_type==1">&yen;{{item.balance}}</span>
+              </div>
+              <div class="right" :class="{'on':item.isSelect}">
+                <img src="../../assets/img/seat/select.png" alt="">
+              </div>
+            </div>
           </div>
         </div>
         <btn-container :text="btnText2" @submit="payTypeConfirm"></btn-container>
@@ -56,6 +62,8 @@
 
 <script>
 import Button from "../../components/Button/Button";
+import {getVipInfo,orderSeat} from "../../api/index"
+import { mapGetters } from 'vuex'
 export default {
   data() {
     return {
@@ -71,14 +79,18 @@ export default {
       payType: null,
       btnText1: "去付款",
       btnText2: "确认",
-      popupVisible: null
+      popupVisible: null,
+      vipInfo:[],
+      selectedPayType:null,
     };
+  },
+  computed:{
+    ...mapGetters(['userInfo']),
   },
   components: {
     "btn-container": Button
   },
   created() {
-    console.log(this.$route);
     this.parseParams();
   },
   methods: {
@@ -94,17 +106,41 @@ export default {
       this.duration = this.$route.params.duration;
     },
     open() {
+      this.loadVipInfo();
       this.popupVisible = true;
     },
-    handleSubmit() {
-      // 发送订座请求（预定座位，用户扣费）
-      console.log("付款成功，跳到/order");
+    // 获取用户会员卡信息
+    async loadVipInfo(){
+      let json=await getVipInfo(this.userInfo.user_id);
+      console.log(json)
+      if(json.success_code==200){
+        json.data.map((item)=>{
+          item.isSelect=false;
+        });
+        this.vipInfo=json.data;
+      }
+    },
+    // 发送订座请求
+    async handleSubmit() {
+      let json=await orderSeat(this.userInfo.user_id,this.shop_id,this.seat_id,this.order_date,this.start_time,this.end_time,this.payType);
+      if(json.success_code==200){
+        this.$router.push('/my_order')
+      }
+    },
+    handlePayType(i){
+      if(!this.vipInfo[i].isSelect){ 
+        for(let j=0;j<this.vipInfo.length;j++){
+          j==i?this.vipInfo[j].isSelect=true:this.vipInfo[j].isSelect=false
+        }
+      }else{
+        this.vipInfo[i].isSelect=false
+      }
+      this.selectedPayType=this.vipInfo[i].recharge_type;
     },
     payTypeConfirm() {
-      // 请求用户的会员信息
-      this.payType = 1;
+      this.payType = this.selectedPayType;
       this.popupVisible=false;
-    }
+    },
   }
 };
 </script>
@@ -174,70 +210,80 @@ export default {
         line-height:50px;
         margin-top:10px;
       }
-      .card-box {
-        position: relative;
-        width: 100%;
-        height: 300px;
-        line-height:1.5;
-        background: rgb(224, 153, 57);
-        border-radius: 10Px;
-        padding: 0 30px;
+      .card-container{
+        overflow-y:auto;
+        height:320px;
+        .card-item {
+          position: relative;
+          width: 100%;
+          height: 300px;
+          line-height:1.5;
+          background: rgb(224, 153, 57);
+          border-radius: 10Px;
+          padding: 0 30px;
+          margin:10px 0;
 
-        .info-top{
-          display :flex;
-          align-items:center;
-          position:relative;
-          height:120px;
-          .bg{
-            display: inline-block;
-            width: 80px;
-            height: 80px;
-            background-image: url('../../assets/img/user/card.png');
-            background-repeat: no-repeat;
-            background-size: 100% 100%;
+          .info-top{
+            display :flex;
+            align-items:center;
+            position:relative;
+            height:120px;
+            .bg{
+              display: inline-block;
+              width: 80px;
+              height: 80px;
+              background-image: url('../../assets/img/user/card.png');
+              background-repeat: no-repeat;
+              background-size: 100% 100%;
+            }
+            :nth-child(2) {
+              padding-left: 20px;
+              font-size:30px;
+              font-weight:500;
+            }
+            :nth-child(3) {
+              position:absolute;
+              top: 50%;
+              transform: translateY(-50%);
+              right: 20px;
+              height: 45px;
+              line-height: 45px;
+              text-align: center;
+              font-size:22px;
+            }
           }
-          :nth-child(2) {
-            padding-left: 20px;
-            font-size:30px;
-            font-weight:500;
-          }
-          :nth-child(3) {
-            position:absolute;
-            top: 50%;
-            transform: translateY(-50%);
-            right: 20px;
-            height: 45px;
-            line-height: 45px;
-            text-align: center;
-            font-size:22px;
-          }
-        }
 
-        .info-middle{
-          padding-left:100px;
-          font-size:20px;
-        }
-
-        .info-bottom{
-          display:flex;
-          align-items:center;
-          margin-top:20px;
-          .left{
-            flex:3;
-            text-align:right;
-            font-size:30px;
-            font-weight:500;
+          .info-middle{
+            padding-left:100px;
+            font-size:20px;
           }
-          .right{
-            flex:1;
-            text-align:center;
-            img{
-              width:50px;
-              vertical-align:middle;
+
+          .info-bottom{
+            display:flex;
+            align-items:center;
+            margin-top:20px;
+            .left{
+              flex:3;
+              text-align:right;
+              font-size:30px;
+              font-weight:500;
+            }
+            .right{
+              flex:1;
+              visibility:hidden;
+              text-align:center;
+              img{
+                width:50px;
+                vertical-align:middle;
+              }
+              &.on{
+                visibility:visible;
+              }  
             }
           }
         }
       }
+      
     }
   }
 }

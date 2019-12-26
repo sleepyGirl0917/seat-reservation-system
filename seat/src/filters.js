@@ -3,6 +3,8 @@ import Vue from 'vue'
 Vue.filter("dateTimeFilter", (val, type) => {
   // 创建日期对象
   let date = new Date(val);
+  // console.log(date)
+  if (date =='Invalid Date') return val
   // 获取年 月 日 时 分 秒
   let y = date.getFullYear();
   let m = date.getMonth() + 1;  // getMouth()的返回值从0开始，即0-11，所以需要+1

@@ -35,8 +35,19 @@
     <btn-container id="btn-submit" :text="btnText1" @submit="handleSubmit"></btn-container>
     <mt-popup v-model="popupVisible" position="bottom" class="select-card" popup-transition="popup-fade" >
       <div class="popup-content">
-        <div class="bottom-title">选择会员卡</div>
-        <my-card class="card-item"></my-card>
+        <div class="card-title">选择会员卡</div>
+        <div class="card-box">
+          <div class="info-top">
+            <span class="bg"></span>
+            <div>储值卡</div>
+            <div>有效期:2020-10-23</div>
+          </div>
+          <div class="info-middle">充值后消费抵扣，预订座位按时计费，当日各门店累计完成单时长超过6小时后，超出时段免费</div>
+          <div class="info-bottom">
+            <div class="left">&yen;43.9</div>
+            <div class="right"><img src="../../assets/img/seat/select.png" alt=""></div>
+          </div>
+        </div>
         <btn-container :text="btnText2" @submit="payTypeConfirm"></btn-container>
       </div>
     </mt-popup>
@@ -45,7 +56,6 @@
 
 <script>
 import Button from "../../components/Button/Button";
-import VipCard from "../../components/VipCard/VipCard";
 export default {
   data() {
     return {
@@ -65,8 +75,7 @@ export default {
     };
   },
   components: {
-    "btn-container": Button,
-    "my-card": VipCard
+    "btn-container": Button
   },
   created() {
     console.log(this.$route);
@@ -88,11 +97,13 @@ export default {
       this.popupVisible = true;
     },
     handleSubmit() {
-      // 发送请求
+      // 发送订座请求（预定座位，用户扣费）
       console.log("付款成功，跳到/order");
     },
     payTypeConfirm() {
+      // 请求用户的会员信息
       this.payType = 1;
+      this.popupVisible=false;
     }
   }
 };
@@ -101,7 +112,6 @@ export default {
 <style lang="stylus" scoped>
 #order-confirm {
   width: 100%;
-  // min-height: 100vh;
   padding-top: 60px;
   position: relative;
 
@@ -156,13 +166,77 @@ export default {
     .popup-content{
       height:100%;
       padding:0 5%;
-      .bottom-title{
+      .card-title{
         text-align:center;
         font-size:22px;
         font-weight:500;
         height:50px;
         line-height:50px;
         margin-top:10px;
+      }
+      .card-box {
+        position: relative;
+        width: 100%;
+        height: 300px;
+        line-height:1.5;
+        background: rgb(224, 153, 57);
+        border-radius: 10Px;
+        padding: 0 30px;
+
+        .info-top{
+          display :flex;
+          align-items:center;
+          position:relative;
+          height:120px;
+          .bg{
+            display: inline-block;
+            width: 80px;
+            height: 80px;
+            background-image: url('../../assets/img/user/card.png');
+            background-repeat: no-repeat;
+            background-size: 100% 100%;
+          }
+          :nth-child(2) {
+            padding-left: 20px;
+            font-size:30px;
+            font-weight:500;
+          }
+          :nth-child(3) {
+            position:absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            right: 20px;
+            height: 45px;
+            line-height: 45px;
+            text-align: center;
+            font-size:22px;
+          }
+        }
+
+        .info-middle{
+          padding-left:100px;
+          font-size:20px;
+        }
+
+        .info-bottom{
+          display:flex;
+          align-items:center;
+          margin-top:20px;
+          .left{
+            flex:3;
+            text-align:right;
+            font-size:30px;
+            font-weight:500;
+          }
+          .right{
+            flex:1;
+            text-align:center;
+            img{
+              width:50px;
+              vertical-align:middle;
+            }
+          }
+        }
       }
     }
   }

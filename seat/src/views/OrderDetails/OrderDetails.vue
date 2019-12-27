@@ -8,20 +8,20 @@
         时间段：{{jsonData.order_date|dateTimeFilter('dateOnly')}}
         {{jsonData.start_time}}-{{jsonData.end_time}}
       </p>
-      <p>状态：{{jsonData.order_date|orderStatusFilter(jsonData.start_time,jsonData.end_time)}}</p>
+      <p>状态：{{this.orderStatus|orderStatusFilter}}</p>
     </div>
     <div class="btn-container"> 
-      <button v-if="orderStatus==1" class="ignore" @click.prevent="cancel">取消订单</button>
-      <button v-else-if="orderStatus==2" class="ignore" @click.prevent="end">结束订单</button>
+      <button v-if="orderStatus==0" class="ignore" @click.prevent="cancel">取消订单</button>
+      <button v-else-if="orderStatus==1" class="ignore" @click.prevent="end">结束订单</button>
       <button class="ignore" @click.prevent="$router.go(-1)">返回</button>
     </div>
   </div>
 </template>
 <script>
 import { getOrderDetails,cancelOrder,endOrder } from '../../api/index'
+import { formatDate } from '../../api/common'
 import { Toast,MessageBox,Indicator } from "mint-ui"
 import { mapGetters } from 'vuex'
-import { formatDate,parseTime } from '../../api/common'
 export default {
   data() {
     return {
@@ -31,6 +31,17 @@ export default {
     };
   },
   props:['order_id'],
+  filters:{
+    orderStatusFilter(orderStatus){
+      if(orderStatus==0){
+        return '未开始'
+      }else if(orderStatus==1){
+        return '进行中'
+      }else{
+        return '已结束'
+      }
+    }
+  },
   computed:{
     // 通过mapGetters获取store中state设置的变量
     ...mapGetters(['userInfo']),
@@ -47,32 +58,26 @@ export default {
         this.jsonData=result.data;
         this.loadingStatus=true;
         this.statusControl();
-        // if(this.jsonData.orderStatus==0){ // 未开始或进行中
-        //   this.statusControl();
-        // }else{
-        //   this.orderStatus=null
-        // }
       }
       Indicator.close();
     },
     statusControl(){
-      // 获得date格式的开始/结束时间
       let dateVal=formatDate(new Date(this.jsonData.order_date),'yyyy/MM/dd'),
           startVal=this.jsonData.start_time,
           endVal=this.jsonData.end_time,
           formatStartVal = new Date(dateVal+' '+startVal),
-          formatEndVal = new Date(dateVal+' '+endVal);
-          console.log(formatStartVal,formatEndVal)
-      if(this.jsonData.orderStatus==0){
+          formatEndVal = new Date(dateVal+' '+endVal); // 获得date格式的开始/结束时间
+      if(this.jsonData.order_status==0){
         if(formatStartVal>new Date()){
-          this.orderStatus=1; // 未开始
+          this.orderStatus=0; // 未开始
         }else if(formatStartVal<=new Date()&&formatEndVal>=new Date()){
-          this.orderStatus=2; // 进行中
+          this.orderStatus=1; // 进行中
         }else {
           this.orderStatus=null; // 其他
         } 
-        // else暂时不删，因为还没有实现超时自动取消/结束订单，自动发送请求
-      }
+      }else {
+        this.orderStatus=null; // 其他
+      } 
     },
     // 取消订单
     async cancel(){

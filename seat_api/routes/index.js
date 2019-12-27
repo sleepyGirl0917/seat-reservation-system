@@ -160,7 +160,7 @@ router.post('/api/getUserInfo', (req, res) => {
 // 获取用户会员卡信息
 router.post('/api/getVipInfo', (req, res) => {
   let userId = req.body.userId;
-  let sql = 'SELECT A.recharge_id,A.recharge_num,A.recharge_type,A.deadline,A.balance FROM t_recharge A,t_user B WHERE A.user_id=B.user_id AND A.user_id=? AND A.deadline>=NOW()';
+  let sql = 'SELECT A.recharge_id,A.recharge_type,A.deadline,A.balance FROM t_recharge A,t_user B WHERE A.user_id=B.user_id AND A.user_id=? AND A.deadline>=NOW()';
   pool.query(sql, [userId], (err, result) => {
     if (err) throw err;
     if (result[0]) {
@@ -182,7 +182,7 @@ router.post('/api/orderSeat', (req, res) => {
     let orderCost = Math.ceil(time / unit) * 0.5 * seat_price;
     let sysDate = new Date().Format('yyyyMMddhhmmss'); // 生成系统时间
     let fn = (num, length) => (Array(length).join('0') + num).slice(-length);
-    let id = fn(result[1][0].length, 4);
+    let id = fn(result[1][0].length+1, 4);
     let orderNum = "DZ" + sysDate + id; // 订单编号
 
     if (cardType == 1) { //储值卡：余额大于orderCost且在有效期内
@@ -220,7 +220,7 @@ router.post('/api/orderSeat', (req, res) => {
 router.post('/api/getOrderLatest', (req, res) => {
   let userId = req.body.userId;
   if (userId) {
-    let sql = 'SELECT A.order_id,B.shop_name,C.seat_id,C.seat_type,C.seat_info,A.order_date,A.start_time,A.end_time from t_order A';
+    let sql = 'SELECT A.order_id, A.order_status,B.shop_name,C.seat_id,C.seat_type,C.seat_info,A.order_date,A.start_time,A.end_time from t_order A';
     sql += ' LEFT JOIN t_shop B on A.shop_id=B.shop_id';
     sql += ' LEFT JOIN t_shop_seat C on A.sid=C.sid';
     sql += ' WHERE A.user_id = ? AND A.order_status=? LIMIT 1;';

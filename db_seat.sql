@@ -243,15 +243,6 @@ CREATE TABLE `t_order`  (
 -- ----------------------------
 -- Records of t_order
 -- ----------------------------
-INSERT INTO `t_order` VALUES (null, 1, 1, '20190000000000001','25', '单人座：25', '2019-5-6','2019-5-6 09:15','2019-5-6 19:15',NULL,'54','54','0','1','2019-5-6 09:00','1','1');
-INSERT INTO `t_order` VALUES (null, 1, 1, '20190000000000002','36', '单人座：36', '2019-5-7','2019-5-7 09:30','2019-5-7 18:00',NULL,'54','37.8','0','3','2019-5-7 09:00','1','1');
-INSERT INTO `t_order` VALUES (null, 2, 2, '20190000000000003','61', '单人座：1', '2019-5-9','2019-5-9 10:30','2019-5-9 18:30',NULL,'54','0','0','2','2019-5-9 09:00','1','2');
-INSERT INTO `t_order` VALUES (null, 3, 2, '20190000000000004','61', '单人座：1','2019-12-5','2019-12-5 12:30','2019-12-5 18:30',NULL,'54','0','0','2','2019-12-5 09:00','1','4');
-INSERT INTO `t_order` VALUES (null, 3, 2, '20190000000000005','61', '单人座：1', '2019-12-5','2019-12-5 18:30','2019-12-5 21:30',NULL,'27','27','1','2','2019-12-5 09:00','1','4');
-INSERT INTO `t_order` VALUES (null, 3, 2, '20190000000000006','85', '单人座：25', '2019-12-12','2019-12-12 8:30','2019-12-12 10:30','2019-12-12 10:30','18','0','0','2','2019-12-10 09:00','1','4');
-INSERT INTO `t_order` VALUES (null, 3, 2, '20190000000000007','89', '单人座：29', '2019-12-12','2019-12-12 15:30','2019-12-12 18:30',NULL,'54','0','0','0','2019-12-10 09:00','1','4');
-INSERT INTO `t_order` VALUES (null, 3, 2, '20190000000000008','89', '单人座：29', '2019-12-24','16:45','18:30',NULL,'18','0','0','0','2019-12-10 09:00','1','4');
-INSERT INTO `t_order` VALUES (null, 3, 2, '20190000000000009','89', '单人座：29', '2019-12-26','10:30','22:30',NULL,'54','0','0','0','2019-12-10 09:00','1','4');
 
 -- ----------------------------
 -- Table structure for t_admin
@@ -271,3 +262,28 @@ CREATE TABLE `t_admin`  (
 -- Records of t_admin
 -- ----------------------------
 INSERT INTO `t_admin` VALUES (1, 'admin', 'admin', '1', '13414850215', '/img/default.png' );
+
+-- ----------------------------
+-- Table structure for order_history 
+-- 创建对order表操作历史表
+-- ----------------------------
+DROP TABLE IF EXISTS `order_history`;
+CREATE TABLE `order_history` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `order_id` bigint(20) NOT NULL,
+  `operatetype` varchar(200) NOT NULL,
+  `operatetime` datetime NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Table structure for tri_insert_order 
+-- 创建order表插入事件对应的触发器
+-- ----------------------------
+DROP TRIGGER IF EXISTS `tri_insert_order`;
+DELIMITER ;;
+CREATE TRIGGER `tri_insert_order` AFTER INSERT ON `t_order` FOR EACH ROW begin
+    INSERT INTO order_history(order_id, operatetype, operatetime) VALUES (new.order_id, '订座',  now());
+end
+;;
+DELIMITER ;

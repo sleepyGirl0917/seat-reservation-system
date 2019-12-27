@@ -6,13 +6,13 @@
       <p>{{jsonData.seat_info}}</p>
       <p class="small">
         时间段：{{jsonData.order_date|dateTimeFilter('dateOnly')}}
-        {{jsonData.start_time|dateTimeFilter('timeOnly')}}-{{jsonData.end_time|dateTimeFilter('timeOnly')}}
+        {{jsonData.start_time}}-{{jsonData.end_time}}
       </p>
-      <p>状态：{{jsonData.start_time|orderStatusFilter}}</p>
+      <p>状态：{{jsonData.order_date|orderStatusFilter(jsonData.start_time,jsonData.end_time)}}</p>
     </div>
     <div class="btn-container"> 
-      <button v-if="`${jsonData.start_time|orderStatusFilter}=='未开始'`" class="ignore" @click.prevent="cancel">取消订单</button>
-      <button v-else class="ignore" @click.prevent="end">结束订单</button>
+      <button v-if="orderStatus==1" class="ignore" @click.prevent="cancel">取消订单</button>
+      <button v-else-if="orderStatus==2" class="ignore" @click.prevent="end">结束订单</button>
       <button class="ignore" @click.prevent="$router.go(-1)">返回</button>
     </div>
   </div>
@@ -21,11 +21,13 @@
 import { getOrderDetails,cancelOrder,endOrder } from '../../api/index'
 import { Toast,MessageBox,Indicator } from "mint-ui"
 import { mapGetters } from 'vuex'
+import { formatDate,parseTime } from '../../api/common'
 export default {
   data() {
     return {
       loadingStatus:false,
-      jsonData:{}
+      jsonData:{},
+      orderStatus:null
     };
   },
   props:['order_id'],
@@ -44,12 +46,38 @@ export default {
       if(result.success_code==200){
         this.jsonData=result.data;
         this.loadingStatus=true;
+        this.statusControl();
+        // if(this.jsonData.orderStatus==0){ // 未开始或进行中
+        //   this.statusControl();
+        // }else{
+        //   this.orderStatus=null
+        // }
       }
       Indicator.close();
     },
+    statusControl(){
+      // 获得date格式的开始/结束时间
+      let dateVal=formatDate(new Date(this.jsonData.order_date),'yyyy/MM/dd'),
+          startVal=this.jsonData.start_time,
+          endVal=this.jsonData.end_time,
+          formatStartVal = new Date(dateVal+' '+startVal),
+          formatEndVal = new Date(dateVal+' '+endVal);
+          console.log(formatStartVal,formatEndVal)
+      if(this.jsonData.orderStatus==0){
+        if(formatStartVal>new Date()){
+          this.orderStatus=1; // 未开始
+        }else if(formatStartVal<=new Date()&&formatEndVal>=new Date()){
+          this.orderStatus=2; // 进行中
+        }else {
+          this.orderStatus=null; // 其他
+        } 
+        // else暂时不删，因为还没有实现超时自动取消/结束订单，自动发送请求
+      }
+    },
     // 取消订单
     async cancel(){
-      let result = await cancelOrder(this.userInfo.user_id,this.order_id);
+      let result = await cancelOrder(this.userInfo.user_id,this.order_id,this.jsonData.pid);
+      console.log(result)
       if(result.success_code==200){
         Toast('取消成功');
         this.$router.go(-1);
@@ -59,7 +87,8 @@ export default {
     },
     // 结束订单
     async end(){
-      let result = await endOrder(this.userInfo.user_id,this.order_id);
+      let result = await endOrder(this.userInfo.user_id,this.order_id,this.jsonData.pid);
+      console.log(result)
       if(result.success_code==200){
         Toast('结束成功');
         this.$router.go(-1);
@@ -100,9 +129,11 @@ export default {
   .btn-container
     width 100%
     display flex
-    justify-content space-between
+    align-items center
+    margin 0
     position absolute
     bottom 20px
+    left 0
     button 
       flex  1
       margin 50px

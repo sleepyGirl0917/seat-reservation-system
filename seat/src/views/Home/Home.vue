@@ -31,7 +31,7 @@
                 {{jsonData.start_time|dateTimeFilter('timeOnly')}}-
                 {{jsonData.end_time|dateTimeFilter('timeOnly')}}
               </p>
-              <p>状态：{{jsonData.start_time|orderStatusFilter}}</p>
+              <p>状态：{{jsonData.order_date|orderStatusFilter(jsonData.start_time,jsonData.end_time)}}</p>
             </div>
           </div>
         </a>

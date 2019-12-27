@@ -249,20 +249,22 @@ export default {
     },
     // 确认选座
     confirmSelect() {
-      this.$router.push({
-        name:'order_confirm',
-        params:{
-          shop_id:this.$route.query.shop_id,
-          shop_name:this.shopName,
-          seat_id:this.selectedSeatInfo,
-          seat_count:this.seatCount,
-          seat_type:this.selectedSeatType,
-          order_date:this.dateVal,
-          start_time:this.selectedStartValue,
-          end_time:this.selectedEndValue,
-          duration:this.duration
-        }
-      });
+      if(this.seatCount==1){
+        this.$router.push({
+          name:'order_confirm',
+          params:{
+            shop_id:this.$route.query.shop_id,
+            shop_name:this.shopName,
+            seat_id:this.selectedSeatInfo,
+            // seat_count:this.seatCount,
+            seat_type:this.selectedSeatType,
+            order_date:this.dateVal,
+            start_time:this.selectedStartValue,
+            end_time:this.selectedEndValue,
+            duration:this.duration
+          }
+        })
+      }
     }
   }
 };

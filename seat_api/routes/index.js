@@ -141,7 +141,7 @@ router.post('/api/getUserInfo', (req, res) => {
   let userId = req.session.userId; */
   let userId = req.body.userId;
   if (userId) {
-    let sql = 'SELECT user_id,user_name,avatar,phone,balance FROM t_user WHERE user_id = ? LIMIT 1;';
+    let sql = 'SELECT user_id,user_name,avatar,phone,balance FROM t_user WHERE user_id = ?';
     pool.query(sql, [userId], (err, result) => {
       if (err) {
         res.send({ error_code: 1, message: '获取用户信息失败' });
@@ -160,7 +160,7 @@ router.post('/api/getUserInfo', (req, res) => {
 // 获取用户会员卡信息
 router.post('/api/getVipInfo', (req, res) => {
   let userId = req.body.userId;
-  let sql = 'SELECT A.balance,b.recharge_type,B.deadline FROM t_user A,t_recharge B WHERE A.user_id=B.user_id AND A.user_id=?';
+  let sql = 'SELECT A.recharge_id,A.recharge_type,A.deadline,A.balance FROM t_recharge A,t_user B WHERE A.user_id=B.user_id AND A.user_id=? AND A.deadline>=NOW()';
   pool.query(sql, [userId], (err, result) => {
     if (err) throw err;
     if (result[0]) {
@@ -171,7 +171,7 @@ router.post('/api/getVipInfo', (req, res) => {
 
 // 预定座位
 router.post('/api/orderSeat', (req, res) => {
-  let { userId, shopId, dateVal, startVal, endVal, seatId, payType } = req.body;
+  let { userId, shopId, dateVal, startVal, endVal, seatId, cardType, rechargeId } = req.body;
   let time = new Date('2019/1/1' + " " + endVal).getTime() - new Date('2019/1/1' + " " + startVal).getTime();
   let unit = 1000 * 60 * 30;
   let sql = 'SELECT sid,seat_type,seat_price FROM t_shop_seat WHERE shop_id=? AND seat_id=?;';
@@ -184,15 +184,37 @@ router.post('/api/orderSeat', (req, res) => {
     let fn = (num, length) => (Array(length).join('0') + num).slice(-length);
     let id = fn(result[1][0].length, 4);
     let orderNum = "DZ" + sysDate + id; // 订单编号
-    sql = 'INSERT INTO t_order(user_id,shop_id,sid,order_date,start_time,end_time,order_cost,pay_type,order_num) VALUES (?,?,?,?,?,?,?,?,?)';
-    pool.query(sql, [userId, shopId, sid, dateVal, startVal, endVal, orderCost, payType, orderNum], (err, result) => {
+
+    if (cardType == 1) { //储值卡：余额大于orderCost且在有效期内
+      sql2 = `INSERT INTO t_order(user_id,shop_id,sid,order_date,start_time,end_time,order_cost,pay_type,order_num)  
+      SELECT '${userId}','${shopId}','${sid}','${dateVal}','${startVal}','${endVal}','${orderCost}','${cardType}','${orderNum}' FROM DUAL 
+      WHERE (select balance from t_recharge where recharge_id=${rechargeId} and deadline>=NOW()) >=${orderCost};`
+      // 更新会员卡余额
+      sql2 += ` UPDATE t_recharge SET balance=balance-${orderCost} WHERE recharge_id = ${rechargeId} ;`;
+      // 更新用户表余额（可以有多张储值卡）
+      sql2 +=`UPDATE t_user AS A SET balance=(SELECT SUM(balance) FROM t_recharge AS B 
+      WHERE A.user_id=B.user_id AND B.user_id=3 AND B.recharge_type=1 AND B.deadline>=NOW())`;
+    } else if (cardType == 2&&seat_type==0) { //包时卡：在有效期内且只能订单人座
+      sql2 = `INSERT INTO t_order(user_id,shop_id,sid,order_date,start_time,end_time,order_cost,pay_type,order_num) 
+      SELECT '${userId}','${shopId}','${sid}','${dateVal}','${startVal}','${endVal}','${orderCost}','${cardType}','${orderNum}' FROM DUAL 
+      WHERE (select deadline from t_recharge where recharge_id=${rechargeId} )>=NOW();`;
+    }else{
+      res.send({error_code: 1, message: '订座失败'})
+      return;
+    }
+
+    pool.query(sql2, (err, result) => {
       if (err) throw err;
-      if (result.affectedRows > 0) {
-        res.send({success_code:200,message:'订座成功'})
+      // res.send({data:result})
+      console.log(result)
+      if (result[0].affectedRows > 0) {
+        res.send({ success_code: 200, message: '订座成功' })
+      } else {
+        res.send({ error_code: 1, message: '订座失败' })
       }
     })
   })
-  // 还需要：用户扣费
+
 })
 
 // 获取距离最近的可用订座信息

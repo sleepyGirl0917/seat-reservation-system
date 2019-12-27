@@ -1,6 +1,11 @@
 <template>
   <div id="order-confirm">
-    <div class="confirm-title">预定座位：{{seat_type==0?'单人座':'双人座'}}{{seat_id}}号</div>
+    <div class="confirm-title">
+      <span>预定座位:</span>
+      <span v-if="seat_type!=null">{{seat_type==0?'单人座':'双人座'}}</span>
+      <span>{{seat_id}}</span>
+      <span>号</span>
+    </div>
     <div class="confirm-container">
       <div>
         <span>店铺:</span>
@@ -16,11 +21,11 @@
       </div>
       <div>
         <span>座位类型:</span>
-        <span>{{seat_type==0?'单人座':'双人座'}}</span>
+        <span v-if="seat_type!=null">{{seat_type==0?'单人座':'双人座'}}</span>
       </div>
       <div>
         <span>预定时长:</span>
-        <span>{{duration}}h</span>
+        <span>{{duration?duration:0}}h</span>
       </div>
       <div>
         <span>小计:</span>
@@ -82,6 +87,7 @@ export default {
       popupVisible: null,
       vipInfo:[],
       selectedPayType:null,
+      selectedCardId:null,
     };
   },
   computed:{
@@ -98,7 +104,7 @@ export default {
       this.shop_id = this.$route.params.shop_id;
       this.shop_name = this.$route.params.shop_name;
       this.seat_id = this.$route.params.seat_id;
-      this.seat_count = this.$route.params.seat_count;
+      // this.seat_count = this.$route.params.seat_count;
       this.seat_type = this.$route.params.seat_type;
       this.order_date = this.$route.params.order_date;
       this.start_time = this.$route.params.start_time;
@@ -122,7 +128,8 @@ export default {
     },
     // 发送订座请求
     async handleSubmit() {
-      let json=await orderSeat(this.userInfo.user_id,this.shop_id,this.seat_id,this.order_date,this.start_time,this.end_time,this.payType);
+      let json=await orderSeat(this.userInfo.user_id,this.shop_id,this.seat_id,this.order_date,this.start_time,this.end_time,this.payType,this.selectedCardId);
+      console.log(json)
       if(json.success_code==200){
         this.$router.push('/my_order')
       }
@@ -136,6 +143,7 @@ export default {
         this.vipInfo[i].isSelect=false
       }
       this.selectedPayType=this.vipInfo[i].recharge_type;
+      this.selectedCardId=this.vipInfo[i].recharge_id;
     },
     payTypeConfirm() {
       this.payType = this.selectedPayType;

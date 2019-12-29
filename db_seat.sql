@@ -226,9 +226,9 @@ CREATE TABLE `t_order`  (
   `order_num` varchar(32) DEFAULT NULL COMMENT '订单编号（18位）',
   `sid` int(8) UNSIGNED NULL DEFAULT NULL COMMENT '座位id',
   `seat_info` varchar(8) DEFAULT NULL COMMENT '座位信息',
-  `order_date`  date DEFAULT NULL COMMENT '订座日期',
-  `start_time` varchar(32) DEFAULT NULL COMMENT '订座开始时间',
-  `end_time` varchar(32) DEFAULT NULL COMMENT '订座结束时间',
+  `order_date`  varchar(32) DEFAULT NULL COMMENT '订座日期',
+  `start_time` bigint(64) DEFAULT NULL COMMENT '订座开始时间',
+  `end_time` bigint(64) DEFAULT NULL COMMENT '订座结束时间',
   `status_change_time` datetime DEFAULT NULL COMMENT '状态改变时间',
   `order_cost` decimal(10,1) DEFAULT 0  COMMENT '订座费用',
   `order_refund` decimal(10,1) DEFAULT 0  COMMENT '订座退款',
@@ -271,6 +271,25 @@ DROP TABLE IF EXISTS `order_history`;
 CREATE TABLE `order_history` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
   `order_id` bigint(20) NOT NULL,
+  `start_time` bigint(64) NOT NULL,
+  `end_time` bigint(64) NOT NULL,
+  `operatetype` varchar(200) NOT NULL,
+  `operatetime` datetime NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Table structure for status_history 
+-- 创建对order_status操作历史表
+-- ----------------------------
+DROP TABLE IF EXISTS `status_history`;
+CREATE TABLE `status_history` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `order_id` bigint(20) NOT NULL,
+  `user_id` bigint(20) NOT NULL,
+  `pid` bigint(20) NOT NULL,
+  `order_refund` decimal(10,1) NOT NULL,
+  `order_status` int(4) NOT NULL,
   `operatetype` varchar(200) NOT NULL,
   `operatetime` datetime NOT NULL,
   PRIMARY KEY (`id`)
@@ -280,10 +299,40 @@ CREATE TABLE `order_history` (
 -- Table structure for tri_insert_order 
 -- 创建order表插入事件对应的触发器
 -- ----------------------------
-DROP TRIGGER IF EXISTS `tri_insert_order`;
-DELIMITER ;;
 CREATE TRIGGER `tri_insert_order` AFTER INSERT ON `t_order` FOR EACH ROW begin
-    INSERT INTO order_history(order_id, operatetype, operatetime) VALUES (new.order_id, '订座',  now());
-end
-;;
+  INSERT INTO order_history(order_id, start_time,end_time,operatetype, operatetime) 
+  VALUES (new.order_id,new.start_time,new.end_time, '订座',  now());
+
+-- ----------------------------
+-- Table structure for tri_update_order_status 
+-- 创建order表插入事件对应的触发器
+-- ----------------------------
+CREATE TRIGGER `tri_update_order_status` AFTER UPDATE ON `t_order` FOR EACH ROW  
+  INSERT INTO status_history(order_id,user_id,pid,order_refund,order_status,operatetype,operatetime) 
+  VALUES (new.order_id,new.user_id,new.pid,new.order_refund,new.order_status,'改变订座状态',  now());
+
+-- ----------------------------
+-- Table structure for tri_recharge_balance 
+-- 创建order_status=4时对应的触发器
+-- ----------------------------
+CREATE TRIGGER `tri_recharge_balance` BEFORE INSERT ON `status_history` FOR EACH ROW 
+  UPDATE t_recharge set balance=balance+new.order_refund WHERE recharge_id=new.pid and new.order_status=4;
+
+-- ----------------------------
+-- Table structure for tri_user_balance 
+-- 创建order_status=4时对应的触发器
+-- ----------------------------
+CREATE TRIGGER `tri_user_balance` AFTER INSERT ON `status_history` FOR EACH ROW 
+  UPDATE t_user set balance = balance+new.order_refund WHERE user_id=new.user_id and new.order_status=4;
+
+-- ----------------------------
+-- 定义一个存储过程取名为e_test
+-- 超过开始时间15分钟后将order_status设为4（逾期）
+-- ----------------------------
+DELIMITER $$
+DROP PROCEDURE IF EXISTS e_test $$
+CREATE PROCEDURE e_test()
+BEGIN
+  update t_order set order_status=4 where REPLACE(unix_timestamp(current_timestamp(3)),'.','')-start_time>=1000*60*1 and order_status=0;
+END$$
 DELIMITER ;

@@ -15,9 +15,9 @@ export const getOrderAll = (userId) => ajax('/api/getOrderAll', { userId }, 'POS
 // 获取订单详情
 export const getOrderDetails = (userId, orderId) => ajax('/api/getOrderDetails', { userId, orderId }, 'POST')
 // 取消订单
-export const cancelOrder = (userId, orderId, rechargeId) => ajax('/api/cancelOrder', { userId, orderId, rechargeId}, 'POST')
+export const cancelOrder = (userId, orderId, rechargeId) => ajax('/api/cancelOrder', { userId, orderId, rechargeId }, 'POST')
 // 结束订单
-export const endOrder = (userId, orderId, rechargeId) => ajax('/api/endOrder', { userId, orderId, rechargeId}, 'POST')
+export const endOrder = (userId, orderId, rechargeId) => ajax('/api/endOrder', { userId, orderId, rechargeId }, 'POST')
 // 获取所有订座记录
 export const getMyDataAll = (userId) => ajax('/api/getMyDataAll', { userId }, 'POST')
 // 获取延长时段记录
@@ -41,10 +41,10 @@ export const logout = () => ajax('/api/logout')
 // 加载店铺信息
 export const getShopInfo = () => ajax('/api/getShopInfo')
 // 获取已被预定的座位
-export const getSeatSoldInfo = (shopId, dateVal, startVal, endVal) => ajax('/api/getSeatSoldInfo', { shopId, dateVal, startVal, endVal }, 'POST')
+export const getSeatSoldInfo = (shopId, startVal, endVal) => ajax('/api/getSeatSoldInfo', { shopId, startVal, endVal }, 'POST')
 // 获取座位被预定的时段详情
 export const getSeatSoldDetail = (shopId, dateVal, seatId) => ajax('/api/getSeatSoldDetail', { shopId, dateVal, seatId }, 'POST')
 // 获取用户会员卡信息
 export const getVipInfo = (userId) => ajax('/api/getVipInfo', { userId }, 'POST')
 // 预定座位
-export const orderSeat = (userId, shopId, seatId, dateVal, startVal, endVal, cardType, rechargeId) => ajax('/api/orderSeat', { userId, shopId, seatId, dateVal, startVal, endVal, cardType, rechargeId },'POST')
+export const orderSeat = (userId, shopId, seatId,dateVal,startVal, endVal, cardType, rechargeId) => ajax('/api/orderSeat', { userId, shopId, seatId, dateVal,startVal, endVal, cardType, rechargeId }, 'POST')

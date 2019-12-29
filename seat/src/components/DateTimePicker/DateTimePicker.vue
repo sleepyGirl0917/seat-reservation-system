@@ -41,13 +41,14 @@ export default {
     formatList() {
       for (let i = 0; i < 3; i++) {
         let date = new Date(Date.parse(new Date()) + 1000 * 60 * 60 * 24 * i);
-        document
-          .getElementsByClassName("picker-slot")[2]
-          .getElementsByClassName("picker-item")[i].innerHTML = formatDate(date,'yyyy-MM-dd');
-        document.getElementsByClassName("picker-slot")[0].style.display =
-          "none";
-        document.getElementsByClassName("picker-slot")[1].style.display =
-          "none";
+        let inner=document.getElementsByClassName("picker-slot")[2].getElementsByClassName("picker-item")[i];
+        if(inner){
+          document.getElementsByClassName("picker-slot")[2].getElementsByClassName("picker-item")[i].innerHTML = formatDate(date,'yyyy-MM-dd');
+        }else{
+          console.log('12-30,12-31')
+        }
+        document.getElementsByClassName("picker-slot")[0].style.display ="none";
+        document.getElementsByClassName("picker-slot")[1].style.display ="none";
       }
     },
     openPicker() {

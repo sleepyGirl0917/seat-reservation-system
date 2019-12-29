@@ -9,7 +9,8 @@
             时间：{{orderData.start_time|dateTimeFilter('timeOnly')}}-{{orderData.end_time|dateTimeFilter('timeOnly')}}
           </p>
         </div>
-        <div class="order-status border-top">状态：{{orderData.order_date|orderStatusFilter(orderData.start_time,orderData.end_time)}}</div>
+        <!-- <div class="order-status border-top">状态：{{orderData.start_time|orderStatusFilter(orderData.end_time)}}</div> -->
+        <div class="order-status border-top">状态：{{orderData.order_status|orderStatusFilter}}</div>
         <a class="navigate-right border-top" @click="$router.push(`/order_details/${orderData.order_id}`)">查看详情</a>
       </div>
   </div>

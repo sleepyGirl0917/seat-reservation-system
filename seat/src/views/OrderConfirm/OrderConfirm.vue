@@ -128,7 +128,10 @@ export default {
     },
     // 发送订座请求
     async handleSubmit() {
-      let json=await orderSeat(this.userInfo.user_id,this.shop_id,this.seat_id,this.order_date,this.start_time,this.end_time,this.payType,this.selectedCardId);
+      let start_time=new Date(this.order_date+' '+this.start_time).getTime(),
+      end_time=new Date(this.order_date+' '+this.end_time).getTime();
+      console.log(start_time,end_time)
+      let json=await orderSeat(this.userInfo.user_id,this.shop_id,this.seat_id,this.order_date,start_time,end_time,this.payType,this.selectedCardId);
       console.log(json)
       if(json.success_code==200){
         this.$router.push('/my_order')

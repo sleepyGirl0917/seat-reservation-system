@@ -159,13 +159,14 @@ export default {
       }
       // 如果是当天，只能选择当前时间之后的开始时间
       if(this.isToday){
-        let now=formatTime(new Date());
+        // let now=formatTime(new Date());
+        let now=new Date().getTime();
         value<now?value=now:''
       }
-      this.selectedStartValue = value;
-      let startValue = parseTime(value);
-      let endValue = new Date(startValue + this.unit);
-      this.getEndTime(formatTime(endValue));
+      this.selectedStartValue = value;    // hh:mm格式的字符串
+      let startValue = parseTime(value);  // 把hh:mm格式字符串解析为单位为毫秒的时间
+      let endValue = new Date(startValue + this.unit);  // 默认结束时间比开始时间多半小时
+      this.getEndTime(formatTime(endValue));  
     },
     // 设置结束时间
     getEndTime(value) {
@@ -185,8 +186,10 @@ export default {
     // 获取可选座位
     async loadSeatSoldInfo(){
       if (this.$route.query.shop_id){
+        let start_time=new Date(this.dateVal+' '+this.selectedStartValue),
+            end_time=new Date(this.dateVal+' '+this.selectedEndValue);
         // 请求已被预定的座位
-        let json = await getSeatSoldInfo(this.$route.query.shop_id,this.dateVal,this.selectedStartValue,this.selectedEndValue);
+        let json = await getSeatSoldInfo(this.$route.query.shop_id,start_time,end_time);
         console.log(json)
         if(json.success_code==200){
           this.seatSoldInfo = json.data;

@@ -6,13 +6,14 @@
       <p>{{jsonData.seat_info}}</p>
       <p class="small">
         时间段：{{jsonData.order_date|dateTimeFilter('dateOnly')}}
-        {{jsonData.start_time}}-{{jsonData.end_time}}
+        {{jsonData.start_time|dateTimeFilter('timeOnly')}}-{{jsonData.end_time|dateTimeFilter('timeOnly')}}
       </p>
-      <p>状态：{{this.orderStatus|orderStatusFilter}}</p>
+      <!-- <p>状态：{{this.orderStatus|orderStatusFilter}}</p> -->
+      <p>状态：{{jsonData.order_status|orderStatusFilter}}</p>
     </div>
     <div class="btn-container"> 
-      <button v-if="orderStatus==0" class="ignore" @click.prevent="cancel">取消订单</button>
-      <button v-else-if="orderStatus==1" class="ignore" @click.prevent="end">结束订单</button>
+      <button v-if="jsonData.order_status==0" class="ignore" @click.prevent="cancel">取消订单</button>
+      <button v-else-if="jsonData.order_status==1" class="ignore" @click.prevent="end">结束订单</button>
       <button class="ignore" @click.prevent="$router.go(-1)">返回</button>
     </div>
   </div>
@@ -27,7 +28,7 @@ export default {
     return {
       loadingStatus:false,
       jsonData:{},
-      orderStatus:null
+      // orderStatus:null
     };
   },
   props:['order_id'],
@@ -53,32 +54,28 @@ export default {
     async loadOrderDetails(){
       Indicator.open('加载中...');
       let result=await getOrderDetails(this.userInfo.user_id,this.order_id);
-      // console.log(result)
+      console.log(result)
       if(result.success_code==200){
         this.jsonData=result.data;
         this.loadingStatus=true;
-        this.statusControl();
+        // this.statusControl();
       }
       Indicator.close();
     },
-    statusControl(){
-      let dateVal=formatDate(new Date(this.jsonData.order_date),'yyyy/MM/dd'),
-          startVal=this.jsonData.start_time,
-          endVal=this.jsonData.end_time,
-          formatStartVal = new Date(dateVal+' '+startVal),
-          formatEndVal = new Date(dateVal+' '+endVal); // 获得date格式的开始/结束时间
-      if(this.jsonData.order_status==0){
-        if(formatStartVal>new Date()){
-          this.orderStatus=0; // 未开始
-        }else if(formatStartVal<=new Date()&&formatEndVal>=new Date()){
-          this.orderStatus=1; // 进行中
-        }else {
-          this.orderStatus=null; // 其他
-        } 
-      }else {
-        this.orderStatus=null; // 其他
-      } 
-    },
+    // statusControl(){
+    //   let start_time=new Date(this.jsonData.start_time),end_time=new Date(this.jsonData.end_time);
+    //   if(this.jsonData.order_status==0){
+    //     if(start_time>new Date()){
+    //       this.orderStatus=0; // 未开始
+    //     }else if(start_time<=new Date()&&end_time>=new Date()){
+    //       this.orderStatus=1; // 进行中
+    //     }else {
+    //       this.orderStatus=null; // 其他
+    //     } 
+    //   }else {
+    //     this.orderStatus=null; // 其他
+    //   } 
+    // },
     // 取消订单
     async cancel(){
       let result = await cancelOrder(this.userInfo.user_id,this.order_id,this.jsonData.pid);

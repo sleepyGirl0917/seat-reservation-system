@@ -233,7 +233,7 @@ CREATE TABLE `t_order`  (
   `order_cost` decimal(10,1) DEFAULT 0  COMMENT '订座费用',
   `order_refund` decimal(10,1) DEFAULT 0  COMMENT '订座退款',
   `is_delay` int(4) DEFAULT 0 COMMENT '是否为延长时段', -- 0：不是 1：是
-  `order_status` int(4) DEFAULT 0 COMMENT '订单状态',  -- 0：未开始或进行中 1：取消 2：结束 3：逾期
+  `order_status` int(4) DEFAULT 0 COMMENT '订单状态',  -- 0：未开始 1：进行中  2：结束 3：取消 4：逾期，释放座位 5:时间到，释放座位
   `pay_time` datetime NULL DEFAULT CURRENT_TIMESTAMP COMMENT '支付时间',
   `pay_type` int(4) DEFAULT NULL COMMENT '支付方式',  -- 0：体验卡 1：储值卡 2：包时卡
   `pid` int(4) DEFAULT NULL COMMENT '支付会员卡id', 
@@ -299,17 +299,15 @@ CREATE TABLE `status_history` (
 -- Table structure for tri_insert_order 
 -- 创建order表插入事件对应的触发器
 -- ----------------------------
-CREATE TRIGGER `tri_insert_order` AFTER INSERT ON `t_order` FOR EACH ROW begin
-  INSERT INTO order_history(order_id, start_time,end_time,operatetype, operatetime) 
-  VALUES (new.order_id,new.start_time,new.end_time, '订座',  now());
+CREATE TRIGGER `tri_insert_order` AFTER INSERT ON `t_order` FOR EACH ROW 
+  INSERT INTO order_history(order_id, start_time,end_time,operatetype, operatetime) VALUES (new.order_id,new.start_time,new.end_time, '订座',  now());
 
 -- ----------------------------
 -- Table structure for tri_update_order_status 
 -- 创建order表插入事件对应的触发器
 -- ----------------------------
 CREATE TRIGGER `tri_update_order_status` AFTER UPDATE ON `t_order` FOR EACH ROW  
-  INSERT INTO status_history(order_id,user_id,pid,order_refund,order_status,operatetype,operatetime) 
-  VALUES (new.order_id,new.user_id,new.pid,new.order_refund,new.order_status,'改变订座状态',  now());
+  INSERT INTO status_history(order_id,user_id,pid,order_refund,order_status,operatetype,operatetime) VALUES (new.order_id,new.user_id,new.pid,new.order_refund,new.order_status,'改变订座状态',  now());
 
 -- ----------------------------
 -- Table structure for tri_recharge_balance 
@@ -334,5 +332,6 @@ DROP PROCEDURE IF EXISTS e_test $$
 CREATE PROCEDURE e_test()
 BEGIN
   update t_order set order_status=4 where REPLACE(unix_timestamp(current_timestamp(3)),'.','')-start_time>=1000*60*1 and order_status=0;
+  update t_order set order_status=5 where REPLACE(unix_timestamp(current_timestamp(3)),'.','')-end_time>=0 and order_status=1;
 END$$
 DELIMITER ;

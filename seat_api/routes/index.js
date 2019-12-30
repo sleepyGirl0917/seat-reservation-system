@@ -29,9 +29,9 @@ router.post('/api/getSeatSoldInfo', (req, res) => {
   let { shopId, startVal, endVal } = req.body;
   let seat = [];
   let sql = 'SELECT A.order_date,A.start_time,A.end_time,B.seat_id from t_order A,t_shop_seat B WHERE A.sid=B.sid';
-  sql += ' AND A.shop_id= ? AND A.start_time<=? AND A.end_time>=?';
+  sql += ' AND A.shop_id= ? AND A.start_time<=? AND A.end_time>=? AND A.order_status=? OR A.order_status=?';
   // 除A.start_time>endVal OR A.end_val<startVal以外
-  pool.query(sql, [shopId, endVal, startVal], (err, result) => {
+  pool.query(sql, [shopId, endVal, startVal,0,1], (err, result) => {
     if (err) throw err;
     for (let i = 0; i < result.length; i++) {
       seat.push(result[i].seat_id)
@@ -52,85 +52,6 @@ router.post('/api/getSeatSoldDetail', (req, res) => {
     }
   })
 })
-
-//获取手机验证码
-router.post('/api/getPhoneCode', (req, res) => {
-  let phone = req.body.phone;
-  let phoneCode = Math.random().toFixed(4).slice(-4) + "";
-  if (!phoneCode) {
-    res.send({ error_code: 1, message: '获取验证码失败' });
-  } else {
-    // user.phone = phone;
-    // user.phoneCode = phoneCode;
-    user[phone] = phoneCode;
-    console.log(user)
-    res.send({ success_code: 200, data: phoneCode });
-    // 验证码5分钟后失效
-    setTimeout(() => {
-      user.phoneCode = null;
-    }, 1000 * 60 * 5)
-  }
-});
-
-// 手机验证码登录
-router.post('/api/phoneLogin', (req, res) => {
-  let { phone, phoneCode } = req.body;
-  if (user[phone] === phoneCode) {
-    let sql = 'SELECT user_id from t_user WHERE phone = ? LIMIT 1 ;';
-    pool.query(sql, [phone], (err, result) => {
-      if (err) throw err;
-      if (result[0]) {// 用户存在
-        req.session.userId = result[0].user_id;
-        res.cookie('user_id', result[0].user_id);
-        res.send({ success_code: 200, message: '登录成功', data: result[0] });
-      } else {// 用户不存在，注册为新用户
-        let sql = 'INSERT INTO t_user(user_name,phone,password) VALUES(?,?,?);';
-        pool.query(sql, [phone, phone, 123456], (err, result) => {
-          if (err) throw err;
-          if (result.affectedRows > 0) {
-            req.session.userId = result.insertId;
-            res.cookie('user_id', result.insertId, { maxAge: 1000 * 60 * 60 * 24 }); // cookie保持24小时
-            let sql = `SELECT user_id from t_user WHERE phone =${phone} LIMIT 1 ;`;
-            pool.query(sql, (err, result) => {
-              if (err) throw err;
-              if (result[0]) {
-                res.send({ success_code: 200, message: '注册成功，已登录', data: result[0] })
-              }
-            })
-          }
-        })
-      }
-    })
-  } else {
-    res.send({ error_code: 1, message: '验证码错误' })
-  }
-});
-
-//密码登录
-router.post('/api/pwdLogin', function (req, res) {
-  let name = req.body.userName;
-  let pwd = req.body.password;
-  let sql = 'SELECT user_id from t_user WHERE user_name =? LIMIT 1 ;'
-  pool.query(sql, [name], (err, result) => {
-    if (err) {
-      res.send({ error_code: 1, message: '查询用户失败' });
-    } else {
-      result = JSON.parse(JSON.stringify(result));
-      if (result[0]) {
-        if (result[0].password === pwd) {
-          //保存用户id
-          req.session.userId = result[0].user_id;
-          res.cookie('user_id', result[0].user_id);
-          res.send({ success_code: 200, message: '登录成功', data: result[0] })
-        } else {
-          res.send({ error_code: 1, message: '密码错误' });
-        }
-      } else {
-        res.send({ error: 1, message: '用户不存在' });
-      }
-    }
-  })
-});
 
 //获取用户信息
 router.post('/api/getUserInfo', (req, res) => {
@@ -298,26 +219,40 @@ router.post('/api/cancelOrder', (req, res) => {
   })
 })
 
+// 开始订单
+router.post('/api/startOrder', (req, res) => {
+  let { userId, orderId} = req.body;
+  let sql = 'UPDATE t_order SET order_status=? WHERE user_id = ? AND order_id=?;';
+  pool.query(sql, [1, userId, orderId], (err, result) => {
+    if (err) throw err;
+    // console.log(result)
+    if (result.affectedRows > 0) {
+      res.send({ success_code: 200, message: '订单已开始' });
+    }
+  })
+})
+
 // 结束订单
 router.post('/api/endOrder', (req, res) => {
   let { userId, orderId, rechargeId } = req.body;
-  let timeBefore, timeNow, distance, refund;
+  let timeBefore, timeNow, distance, refund,unit=1000*60*30;
   // 获得当天已完结的订单时长
-  let sql = 'SELECT SUM(TIMESTAMPDIFF(minute, start_time,status_change_time)) AS time FROM t_order';
-  sql += ' WHERE order_status=? AND user_id=? AND date(start_time)=date(NOW());';
-  pool.query(sql, [2, userId], (err, result) => {
+  let sql = 'SELECT SUM(end_time-start_time) AS time FROM t_order WHERE order_status=? AND user_id=? AND order_date=date(NOW());';
+  sql += 'SELECT A.sid,A.seat_type,A.seat_price FROM t_shop_seat A,t_order B WHERE A.sid=B.sid AND B.order_id=?;'
+  pool.query(sql, [2, userId, orderId], (err, result) => {
     if (err) throw err;
-    timeBefore = Math.ceil(result[0].time / 30);
+    let { sid, seat_type, seat_price } = result[1][0];
+    timeBefore = Math.ceil(result[0][0].time / unit);
     if (timeBefore < 12) { // 还没有达到封顶时长，需要计算应返还的费用  4.5：单人座半小时费用  10：双人座半小时费用
-      sql = 'SELECT TIMESTAMPDIFF(minute, start_time,NOW()) as time,order_cost FROM t_order where user_id=? AND order_id =?';
+      sql = "SELECT (REPLACE(unix_timestamp(current_timestamp(3)),'.','')-start_time) AS time,order_cost FROM t_order where user_id=? AND order_id =?";
       pool.query(sql, [userId, orderId], (err, result) => {
         if (err) throw err;
-        timeNow = Math.ceil(result[0].time / 30);
+        timeNow = Math.ceil(result[0].time / unit);
         distance = 12 - timeBefore; // 离封顶时长的距离
-        if (timeNow >= distance) { // 到达封顶时长，应付distance*4.5，返还=已付-应付
-          refund = result[0].order_cost - distance * 4.5
+        if (timeNow >= distance) { // 到达封顶时长，应付distance*seat_price，返还=已付-应付
+          refund = result[0].order_cost - distance * seat_price
         } else { // 未到达封顶时长
-          refund = result[0].order_cost - timeNow * 4.5
+          refund = result[0].order_cost - timeNow * seat_price
         }
         // console.log(refund)
         sql = 'UPDATE t_order SET order_status=?,order_refund=?,status_change_time=NOW() WHERE user_id = ? AND order_id=?;';
@@ -340,6 +275,21 @@ router.post('/api/endOrder', (req, res) => {
           res.send({ success_code: 200, message: '结束订座执行完毕' });
         }
       })
+    }
+  })
+})
+
+// 订单逾期
+router.post('/api/overOrder', (req, res) => {
+  let { userId, orderId, rechargeId } = req.body;
+  let sql = 'UPDATE t_order SET order_status=?,order_refund=order_cost*0.7 WHERE user_id=? AND order_id=?; '
+  sql += 'UPDATE t_recharge SET balance=balance+(SELECT order_refund from t_order WHERE order_id=?) WHERE recharge_id =?; ';
+  sql += 'UPDATE t_user SET balance=balance+(SELECT order_refund from t_order WHERE order_id=?) WHERE user_id = ?; ';
+  pool.query(sql, [3, userId, orderId, orderId, rechargeId, orderId, userId], (err, result) => {
+    if (err) throw err;
+    // console.log(result)
+    if (result[0].affectedRows > 0) {
+      res.send({ success_code: 200, message: '订单逾期，座位已释放' });
     }
   })
 })
@@ -475,6 +425,85 @@ router.post('/api/getPurchaseDetails', (req, res) => {
     })
   }
 })
+
+//获取手机验证码
+router.post('/api/getPhoneCode', (req, res) => {
+  let phone = req.body.phone;
+  let phoneCode = Math.random().toFixed(4).slice(-4) + "";
+  if (!phoneCode) {
+    res.send({ error_code: 1, message: '获取验证码失败' });
+  } else {
+    // user.phone = phone;
+    // user.phoneCode = phoneCode;
+    user[phone] = phoneCode;
+    console.log(user)
+    res.send({ success_code: 200, data: phoneCode });
+    // 验证码5分钟后失效
+    setTimeout(() => {
+      user.phoneCode = null;
+    }, 1000 * 60 * 5)
+  }
+});
+
+// 手机验证码登录
+router.post('/api/phoneLogin', (req, res) => {
+  let { phone, phoneCode } = req.body;
+  if (user[phone] === phoneCode) {
+    let sql = 'SELECT user_id from t_user WHERE phone = ? LIMIT 1 ;';
+    pool.query(sql, [phone], (err, result) => {
+      if (err) throw err;
+      if (result[0]) {// 用户存在
+        req.session.userId = result[0].user_id;
+        res.cookie('user_id', result[0].user_id);
+        res.send({ success_code: 200, message: '登录成功', data: result[0] });
+      } else {// 用户不存在，注册为新用户
+        let sql = 'INSERT INTO t_user(user_name,phone,password) VALUES(?,?,?);';
+        pool.query(sql, [phone, phone, 123456], (err, result) => {
+          if (err) throw err;
+          if (result.affectedRows > 0) {
+            req.session.userId = result.insertId;
+            res.cookie('user_id', result.insertId, { maxAge: 1000 * 60 * 60 * 24 }); // cookie保持24小时
+            let sql = `SELECT user_id from t_user WHERE phone =${phone} LIMIT 1 ;`;
+            pool.query(sql, (err, result) => {
+              if (err) throw err;
+              if (result[0]) {
+                res.send({ success_code: 200, message: '注册成功，已登录', data: result[0] })
+              }
+            })
+          }
+        })
+      }
+    })
+  } else {
+    res.send({ error_code: 1, message: '验证码错误' })
+  }
+});
+
+//密码登录
+router.post('/api/pwdLogin', function (req, res) {
+  let name = req.body.userName;
+  let pwd = req.body.password;
+  let sql = 'SELECT user_id from t_user WHERE user_name =? LIMIT 1 ;'
+  pool.query(sql, [name], (err, result) => {
+    if (err) {
+      res.send({ error_code: 1, message: '查询用户失败' });
+    } else {
+      result = JSON.parse(JSON.stringify(result));
+      if (result[0]) {
+        if (result[0].password === pwd) {
+          //保存用户id
+          req.session.userId = result[0].user_id;
+          res.cookie('user_id', result[0].user_id);
+          res.send({ success_code: 200, message: '登录成功', data: result[0] })
+        } else {
+          res.send({ error_code: 1, message: '密码错误' });
+        }
+      } else {
+        res.send({ error: 1, message: '用户不存在' });
+      }
+    }
+  })
+});
 
 // 退出登录
 router.get("/api/logout", (req, res) => {

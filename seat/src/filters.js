@@ -28,39 +28,17 @@ Vue.filter("dateTimeFilter", (val, type) => {
   }
 })
 
-// 创建订单状态过滤器（order_status==0）
-// Vue.filter("orderStatusFilter",(startVal,endVal)=>{
-//   let startTime=new Date(startVal),
-//       endTime=new Date(endVal);
-//   if (startTime > new Date()) {
-//     return '未开始'
-//   } else if (startTime <= new Date() && endTime >= new Date()) {
-//     return '进行中'
-//   } else {
-//     return '已结束'  // 这里需要，功能完善后可以删除
-//   }
-// })
-Vue.filter("orderStatusFilter",(val)=>{
-  if(val==0){
+// 创建订单状态过滤器
+Vue.filter("orderStatusFilter", (status)=>{
+  if (status==0){
     return '未开始'
-  }else if(val==1){
+  } else if (status==1){
     return '进行中'
   }else{
     return '已结束'
   }     
 })
-// Vue.filter("orderStatusFilter", (dateVal, startVal, endVal) => {
-//   let date = new Date(dateVal).getFullYear() + "/" + (new Date(dateVal).getMonth() + 1) + "/" + new Date(dateVal).getDate(),
-//     startTime = new Date(date + ' ' + startVal),
-//     endTime = new Date(date + ' ' + endVal);
-//   if (startTime > new Date()) {
-//     return '未开始'
-//   } else if (startTime <= new Date() && endTime >= new Date()) {
-//     return '进行中'
-//   } else {
-//     return '已结束'  // 这里需要，功能完善后可以删除
-//   }
-// })
+
 // Vue.filter("orderStatusFilter", (statusVal, dateVal, startVal, endVal) => {
 //   let date = new Date(dateVal).getFullYear() + "/" + (new Date(dateVal).getMonth() + 1) + "/" + new Date(dateVal).getDate(),
 //     startTime = new Date(date + ' ' + startVal),

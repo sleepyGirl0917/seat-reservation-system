@@ -16,8 +16,12 @@ export const getOrderAll = (userId) => ajax('/api/getOrderAll', { userId }, 'POS
 export const getOrderDetails = (userId, orderId) => ajax('/api/getOrderDetails', { userId, orderId }, 'POST')
 // 取消订单
 export const cancelOrder = (userId, orderId, rechargeId) => ajax('/api/cancelOrder', { userId, orderId, rechargeId }, 'POST')
+// 开始订单
+export const startOrder = (userId, orderId) => ajax('/api/startOrder', { userId, orderId}, 'POST')
 // 结束订单
 export const endOrder = (userId, orderId, rechargeId) => ajax('/api/endOrder', { userId, orderId, rechargeId }, 'POST')
+// 订单逾期
+export const overOrder = (userId, orderId, rechargeId) => ajax('/api/overOrder', { userId, orderId, rechargeId},'POST')
 // 获取所有订座记录
 export const getMyDataAll = (userId) => ajax('/api/getMyDataAll', { userId }, 'POST')
 // 获取延长时段记录

@@ -31,7 +31,6 @@
                 {{jsonData.start_time|dateTimeFilter('timeOnly')}}-
                 {{jsonData.end_time|dateTimeFilter('timeOnly')}}
               </p>
-              <!-- <p>状态：{{jsonData.start_time|orderStatusFilter(jsonData.end_time)}}</p> -->
               <p>状态：{{jsonData.order_status|orderStatusFilter}}</p>
             </div>
           </div>
@@ -62,7 +61,8 @@ export default {
         { id: 2, title: "加入会员", img_url: require("../../assets/img/home/menu2.jpg"), path: "/join_member" },
         { id: 3, title: "预定座位", img_url: require("../../assets/img/home/menu3.jpg"), path: "/select_shop" }
       ],
-      jsonData: {}
+      jsonData: {},
+      now:null
     };
   },
   computed:{
@@ -70,7 +70,16 @@ export default {
     ...mapGetters(['userInfo','isLogin']),
   },
   created(){
-    this.loadOrderInfo();  
+    this.loadOrderInfo();
+    this.timer = setInterval(() => {
+      this.now = new Date().getTime();
+      // console.log(new Date(),this.now)
+    }, 1000)  
+  },
+  beforeDestroy() {
+    if (this.timer) {
+      clearInterval(this.timer); 
+    }
   },
   methods: {
     async loadOrderInfo(){

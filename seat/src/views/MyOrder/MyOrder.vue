@@ -9,7 +9,6 @@
 <script>
 import { getOrderAll } from '../../api/index'
 import { Indicator } from "mint-ui"
-import { mapGetters } from 'vuex'
 import OrderItem from '../../components/OrderItem/OrderItem'
 export default {
   data() {
@@ -17,10 +16,6 @@ export default {
       jsonData:[]
     };
   },
-  computed:{
-    // 通过mapGetters获取store中state设置的变量
-    ...mapGetters(['userInfo']),
-  }, 
   components:{
     "order-item":OrderItem
   },
@@ -30,7 +25,7 @@ export default {
   methods: {
     async loadOrderInfoAll(){
       Indicator.open('加载中...');
-      let result=await getOrderAll(this.userInfo.user_id);
+      let result=await getOrderAll(this.$store.getters.uid);
       console.log(result)
       if(result.success_code==200){
         this.jsonData=result.data;

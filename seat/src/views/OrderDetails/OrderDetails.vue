@@ -28,7 +28,6 @@ import {
 } from "../../api/index";
 import { formatDate } from "../../api/common";
 import { Toast, MessageBox, Indicator } from "mint-ui";
-import { mapGetters } from "vuex";
 export default {
   data() {
     return {
@@ -41,8 +40,6 @@ export default {
   },
   props: ["order_id"],
   computed: {
-    // 通过mapGetters获取store中state设置的变量
-    ...mapGetters(["userInfo"]),
     time(){
       return this.now-this.jsonData.start_time
     }
@@ -58,6 +55,7 @@ export default {
       }else if(this.jsonData.order_status==1&&this.jsonData.endTime<this.now){
         this.btnText='结束订单'
       }else if(this.jsonData.order_status==1&&this.jsonData.endTime==this.now){
+        console.log(this.jsonData.endTime,this.now)
         this.endOrder()
       }
     }
@@ -75,22 +73,35 @@ export default {
   },
   created() {
     this.loadOrderDetails();
+    this.timer = setInterval(() => {
+      this.now = new Date().getTime();
+      console.log(new Date(),this.now)
+    }, 1000)  
+  },
+  updated(){
+
+  },
+  beforeDestroy() {
+    if (this.timer) {
+      clearInterval(this.timer); 
+    }
   },
   methods: {
     async loadOrderDetails() {
       Indicator.open("加载中...");
-      let result = await getOrderDetails(this.userInfo.user_id, this.order_id);
+      let result = await getOrderDetails(this.$store.getters.uid, this.order_id);
       // console.log(result)
       if (result.success_code == 200) {
         this.jsonData = result.data;
         this.loadingStatus = true;
+        // console.log(this.jsonData)
       }
       Indicator.close();
     },
     // 取消订单
     async cancelOrder() {
       let result = await cancelOrder(
-        this.userInfo.user_id,
+        this.$store.getters.uid,
         this.order_id,
         this.jsonData.pid
       );
@@ -105,15 +116,17 @@ export default {
     // 开始订单
     async startOrder() {
       let result = await startOrder(
-        this.userInfo.user_id,
-        this.order_id,
-        this.jsonData.pid
+        this.$store.getters.uid,
+        this.order_id
       );
       console.log(result);
       if (result.success_code == 200) {
         Toast("已开始");
-        this.$router.go(0);
-        this.jsonData.order_status=1;
+        // location. reload()
+        this.loadOrderDetails();
+
+        // this.$router.go(0);
+        // this.jsonData.order_status=1;
       }else {
         MessageBox.alert("开始失败，请稍后重试");
       }
@@ -121,7 +134,7 @@ export default {
     // 结束订单
     async endOrder() {
       let result = await endOrder(
-        this.userInfo.user_id,
+        this.$store.getters.uid,
         this.order_id,
         this.jsonData.pid
       );
@@ -135,7 +148,7 @@ export default {
     },
     // 订单逾期
     async overOrder(){
-      let result =await overOrder(this.userInfo.user_id,this.order_id,this.jsonData.pid);
+      let result =await overOrder(this.$store.getters.uid,this.order_id,this.jsonData.pid);
       console.log(result)
       if(result.success_code==200){
         this.$router.go(-1);

@@ -43,7 +43,6 @@
 <script>
 import { getPurchaseDetails } from '../../api/index'
 import { Indicator } from "mint-ui"
-import { mapGetters } from 'vuex'
 export default {
   data() {
     return {
@@ -53,8 +52,6 @@ export default {
   },
   props:['order_id'],
   computed:{
-    // 通过mapGetters获取store中state设置的变量
-    ...mapGetters(['userInfo']),
     routeName(){
       return this.$route.name
     }
@@ -65,7 +62,7 @@ export default {
   methods: {
     async loadPurchaseDetails(){
       Indicator.open('加载中...');
-      let result= await getPurchaseDetails(this.userInfo.user_id,this.order_id);
+      let result= await getPurchaseDetails(this.$store.getters.uid,this.order_id);
       console.log(result)
       if(result.success_code==200){
         this.jsonData=result.data;

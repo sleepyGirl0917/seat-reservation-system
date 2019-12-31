@@ -45,7 +45,6 @@
 
 <script>
 import { Indicator,Toast } from "mint-ui"
-import { mapGetters } from 'vuex'
 import { getOrderLatest } from "../../api/index"
 export default {
   name: "Home",
@@ -61,31 +60,17 @@ export default {
         { id: 2, title: "加入会员", img_url: require("../../assets/img/home/menu2.jpg"), path: "/join_member" },
         { id: 3, title: "预定座位", img_url: require("../../assets/img/home/menu3.jpg"), path: "/select_shop" }
       ],
-      jsonData: {},
-      now:null
+      jsonData: {}
     };
-  },
-  computed:{
-    // 通过mapGetters获取store中state设置的变量
-    ...mapGetters(['userInfo','isLogin']),
   },
   created(){
     this.loadOrderInfo();
-    this.timer = setInterval(() => {
-      this.now = new Date().getTime();
-      // console.log(new Date(),this.now)
-    }, 1000)  
-  },
-  beforeDestroy() {
-    if (this.timer) {
-      clearInterval(this.timer); 
-    }
   },
   methods: {
     async loadOrderInfo(){
-      if(this.isLogin){
+      if(this.$store.getters.uid){
         Indicator.open('加载中...');
-        let result= await getOrderLatest(this.userInfo.user_id);
+        let result= await getOrderLatest(this.$store.getters.uid);
         // console.log(result)
         if (result.success_code === 200) {
           this.jsonData = result.data;

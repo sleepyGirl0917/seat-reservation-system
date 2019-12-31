@@ -19,7 +19,7 @@ export default {
           position: "middle",
           duration: 2000
         });
-        this.$router.push("/user");
+        this.$router.go(-1);
       } else {
         MessageBox.alert("退出失败，请重试");
       }

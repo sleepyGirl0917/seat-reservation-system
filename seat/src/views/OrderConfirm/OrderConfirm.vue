@@ -68,7 +68,6 @@
 <script>
 import Button from "../../components/Button/Button";
 import {getVipInfo,orderSeat} from "../../api/index"
-import { mapGetters } from 'vuex'
 export default {
   data() {
     return {
@@ -89,9 +88,6 @@ export default {
       selectedPayType:null,
       selectedCardId:null,
     };
-  },
-  computed:{
-    ...mapGetters(['userInfo']),
   },
   components: {
     "btn-container": Button
@@ -117,8 +113,8 @@ export default {
     },
     // 获取用户会员卡信息
     async loadVipInfo(){
-      let json=await getVipInfo(this.userInfo.user_id);
-      console.log(json)
+      let json=await getVipInfo(this.$store.getters.uid);
+      // console.log(json)
       if(json.success_code==200){
         json.data.map((item)=>{
           item.isSelect=false;
@@ -131,7 +127,7 @@ export default {
       let start_time=new Date(this.order_date+' '+this.start_time).getTime(),
       end_time=new Date(this.order_date+' '+this.end_time).getTime();
       console.log(start_time,end_time)
-      let json=await orderSeat(this.userInfo.user_id,this.shop_id,this.seat_id,this.order_date,start_time,end_time,this.payType,this.selectedCardId);
+      let json=await orderSeat(this.$store.getters.uid,this.shop_id,this.seat_id,this.order_date,start_time,end_time,this.payType,this.selectedCardId);
       console.log(json)
       if(json.success_code==200){
         this.$router.push('/my_order')

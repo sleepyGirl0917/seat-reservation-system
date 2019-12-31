@@ -16,16 +16,11 @@ import {
   getMyDataOverdue
 } from "../../api/index";
 import { Indicator } from "mint-ui";
-import { mapGetters } from "vuex";
 export default {
   data() {
     return {
       jsonData: []
     };
-  },
-  computed: {
-    // 通过mapGetters获取store中state设置的变量
-    ...mapGetters(["userInfo"])
   },
   components: {
     "purchase-item": PurchaseItem
@@ -38,15 +33,15 @@ export default {
         Indicator.open();
         let result;
         if (this.$route.name == "purchase-all") {
-            result = await getMyDataAll(this.userInfo.user_id);
+            result = await getMyDataAll(this.$store.getters.uid);
         } else if (this.$route.name == "purchase-delay") {
-            result = await getMyDataDelay(this.userInfo.user_id);
+            result = await getMyDataDelay(this.$store.getters.uid);
         } else if (this.$route.name == "purchase-cancel") {
-            result = await getMyDataCancel(this.userInfo.user_id);
+            result = await getMyDataCancel(this.$store.getters.uid);
         } else if ((this.$route.name == "purchase-end")) {
-            result = await getMyDataEnd(this.userInfo.user_id);
+            result = await getMyDataEnd(this.$store.getters.uid);
         } else {
-            result = await getMyDataOverdue(this.userInfo.user_id);
+            result = await getMyDataOverdue(this.$store.getters.uid);
         }
         // console.log(result)
         if (result.success_code == 200) {

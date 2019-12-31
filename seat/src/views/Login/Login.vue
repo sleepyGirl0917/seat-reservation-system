@@ -77,7 +77,7 @@ export default {
         let result = await phoneLogin(this.phone, this.phoneCode);
         console.log(result);
         if (result.success_code == 200) {
-          this.$store.commit(types.LOGIN, result);
+          this.$store.commit(types.LOGIN, result.data);
           Toast({
             message: "登录成功",
             position: "middle",

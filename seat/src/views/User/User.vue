@@ -13,7 +13,6 @@
 
 <script>
   import { Indicator } from 'mint-ui'
-  import { mapGetters } from 'vuex'
   import UserInfo from '../../components/User/UserInfo'
   import OrderRecord from '../../components/User/OrderRecord'
   import MemberList from '../../components/User/MemberList'
@@ -26,10 +25,6 @@
         jsonData:{}
       }
     },
-    computed:{
-      // 通过mapGetters获取store中state设置的变量
-      ...mapGetters(['userInfo','isLogin'])
-    },
     components:{
       "user-info":UserInfo,
       "user-msg":UserMsg,
@@ -41,9 +36,9 @@
     },
     methods:{
       async getUserData(){
-        if(this.isLogin){
+        if(this.$store.getters.uid){
           Indicator.open('加载中...')
-          let result = await getUserInfo(this.userInfo.user_id);
+          let result = await getUserInfo(this.$store.getters.uid);
           console.log(result);
           if(result.success_code===200){
             this.jsonData=result.data;

@@ -54,7 +54,7 @@ export default {
           }
         }, 1000);
         let result = await getPhoneCode(this.phone);
-        console.log(result);
+        // console.log(result);
         if (result.success_code == 200) {
           MessageBox.alert("手机验证码为：" + result.data);
           this.phoneCode = result.data; // 填充验证码
@@ -75,7 +75,7 @@ export default {
         MessageBox.alert("请输入手机验证码");
       } else {
         let result = await phoneLogin(this.phone, this.phoneCode);
-        console.log(result);
+        // console.log(result);
         if (result.success_code == 200) {
           this.$store.commit(types.LOGIN, result.data);
           Toast({

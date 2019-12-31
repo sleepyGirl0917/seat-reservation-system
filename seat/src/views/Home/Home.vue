@@ -45,7 +45,7 @@
 
 <script>
 import { Indicator,Toast } from "mint-ui"
-import { getOrderLatest } from "../../api/index"
+import { getOrderLatest,overOrder,endOrder } from "../../api/index"
 export default {
   name: "Home",
   data() {
@@ -60,11 +60,40 @@ export default {
         { id: 2, title: "加入会员", img_url: require("../../assets/img/home/menu2.jpg"), path: "/join_member" },
         { id: 3, title: "预定座位", img_url: require("../../assets/img/home/menu3.jpg"), path: "/select_shop" }
       ],
-      jsonData: {}
+      jsonData: {},
+      now:null,
     };
+  },
+  computed: {
+    during_time(){
+      return this.now-this.jsonData.start_time
+    },
+    timeOut:{
+      set(val){
+        this.$store.state.timeout.compileTimeout = val;
+      },
+      get(){
+        return this.$store.state.timeout.compileTimeout;
+      }
+    }
+  },
+  watch:{
+    during_time(){
+      let max=1000*60*15;
+      if(this.jsonData.order_status==0&&this.during_time>max){
+        overOrder(this.$store.getters.uid,this.jsonData.order_id,this.jsonData.pid)
+      }else if(this.jsonData.order_status==1&&this.jsonData.end_time<=this.now){
+        endOrder(this.$store.getters.uid,this.jsonData.order_id,this.jsonData.pid)
+      }
+    }
   },
   created(){
     this.loadOrderInfo();
+  },
+  beforeDestroy() {
+    if(this.timeOut) {  
+      clearTimeout(this.timeOut);  
+    }  
   },
   methods: {
     async loadOrderInfo(){
@@ -74,10 +103,19 @@ export default {
         // console.log(result)
         if (result.success_code === 200) {
           this.jsonData = result.data;
+          this.getListIng()
         } 
         Indicator.close();
       }
-    }
+    },
+    getListIng() {
+      let _this = this;
+      this.now=new Date().getTime()
+      this.timeOut = setTimeout(() => {
+        _this.getListIng();
+      }, 1000)
+      // console.log(this.timeOut)
+    },
   }
 };
 </script>

@@ -11,9 +11,9 @@
       <p>状态：{{jsonData.order_status|orderStatusFilter}}</p>
     </div>
     <div class="btn-container">
-      <button v-if="jsonData.order_status==0&&time<0" class="ignore" @click.prevent="cancelOrder">{{btnText}}</button>
-      <button v-else-if="jsonData.order_status==0&&time>=0&&time<=max" class="ignore" @click.prevent="startOrder">{{btnText}}</button>
-      <button v-else-if="jsonData.order_status==1&&jsonData.endTime<now" class="ignore" @click.prevent="endOrder">{{btnText}}</button>
+      <button v-if="process_num==1" class="ignore" @click.prevent="cancelOrder">{{btnText}}</button>
+      <button v-else-if="process_num==2" class="ignore" @click.prevent="startOrder">{{btnText}}</button>
+      <button v-else-if="process_num==4" class="ignore" @click.prevent="endOrder">{{btnText}}</button>
       <button class="ignore" @click.prevent="$router.go(-1)">返回</button>
     </div>
   </div>
@@ -33,70 +33,75 @@ export default {
     return {
       loadingStatus: false,
       jsonData: {},
+      process_num:null,
       btnText:null,
       now:null,
-      max:1000*60*15
     };
   },
   props: ["order_id"],
   computed: {
-    time(){
+    during_time(){
       return this.now-this.jsonData.start_time
-    }
-  },
-  watch:{
-    time(){
-      if(this.jsonData.order_status==0&&this.time<0){
-        this.btnText='取消订单'
-      }else if(this.jsonData.order_status==0&&this.time>=0&&this.time<=this.max){
-        this.btnText='开始'
-      }else if(this.jsonData.order_status==0&&this.time>this.max){
-        this.overOrder()
-      }else if(this.jsonData.order_status==1&&this.jsonData.endTime<this.now){
-        this.btnText='结束订单'
-      }else if(this.jsonData.order_status==1&&this.jsonData.endTime==this.now){
-        console.log(this.jsonData.endTime,this.now)
-        this.endOrder()
+    },
+    timeOut:{ // 定时器的进程
+      set(val){
+        this.$store.state.timeout.compileTimeout = val;
+      },
+      get(){
+        return this.$store.state.timeout.compileTimeout;
       }
     }
   },
-  filters: {
-    orderStatusFilter(orderStatus) {
-      if (orderStatus == 0) {
-        return "未开始";
-      } else if (orderStatus == 1) {
-        return "进行中";
-      } else {
-        return "已结束";
+  watch:{
+    during_time(){
+      let max=1000*60*15;
+      if(this.jsonData.order_status==0&&this.during_time<0){
+        this.process_num=1;
+        this.btnText='取消订单';
+      }else if(this.jsonData.order_status==0&&this.during_time>=0&&this.during_time<=max){
+        this.process_num=2; 
+        this.btnText='开始';
+      }else if(this.jsonData.order_status==0&&this.during_time>max){
+        this.process_num=3;
+        this.overOrder();
+      }else if(this.jsonData.order_status==1&&this.jsonData.end_time>this.now){
+        this.process_num=4;
+        this.btnText='结束订单';
+      }else if(this.jsonData.order_status==1&&this.jsonData.end_time<=this.now){
+        this.process_num=5;
+        this.endOrder();
       }
     }
   },
   created() {
-    this.loadOrderDetails();
-    this.timer = setInterval(() => {
-      this.now = new Date().getTime();
-      console.log(new Date(),this.now)
-    }, 1000)  
-  },
-  updated(){
-
+    this.loadOrderDetails();  
   },
   beforeDestroy() {
-    if (this.timer) {
-      clearInterval(this.timer); 
-    }
+    if(this.timeOut) {  
+      clearTimeout(this.timeOut);  
+    }  
   },
   methods: {
+    // 加载订单详情
     async loadOrderDetails() {
       Indicator.open("加载中...");
-      let result = await getOrderDetails(this.$store.getters.uid, this.order_id);
+      let result = await getOrderDetails(this.$store.getters.uid,this.order_id);
       // console.log(result)
       if (result.success_code == 200) {
         this.jsonData = result.data;
         this.loadingStatus = true;
-        // console.log(this.jsonData)
+        this.getListIng();
       }
       Indicator.close();
+    },
+    // 监测订单状态
+    getListIng() {
+      let _this = this;
+      this.now=new Date().getTime()
+      this.timeOut = setTimeout(() => {
+        _this.getListIng();
+      }, 1000)
+      // console.log(this.timeOut)
     },
     // 取消订单
     async cancelOrder() {
@@ -119,14 +124,11 @@ export default {
         this.$store.getters.uid,
         this.order_id
       );
-      console.log(result);
+      // console.log(result);
       if (result.success_code == 200) {
+        this.jsonData.order_status=1;
+        // this.$router.go(0)
         Toast("已开始");
-        // location. reload()
-        this.loadOrderDetails();
-
-        // this.$router.go(0);
-        // this.jsonData.order_status=1;
       }else {
         MessageBox.alert("开始失败，请稍后重试");
       }
@@ -138,7 +140,7 @@ export default {
         this.order_id,
         this.jsonData.pid
       );
-      console.log(result);
+      // console.log(result);
       if (result.success_code == 200) {
         Toast("结束成功");
         this.$router.go(-1);

@@ -38,7 +38,7 @@
       async loadShopData(){
         Indicator.open('加载中')
         let result=await getShopInfo();
-        console.log(result)
+        // console.log(result)
         if(result.success_code==200){
           this.jsonData=result.data;
         }

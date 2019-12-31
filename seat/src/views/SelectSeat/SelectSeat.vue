@@ -120,7 +120,7 @@ export default {
       this.axios.get("seat.json").then(res => {
         if (res.data.code == 200) {
           //请求成功
-          console.log(res.data.data);
+          // console.log(res.data.data);
           this.shopName=res.data.data[this.$route.query.shop_id]['shop_name'];
           this.seatJson = res.data.data[this.$route.query.shop_id]['info'];
         } else {
@@ -154,7 +154,7 @@ export default {
       let new_value=parseTime(value),
           openTime=parseTime(this.openTime),
           closeTime=parseTime(this.closeTime);
-      if(new_value<openTime||new_value>closeTime){
+      if(new_value<openTime||new_value>=closeTime){
         return;
       }
       // 如果是当天，只能选择当前时间之后的开始时间
@@ -163,18 +163,28 @@ export default {
         let now=new Date().getTime();
         value<now?value=now:''
       }
-      this.selectedStartValue = value;    // hh:mm格式的字符串
-      let startValue = parseTime(value);  // 把hh:mm格式字符串解析为单位为毫秒的时间
-      let endValue = new Date(startValue + this.unit);  // 默认结束时间比开始时间多半小时
-      this.getEndTime(formatTime(endValue));  
+      // 初始状态下,结束时间为空
+      if(this.selectedStartValue==null){
+        this.selectedStartValue = value;    // hh:mm格式的字符串
+        let startValue = parseTime(value);  // 把hh:mm格式字符串解析为单位为毫秒的时间
+        let endValue = new Date(startValue + this.unit);  // 默认结束时间比开始时间多半小时
+        this.getEndTime(formatTime(endValue));
+      }else{ // 设置结束时间后，限制修改的开始时间不能大于结束时间
+        let endValue=parseTime(this.selectEndValue);
+        if(new_value>=endValue){
+          Toast('开始时间不能大于结束时间');
+          return 
+        }
+      }
     },
     // 设置结束时间
     getEndTime(value) {
-      // 结束时间不能小于开始时间，不能大于闭店时间
+      // 开始时间和结束时间要在开业时间范围内，且结束时间不能小于开始时间
       let new_value=parseTime(value),
-          startValue=parseTime(this.selectedStartValue),
-          closeTime=parseTime(this.closeTime);
-      if(new_value>closeTime||new_value<=startValue||startValue==closeTime){
+          openTime=parseTime(this.openTime),
+          closeTime=parseTime(this.closeTime),
+          startValue=parseTime(this.selectedStartValue);
+      if(new_value<=openTime||new_value>closeTime||new_value<=startValue){
         return;
       }
       this.selectedEndValue = value;
@@ -190,7 +200,7 @@ export default {
             end_time=new Date(this.dateVal+' '+this.selectedEndValue);
         // 请求已被预定的座位
         let json = await getSeatSoldInfo(this.$route.query.shop_id,start_time,end_time);
-        console.log(json)
+        // console.log(json)
         if(json.success_code==200){
           this.seatSoldInfo = json.data;
           // 遍历seatJson
@@ -222,7 +232,7 @@ export default {
     // 选择座位
     handleSelectSeat(i){
       let id=this.seatJson[i].seatId;
-      if(!(this.selectedStartValue||this.selectedEndValue)){
+      if(!(this.selectedStartValue&&this.selectedEndValue)){
         Toast('请选择时间');
         return;
       }

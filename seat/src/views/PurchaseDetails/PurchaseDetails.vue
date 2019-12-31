@@ -63,7 +63,7 @@ export default {
     async loadPurchaseDetails(){
       Indicator.open('加载中...');
       let result= await getPurchaseDetails(this.$store.getters.uid,this.order_id);
-      console.log(result)
+      // console.log(result)
       if(result.success_code==200){
         this.jsonData=result.data;
         this.loadingStatus=true;

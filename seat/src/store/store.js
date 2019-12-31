@@ -11,6 +11,9 @@ export default new Vuex.Store({
   state: {
     token: localStorage.getItem('token'),
     uid: localStorage.getItem('uid'),
+    timeout: {
+      compileTimeout:null
+    }
   },
   mutations: { // 同步修改state
     [types.UPDATE_TOKEN]: (state, payload) => {
@@ -33,7 +36,7 @@ export default new Vuex.Store({
       state.uid = null;
       state.token = null;
       localStorage.clear();
-    },
+    }
   },
   getters: {
     token: state => state.token,

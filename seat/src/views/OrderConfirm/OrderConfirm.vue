@@ -68,6 +68,7 @@
 <script>
 import Button from "../../components/Button/Button";
 import {getVipInfo,orderSeat} from "../../api/index"
+import {Toast} from "mint-ui"
 export default {
   data() {
     return {
@@ -126,12 +127,11 @@ export default {
     async handleSubmit() {
       let start_time=new Date(this.order_date+' '+this.start_time).getTime(),
       end_time=new Date(this.order_date+' '+this.end_time).getTime();
-      console.log(start_time,end_time)
-      let json=await orderSeat(this.$store.getters.uid,this.shop_id,this.seat_id,this.order_date,start_time,end_time,this.payType,this.selectedCardId);
-      console.log(json)
-      if(json.success_code==200){
-        this.$router.push('/my_order')
-      }
+      // console.log(start_time,end_time)
+      let result=await orderSeat(this.$store.getters.uid,this.shop_id,this.seat_id,this.order_date,start_time,end_time,this.payType,this.selectedCardId);
+      // console.log(result)
+      Toast(result.message);
+      this.$router.push('/my_order');
     },
     handlePayType(i){
       if(!this.vipInfo[i].isSelect){ 

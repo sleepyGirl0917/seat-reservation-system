@@ -91,57 +91,63 @@ router.post('/api/getVipInfo', (req, res) => {
 })
 
 // 预定座位
+// 还需判断该用户同一时段有无其他订单
 router.post('/api/orderSeat', (req, res) => {
   let { userId, shopId, dateVal, startVal, endVal, seatId, cardType, rechargeId } = req.body,
     time = endVal - startVal,
     unit = 1000 * 60 * 30;
-  let sql = 'SELECT sid,seat_type,seat_price FROM t_shop_seat WHERE shop_id=? AND seat_id=?;';
-  sql += ' SELECT count(*) AS length FROM t_order;';
-  pool.query(sql, [shopId, seatId], (err, result) => {
+  let sql = 'SELECT * FROM t_order WHERE user_id=? AND start_time<=? AND end_time>=? AND order_status = ? OR order_status = ?'
+  pool.query(sql, [userId, endVal, startVal, 0, 1], (err, result) => {
     if (err) throw err;
-    let { sid, seat_type, seat_price } = result[0][0];
-    let orderCost = Math.ceil(time / unit) * 0.5 * seat_price;
-    let sysDate = new Date().Format('yyyyMMddhhmmss'); // 生成系统时间
-    let fn = (num, length) => (Array(length).join('0') + num).slice(-length);
-    let id = fn(result[1][0].length + 1, 4);
-    let orderNum = "DZ" + sysDate + id; // 订单编号
-
-    if (cardType == 1) { //储值卡：余额大于orderCost且在有效期内
-      sql2 = `INSERT INTO t_order(user_id,shop_id,sid,order_date,start_time,end_time,order_cost,pay_type,order_num,pid)  
+    if (result.length == 0) {
+      sql = 'SELECT sid,seat_type,seat_price FROM t_shop_seat WHERE shop_id=? AND seat_id=?;';
+      sql += ' SELECT count(*) AS length FROM t_order;';
+      pool.query(sql, [shopId, seatId], (err, result) => {
+        if (err) throw err;
+        let { sid, seat_type, seat_price } = result[0][0];
+        let orderCost = Math.ceil(time / unit) * 0.5 * seat_price;
+        let sysDate = new Date().Format('yyyyMMddhhmmss'); // 生成系统时间
+        let fn = (num, length) => (Array(length).join('0') + num).slice(-length);
+        let id = fn(result[1][0].length + 1, 4);
+        let orderNum = "DZ" + sysDate + id; // 订单编号
+        if (cardType == 1) { //储值卡：余额大于orderCost且在有效期内
+          sql2 = `INSERT INTO t_order(user_id,shop_id,sid,order_date,start_time,end_time,order_cost,pay_type,order_num,pid)  
       SELECT '${userId}','${shopId}','${sid}','${dateVal}','${startVal}','${endVal}','${orderCost}','${cardType}','${orderNum}','${rechargeId}' FROM DUAL 
       WHERE (select balance from t_recharge where recharge_id=${rechargeId} and deadline>=NOW()) >=${orderCost};`
-      // 更新会员卡余额
-      sql2 += ` UPDATE t_recharge SET balance=balance-${orderCost} WHERE recharge_id = ${rechargeId} ;`;
-      // 更新用户表余额（可以有多张储值卡）
-      sql2 += `UPDATE t_user AS A SET balance=(SELECT SUM(balance) FROM t_recharge AS B 
+          // 更新会员卡余额
+          sql2 += ` UPDATE t_recharge SET balance=balance-${orderCost} WHERE recharge_id = ${rechargeId} ;`;
+          // 更新用户表余额（可以有多张储值卡）
+          sql2 += `UPDATE t_user AS A SET balance=(SELECT SUM(balance) FROM t_recharge AS B 
       WHERE A.user_id=B.user_id AND B.user_id=3 AND B.recharge_type=1 AND B.deadline>=NOW())`;
-    } else if (cardType == 2 && seat_type == 0) { //包时卡：在有效期内且只能订单人座
-      sql2 = `INSERT INTO t_order(user_id,shop_id,sid,order_date,start_time,end_time,order_cost,pay_type,order_num,pid) 
+        } else if (cardType == 2 && seat_type == 0) { //包时卡：在有效期内且只能订单人座
+          sql2 = `INSERT INTO t_order(user_id,shop_id,sid,order_date,start_time,end_time,order_cost,pay_type,order_num,pid) 
       SELECT '${userId}','${shopId}','${sid}','${dateVal}','${startVal}','${endVal}','${orderCost}','${cardType}','${orderNum}','${rechargeId}' FROM DUAL 
       WHERE (select deadline from t_recharge where recharge_id=${rechargeId} )>=NOW();`;
-    } else {
-      res.send({ error_code: 1, message: '订座失败' })
-      return;
+        } else {
+          res.send({ error_code: 1, message: '订座失败' })
+          return;
+        }
+        pool.query(sql2, (err, result) => {
+          if (err) throw err;
+          // console.log(result)
+          if (result[0].affectedRows > 0) {
+            res.send({ success_code: 200, message: '订座成功' })
+          } else {
+            res.send({ error_code: 1, message: '订座失败' })
+          }
+        })
+      })
+    }else{
+      res.send({ error_code: 1,message:'同一用户同一时段仅可预定一个座位'})
     }
-
-    pool.query(sql2, (err, result) => {
-      if (err) throw err;
-      // console.log(result)
-      if (result[0].affectedRows > 0) {
-        res.send({ success_code: 200, message: '订座成功' })
-      } else {
-        res.send({ error_code: 1, message: '订座失败' })
-      }
-    })
   })
-
 })
 
 // 获取距离最近的可用订座信息
 router.post('/api/getOrderLatest', (req, res) => {
   let userId = req.body.userId;
   if (userId) {
-    let sql = 'SELECT A.order_id, A.order_status,B.shop_name,C.seat_id,C.seat_type,C.seat_info,A.order_date,A.start_time,A.end_time from t_order A';
+    let sql = 'SELECT A.order_id, A.order_status,A.pid,B.shop_name,C.seat_id,C.seat_type,C.seat_info,A.order_date,A.start_time,A.end_time from t_order A';
     sql += ' LEFT JOIN t_shop B on A.shop_id=B.shop_id';
     sql += ' LEFT JOIN t_shop_seat C on A.sid=C.sid';
     sql += ' WHERE A.user_id = ? AND A.order_status=? OR A.order_status=? LIMIT 1;';

@@ -26,7 +26,7 @@ export default {
     async loadOrderInfoAll(){
       Indicator.open('加载中...');
       let result=await getOrderAll(this.$store.getters.uid);
-      console.log(result)
+      // console.log(result)
       if(result.success_code==200){
         this.jsonData=result.data;
       }

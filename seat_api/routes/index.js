@@ -29,7 +29,7 @@ router.post('/api/getSeatSoldInfo', (req, res) => {
   let { shopId, dateVal, startVal, endVal } = req.body;
   let seat = [];
   let sql = 'SELECT A.order_date,A.start_time,A.end_time,B.seat_id from t_order A LEFT JOIN t_shop_seat B ON A.sid=B.sid ';
-  sql += ' WHERE A.shop_id= ? AND A.order_date=? AND A.start_time<=? AND A.end_time>=? AND A.order_status in(?,?)';
+  sql += ' WHERE A.shop_id= ? AND A.order_date=? AND A.start_time<=? AND A.end_time>=? AND A.order_status IN(?,?)';
   // 除A.start_time>endVal OR A.end_val<startVal以外
   pool.query(sql, [shopId, dateVal, endVal, startVal, 0, 1], (err, result) => {
     if (err) throw err;
@@ -97,7 +97,7 @@ router.post('/api/orderSeat', (req, res) => {
   let { userId, shopId, dateVal, startVal, endVal, seatId, cardType, rechargeId } = req.body,
     time = endVal - startVal,
     unit = 1000 * 60 * 30;
-  let sql = 'SELECT * FROM t_order WHERE user_id=? AND start_time<=? AND end_time>=? AND order_status = ? OR order_status = ?'
+  let sql = 'SELECT * FROM t_order WHERE user_id=? AND start_time<=? AND end_time>=? AND order_status IN(?,?)'
   pool.query(sql, [userId, endVal, startVal, 0, 1], (err, result) => {
     if (err) throw err;
     if (result.length == 0) {
@@ -151,7 +151,7 @@ router.post('/api/getOrderLatest', (req, res) => {
     let sql = 'SELECT A.order_id, A.order_status,A.pid,B.shop_name,C.seat_id,C.seat_type,C.seat_info,A.order_date,A.start_time,A.end_time from t_order A';
     sql += ' LEFT JOIN t_shop B on A.shop_id=B.shop_id';
     sql += ' LEFT JOIN t_shop_seat C on A.sid=C.sid';
-    sql += ' WHERE A.user_id = ? AND A.order_status=? OR A.order_status=? LIMIT 1;';
+    sql += ' WHERE A.user_id = ? AND A.order_status IN(?,?) LIMIT 1;';
     pool.query(sql, [userId, 0, 1], (err, result) => {
       if (err) {
         res.send({ error_code: 1, message: '获取订座信息失败' });
@@ -174,7 +174,7 @@ router.post('/api/getOrderAll', (req, res) => {
     let sql = 'SELECT A.order_id,A.order_status,B.shop_name,C.seat_id,C.seat_type,C.seat_info,A.order_date,A.start_time,A.end_time from t_order A';
     sql += ' LEFT JOIN t_shop B on A.shop_id=B.shop_id';
     sql += ' LEFT JOIN t_shop_seat C on A.sid=C.sid';
-    sql += ' WHERE A.user_id = ? AND A.order_status=? OR A.order_status=? ;';
+    sql += ' WHERE A.user_id = ? AND A.order_status IN(?,?);';
     pool.query(sql, [userId, 0, 1], (err, result) => {
       if (err) {
         res.send({ error_code: 1, message: '获取订座信息失败' });

@@ -26,17 +26,18 @@ router.get('/api/getShopInfo', (req, res) => {
 
 // 获取已被预定的座位
 router.post('/api/getSeatSoldInfo', (req, res) => {
-  let { shopId, startVal, endVal } = req.body;
+  let { shopId, dateVal, startVal, endVal } = req.body;
   let seat = [];
-  let sql = 'SELECT A.order_date,A.start_time,A.end_time,B.seat_id from t_order A,t_shop_seat B WHERE A.sid=B.sid';
-  sql += ' AND A.shop_id= ? AND A.start_time<=? AND A.end_time>=? AND A.order_status=? OR A.order_status=?';
+  let sql = 'SELECT A.order_date,A.start_time,A.end_time,B.seat_id from t_order A LEFT JOIN t_shop_seat B ON A.sid=B.sid ';
+  sql += ' WHERE A.shop_id= ? AND A.order_date=? AND A.start_time<=? AND A.end_time>=? AND A.order_status in(?,?)';
   // 除A.start_time>endVal OR A.end_val<startVal以外
-  pool.query(sql, [shopId, endVal, startVal,0,1], (err, result) => {
+  pool.query(sql, [shopId, dateVal, endVal, startVal, 0, 1], (err, result) => {
     if (err) throw err;
     for (let i = 0; i < result.length; i++) {
       seat.push(result[i].seat_id)
     }
     res.send({ success_code: 200, data: seat, detail: result })
+    // res.send({success_code:200,data:result})
   })
 })
 
@@ -137,8 +138,8 @@ router.post('/api/orderSeat', (req, res) => {
           }
         })
       })
-    }else{
-      res.send({ error_code: 1,message:'同一用户同一时段仅可预定一个座位'})
+    } else {
+      res.send({ error_code: 1, message: '同一用户同一时段仅可预定一个座位' })
     }
   })
 })
@@ -227,7 +228,7 @@ router.post('/api/cancelOrder', (req, res) => {
 
 // 开始订单
 router.post('/api/startOrder', (req, res) => {
-  let { userId, orderId} = req.body;
+  let { userId, orderId } = req.body;
   let sql = 'UPDATE t_order SET order_status=? WHERE user_id = ? AND order_id=?;';
   pool.query(sql, [1, userId, orderId], (err, result) => {
     if (err) throw err;
@@ -241,7 +242,7 @@ router.post('/api/startOrder', (req, res) => {
 // 结束订单
 router.post('/api/endOrder', (req, res) => {
   let { userId, orderId, rechargeId } = req.body;
-  let timeBefore, timeNow, distance, refund,unit=1000*60*30;
+  let timeBefore, timeNow, distance, refund, unit = 1000 * 60 * 30;
   // 获得当天已完结的订单时长
   let sql = 'SELECT SUM(end_time-start_time) AS time FROM t_order WHERE order_status=? AND user_id=? AND order_date=date(NOW());';
   sql += 'SELECT A.sid,A.seat_type,A.seat_price FROM t_shop_seat A,t_order B WHERE A.sid=B.sid AND B.order_id=?;'
@@ -307,7 +308,7 @@ router.post('/api/getMyDataAll', (req, res) => {
     // 订单编号，店铺名，座位信息，下单时间，支付方式
     let sql = 'SELECT A.order_id,A.order_date,A.start_time,A.end_time,A.pay_time,A.pay_type,B.shop_name,';
     sql += ' C.seat_id,C.seat_type,C.seat_info FROM t_order A LEFT JOIN t_shop B on A.shop_id=B.shop_id';
-    sql += ' LEFT JOIN t_shop_seat C on A.sid=C.sid WHERE A.user_id = ?;';
+    sql += ' LEFT JOIN t_shop_seat C on A.sid=C.sid WHERE A.user_id = ? ORDER BY A.order_date,A.start_time;';
     pool.query(sql, [userId], (err, result) => {
       if (err) {
         res.send({ error_code: 1, message: '获取订座记录失败' });
@@ -329,7 +330,7 @@ router.post('/api/getMyDataDelay', (req, res) => {
   if (userId) {
     let sql = 'SELECT A.order_id,A.order_date,A.start_time,A.end_time,A.pay_time,A.pay_type,B.shop_name,';
     sql += ' C.seat_id,C.seat_type,C.seat_info FROM t_order A LEFT JOIN t_shop B on A.shop_id=B.shop_id';
-    sql += ' LEFT JOIN t_shop_seat C on A.sid=C.sid WHERE A.user_id = ? AND A.is_delay=?;';
+    sql += ' LEFT JOIN t_shop_seat C on A.sid=C.sid WHERE A.user_id = ? AND A.is_delay=? ORDER BY A.start_time;';
     pool.query(sql, [userId, 1], (err, result) => {
       if (err) {
         res.send({ error_code: 1, message: '获取订座记录失败' });
@@ -351,7 +352,7 @@ router.post('/api/getMyDataCancel', (req, res) => {
   if (userId) {
     let sql = 'SELECT A.order_id,A.order_date,A.start_time,A.end_time,A.pay_time,A.pay_type,B.shop_name,';
     sql += ' C.seat_id,C.seat_type,C.seat_info FROM t_order A LEFT JOIN t_shop B on A.shop_id=B.shop_id';
-    sql += ' LEFT JOIN t_shop_seat C on A.sid=C.sid WHERE A.user_id = ? AND A.order_status=?;';
+    sql += ' LEFT JOIN t_shop_seat C on A.sid=C.sid WHERE A.user_id = ? AND A.order_status=? ORDER BY A.start_time;';
     pool.query(sql, [userId, 3], (err, result) => {
       if (err) {
         res.send({ error_code: 1, message: '获取订座记录失败' });
@@ -373,7 +374,7 @@ router.post('/api/getMyDataEnd', (req, res) => {
   if (userId) {
     let sql = 'SELECT A.order_id,A.order_date,A.start_time,A.end_time,A.pay_time,A.pay_type,B.shop_name,';
     sql += ' C.seat_id,C.seat_type,C.seat_info FROM t_order A LEFT JOIN t_shop B on A.shop_id=B.shop_id';
-    sql += ' LEFT JOIN t_shop_seat C on A.sid=C.sid WHERE A.user_id = ? AND A.order_status=?;';
+    sql += ' LEFT JOIN t_shop_seat C on A.sid=C.sid WHERE A.user_id = ? AND A.order_status=? ORDER BY A.start_time;';
     pool.query(sql, [userId, 2], (err, result) => {
       if (err) {
         res.send({ error_code: 1, message: '获取订座记录失败' });
@@ -395,7 +396,7 @@ router.post('/api/getMyDataOverdue', (req, res) => {
   if (userId) {
     let sql = 'SELECT A.order_id,A.order_date,A.start_time,A.end_time,A.pay_time,A.pay_type,B.shop_name,';
     sql += ' C.seat_id,C.seat_type,C.seat_info FROM t_order A LEFT JOIN t_shop B on A.shop_id=B.shop_id';
-    sql += ' LEFT JOIN t_shop_seat C on A.sid=C.sid WHERE A.user_id = ? AND A.order_status=?;';
+    sql += ' LEFT JOIN t_shop_seat C on A.sid=C.sid WHERE A.user_id = ? AND A.order_status=? ORDER BY A.start_time;';
     pool.query(sql, [userId, 4], (err, result) => {
       if (err) {
         res.send({ error_code: 1, message: '获取订座记录失败' });

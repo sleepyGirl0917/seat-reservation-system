@@ -106,6 +106,8 @@ export default {
   },
   watch:{
     dateVal(){
+      this.selectedStartValue=null;
+      this.selectedEndValue=null;
       let today=formatDate(new Date(),'yyyy-MM-dd');
       if(this.dateVal==today){
         this.isToday=true
@@ -151,22 +153,21 @@ export default {
     // 设置开始时间
     getStartTime(value) {
       // 开始时间和结束时间要在开业时间范围内
+      // 把hh:mm格式字符串解析为单位为毫秒的时间
       let new_value=parseTime(value),
           openTime=parseTime(this.openTime),
-          closeTime=parseTime(this.closeTime);
+          closeTime=parseTime(this.closeTime),
+          startValue = parseTime(value); ;
       if(new_value<openTime||new_value>=closeTime){
         return;
       }
       // 如果是当天，只能选择当前时间之后的开始时间
       if(this.isToday){
-        // let now=formatTime(new Date());
-        let now=new Date().getTime();
-        value<now?value=now:''
+        new_value<new Date().getTime()?value=formatTime(new Date()):''
       }
+      this.selectedStartValue = value;    
       // 初始状态下,结束时间为空
-      if(this.selectedStartValue==null){
-        this.selectedStartValue = value;    // hh:mm格式的字符串
-        let startValue = parseTime(value);  // 把hh:mm格式字符串解析为单位为毫秒的时间
+      if(this.selectedEndValue==null){
         let endValue = new Date(startValue + this.unit);  // 默认结束时间比开始时间多半小时
         this.getEndTime(formatTime(endValue));
       }else{ // 设置结束时间后，限制修改的开始时间不能大于结束时间
@@ -196,13 +197,12 @@ export default {
     // 获取可选座位
     async loadSeatSoldInfo(){
       if (this.$route.query.shop_id){
-        let start_time=new Date(this.dateVal+' '+this.selectedStartValue),
-            end_time=new Date(this.dateVal+' '+this.selectedEndValue);
+        let start_time=new Date(this.dateVal+' '+this.selectedStartValue).getTime(),
+            end_time=new Date(this.dateVal+' '+this.selectedEndValue).getTime();
         // 请求已被预定的座位
-        let json = await getSeatSoldInfo(this.$route.query.shop_id,start_time,end_time);
-        // console.log(json)
-        if(json.success_code==200){
-          this.seatSoldInfo = json.data;
+        let result = await getSeatSoldInfo(this.$route.query.shop_id,this.dateVal,start_time,end_time);
+        if(result.success_code==200){
+          this.seatSoldInfo = result.data;
           // 遍历seatJson
           this.seatJson.forEach((item)=>{
             if(this.seatSoldInfo.includes(item.seatId)){
@@ -213,17 +213,21 @@ export default {
               item.type==0?item.classBg='seat-bg1':item.classBg='seat-bg4';
             }
           })
+        }else{
+          this.seatSoldInfo=[];
         }
       }
     },
     // 获取已被预定的时段
     async loadSeatSoldDetail(){
       Indicator.open();
-      let json=await getSeatSoldDetail(this.$route.query.shop_id,this.dateVal,this.clickedSeatInfo);
-      if(json.success_code==200){
+      let result=await getSeatSoldDetail(this.$route.query.shop_id,this.dateVal,this.clickedSeatInfo);
+      // console.log(result)
+      if(result.success_code==200){
         let detail='';
-        json.data.forEach((item)=>{
-          detail+=item.start_time+'--'+item.end_time+'\xa0\xa0\xa0'
+        result.data.forEach((item)=>{
+          let start_time=new Date(item.start_time),end_time=new Date(item.end_time);
+          detail+=formatTime(start_time)+'--'+formatTime(end_time)+'\xa0\xa0\xa0'
         })
         this.seatSoldDetail=detail;
       }

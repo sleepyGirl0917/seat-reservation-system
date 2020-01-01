@@ -45,7 +45,7 @@ export const logout = () => ajax('/api/logout')
 // 加载店铺信息
 export const getShopInfo = () => ajax('/api/getShopInfo')
 // 获取已被预定的座位
-export const getSeatSoldInfo = (shopId, startVal, endVal) => ajax('/api/getSeatSoldInfo', { shopId, startVal, endVal }, 'POST')
+export const getSeatSoldInfo = (shopId, dateVal,startVal, endVal) => ajax('/api/getSeatSoldInfo', { shopId, dateVal,startVal, endVal }, 'POST')
 // 获取座位被预定的时段详情
 export const getSeatSoldDetail = (shopId, dateVal, seatId) => ajax('/api/getSeatSoldDetail', { shopId, dateVal, seatId }, 'POST')
 // 获取用户会员卡信息

@@ -34,14 +34,34 @@ export default {
       loadingStatus: false,
       jsonData: {},
       process_num:null,
-      btnText:null,
-      now:null,
+      now:null
     };
   },
   props: ["order_id"],
   computed: {
     during_time(){
       return this.now-this.jsonData.start_time
+    },
+    btnText(){
+      // if(this.process_num==1){
+      //   return '取消订单'
+      // }else if(this.process_num==2){
+      //   return '开始'
+      // }else if(this.process_num==4){
+      //   return '结束订单'
+      // }else{
+      //   return null
+      // }
+      switch(this.process_num){
+        case 1:
+          return '取消订单'
+        case 2:
+          return '开始'
+        case 4:
+          return '结束订单'
+        default:
+          return null
+      }
     },
     timeOut:{ // 定时器的进程
       set(val){
@@ -57,16 +77,16 @@ export default {
       let max=1000*60*15;
       if(this.jsonData.order_status==0&&this.during_time<0){
         this.process_num=1;
-        this.btnText='取消订单';
+        // this.btnText='取消订单';
       }else if(this.jsonData.order_status==0&&this.during_time>=0&&this.during_time<=max){
         this.process_num=2; 
-        this.btnText='开始';
+        // this.btnText='开始';
       }else if(this.jsonData.order_status==0&&this.during_time>max){
         this.process_num=3;
         this.overOrder();
       }else if(this.jsonData.order_status==1&&this.jsonData.end_time>this.now){
         this.process_num=4;
-        this.btnText='结束订单';
+        // this.btnText='结束订单';
       }else if(this.jsonData.order_status==1&&this.jsonData.end_time<=this.now){
         this.process_num=5;
         this.endOrder();

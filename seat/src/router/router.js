@@ -181,7 +181,7 @@ const routes = [
   },
   {
     path: '/purchase/details/:order_id',
-    name: 'purchaseDetails-all',
+    name: 'purchase-details-all',
     component: PurchaseDetails,
     props: true,
     meta: {

@@ -71,15 +71,15 @@ Vue.filter("payTypeFilter", (val) => {
 // 创建订单操作过滤器
 Vue.filter("orderFilter", (val) => {
   switch (val) {
-    case 'purchaseDetails-all':
+    case 'purchase-details-all':
       return '订座';
-    case 'purchaseDetails-delay':
+    case 'purchase-details-delay':
       return '延长时段';
-    case 'purchaseDetails-cancel':
+    case 'purchase-details-cancel':
       return '取消订单';
-    case 'purchaseDetails-end':
+    case 'purchase-details-end':
       return '结束';
-    case 'purchaseDetails-overdue':
+    case 'purchase-details-overdue':
       return '逾期';
   }
 })

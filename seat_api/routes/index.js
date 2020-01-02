@@ -292,7 +292,7 @@ router.post('/api/overOrder', (req, res) => {
   let sql = 'UPDATE t_order SET order_status=?,order_refund=order_cost*0.7 WHERE user_id=? AND order_id=?; '
   sql += 'UPDATE t_recharge SET balance=balance+(SELECT order_refund from t_order WHERE order_id=?) WHERE recharge_id =?; ';
   sql += 'UPDATE t_user SET balance=balance+(SELECT order_refund from t_order WHERE order_id=?) WHERE user_id = ?; ';
-  pool.query(sql, [3, userId, orderId, orderId, rechargeId, orderId, userId], (err, result) => {
+  pool.query(sql, [4, userId, orderId, orderId, rechargeId, orderId, userId], (err, result) => {
     if (err) throw err;
     // console.log(result)
     if (result[0].affectedRows > 0) {

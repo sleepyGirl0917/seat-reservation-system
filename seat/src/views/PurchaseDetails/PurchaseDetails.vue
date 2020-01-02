@@ -12,13 +12,17 @@
           {{jsonData.start_time|dateTimeFilter('timeOnly')}}-{{jsonData.end_time|dateTimeFilter('timeOnly')}}
         </span>
       </div>
-      <div>
+      <div  v-if="$route.path.includes('cancle')||$route.path.includes('end')">
+        <span>退款金额:</span>
+        <span>&yen;{{Math.abs(jsonData.order_refund)}}</span>
+      </div>
+      <div  v-else>
         <span>小计:</span>
         <span>&yen;{{jsonData.order_cost}}</span>
       </div>
       <div>
         <span>类型:</span>
-        <span>{{routeName|orderFilter}}</span>
+        <span>{{$route.name|orderFilter}}</span>
       </div>
       <div>
         <span>支付方式:</span>
@@ -33,28 +37,39 @@
         <span>&yen;0</span>
       </div>
     </div>
+    <div class="container"  v-if="$route.path.includes('overdue')">
+      <div>
+        <span>扣取逾期费用:</span>
+        <span>&yen;{{jsonData.order_cost-jsonData.order_refund}}</span>
+      </div>
+      <div>
+        <span>退款金额:</span>
+        <span>&yen;{{jsonData.order_refund}}</span>
+      </div>
+    </div>
     <div class="container">
       <div>支付时间：{{jsonData.pay_time|dateTimeFilter}}</div>
       <div>订单编号：{{jsonData.order_num}}</div>
     </div>
+    <btn-container :text="btnText" @submit="$router.go(-1)"></btn-container>
   </div>
 </template>
 
 <script>
 import { getPurchaseDetails } from '../../api/index'
 import { Indicator } from "mint-ui"
+import Button from "../../components/Button/Button"
 export default {
   data() {
     return {
       loadingStatus:false,
       jsonData:{},
+      btnText:'返回'
     };
   },
   props:['order_id'],
-  computed:{
-    routeName(){
-      return this.$route.name
-    }
+  components:{
+    "btn-container": Button
   },
   created() {
     this.loadPurchaseDetails();
@@ -63,13 +78,11 @@ export default {
     async loadPurchaseDetails(){
       Indicator.open('加载中...');
       let result= await getPurchaseDetails(this.$store.getters.uid,this.order_id);
-      // console.log(result)
       if(result.success_code==200){
         this.jsonData=result.data;
         this.loadingStatus=true;
       }
       Indicator.close();
-      
     }
   }
 };
@@ -87,7 +100,7 @@ export default {
     border-bottom  1px solid rgba(88,88,88,0.3) 
     margin 15px
       
-    &:nth-child(1)
+    &:not(:last-child)
       padding-left 15px
       &>div
         display flex
@@ -104,12 +117,15 @@ export default {
         &:not(:last-child)
           border-bottom 1px solid rgba(88, 88,88,0.3) 
 
-    &:nth-child(2)
+    &:last-child
       padding 10px 15px
       &>div
         height  50px  
         line-height 50px
         font-size  18px
         font-weight  400
+
+  .btn-container
+    margin:50px 30px;      
 </style>
 

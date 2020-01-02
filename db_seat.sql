@@ -231,7 +231,7 @@ CREATE TABLE `t_order`  (
   `end_time` bigint(64) DEFAULT NULL COMMENT '订座结束时间',
   `status_change_time` datetime DEFAULT NULL COMMENT '状态改变时间',
   `order_cost` decimal(10,1) DEFAULT 0  COMMENT '订座费用',
-  `order_refund` decimal(10,1) DEFAULT 0  COMMENT '订座退款',
+  `order_refund` decimal(10,2) DEFAULT 0  COMMENT '订座退款',
   `is_delay` int(4) DEFAULT 0 COMMENT '是否为延长时段', -- 0：不是 1：是
   `order_status` int(4) DEFAULT 0 COMMENT '订单状态',  -- 0：未开始 1：进行中  2：结束 3：取消 4：逾期，释放座位 5:时间到，释放座位
   `pay_time` datetime NULL DEFAULT CURRENT_TIMESTAMP COMMENT '支付时间',
@@ -288,7 +288,7 @@ CREATE TABLE `status_history` (
   `order_id` bigint(20) NOT NULL,
   `user_id` bigint(20) NOT NULL,
   `pid` bigint(20) NOT NULL,
-  `order_refund` decimal(10,1) NOT NULL,
+  `order_refund` decimal(10,2) NOT NULL,
   `order_status` int(4) NOT NULL,
   `operatetype` varchar(200) NOT NULL,
   `operatetime` datetime NOT NULL,
@@ -325,13 +325,13 @@ CREATE TRIGGER `tri_user_balance` AFTER INSERT ON `status_history` FOR EACH ROW
 
 -- ----------------------------
 -- 定义一个存储过程取名为e_test
--- 超过开始时间15分钟后将order_status设为4（逾期）
+-- 超过开始时间15分钟后将order_status设为4
 -- ----------------------------
 DELIMITER $$
 DROP PROCEDURE IF EXISTS e_test $$
 CREATE PROCEDURE e_test()
 BEGIN
-  update t_order set order_status=4 where REPLACE(unix_timestamp(current_timestamp(3)),'.','')-start_time>=1000*60*1 and order_status=0;
+  update t_order set order_status=4 where REPLACE(unix_timestamp(current_timestamp(3)),'.','')-start_time>=1000*60*15 and order_status=0;
   update t_order set order_status=5 where REPLACE(unix_timestamp(current_timestamp(3)),'.','')-end_time>=0 and order_status=1;
 END$$
 DELIMITER ;

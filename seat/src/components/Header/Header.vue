@@ -63,7 +63,7 @@
     text-align  center 
     white-space  nowrap 
     color  #000 
-    background-color rgb(239,239,244)
+    background-color #F7F7F7
   .strong
     font-size 22px 
     font-weight 700

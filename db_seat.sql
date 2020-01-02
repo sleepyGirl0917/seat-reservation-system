@@ -189,31 +189,61 @@ INSERT INTO `t_user` VALUES (3, 'Ali', '/img/avatar/default.png', '123456', '181
 
 -- ----------------------------
 -- Table structure for t_recharge
+-- 会员卡详情
 -- ----------------------------
 DROP TABLE IF EXISTS `t_recharge`;
 CREATE TABLE `t_recharge`(
-  `recharge_id` int(8) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT '充值id',
-  `recharge_num` varchar(32) DEFAULT NULL COMMENT '订单编号（18位）/会员卡号',
+  `recharge_id` int(8) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT '会员卡id',
   `user_id` int(8) UNSIGNED NULL DEFAULT NULL COMMENT '用户id',
-  `recharge_type` int(4) DEFAULT NULL COMMENT '充值类型', -- 0：体验卡 1：储值卡 2：包时卡
-  `recharge_money` int(8) UNSIGNED NULL DEFAULT NULL COMMENT '充值（金额）',
-  `recharge_send` int(8) UNSIGNED NULL DEFAULT NULL COMMENT '赠送金额',
+  `plan_id` int(8) DEFAULT NULL COMMENT '充值方案id',
+  `recharge_type` int(4) DEFAULT NULL COMMENT '会员卡类型', -- 0：体验卡 1：储值卡 2：包时卡
   `balance` decimal(10,1) DEFAULT 0 COMMENT '储值卡余额',
-  `recharge_time` int(8) DEFAULT NULL COMMENT '充值（时长）',
   `recharge_date` datetime DEFAULT NULL COMMENT '充值日期',
   `deadline` datetime DEFAULT NULL COMMENT '有效期',
-  `pay_money` int(8) UNSIGNED NULL DEFAULT NULL COMMENT '支付金额',
    PRIMARY KEY (`recharge_id`) USING BTREE
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of t_recharge
 -- ----------------------------
-INSERT INTO `t_recharge` VALUES (1,'CZ2019010100000001','1','1','500','200','300.8',null,'2019-1-3 15:03:00','2020-1-3 15:03:00','500');
-INSERT INTO `t_recharge` VALUES (2,'CZ2019010100000002','2','1','1000','400','644.9',null,'2019-2-9 16:27:15','2021-2-9 16:27:15','1000');
-INSERT INTO `t_recharge` VALUES (3,'CZ2019010100000003','3','2',null,null,null,'365','2019-2-9 16:10:00','2020-2-9 16:10:00','4566');
-INSERT INTO `t_recharge` VALUES (4,'CZ2019010100000004','3','1','1000','400','1000.0',null,'2019-2-9 16:11:00','2020-2-9 16:11:00','1000');
-INSERT INTO `t_recharge` VALUES (5,'CZ2019010100000005','3','1','500','200','300.8',null,'2019-2-9 16:22:00','2020-2-9 16:22:00','500');
+INSERT INTO `t_recharge` VALUES (1,'1',null,'1','300.8','2019-1-3 15:03:00','2020-1-3 15:03:00');
+INSERT INTO `t_recharge` VALUES (2,'2',null,'1','644.9','2019-2-9 16:27:15','2021-2-9 16:27:15');
+INSERT INTO `t_recharge` VALUES (3,'3',null,'2',null,'2019-2-9 16:10:00','2020-2-9 16:10:00');
+INSERT INTO `t_recharge` VALUES (4,'3',null,'1','1000.0','2019-2-9 16:11:00','2020-2-9 16:11:00');
+INSERT INTO `t_recharge` VALUES (5,'3',null,'1','300.8','2019-2-9 16:22:00','2020-2-9 16:22:00');
+
+-- ----------------------------
+-- Table structure for t_recharge_plan
+-- 会员活动方案
+-- ----------------------------
+DROP TABLE IF EXISTS `t_recharge_plan`;
+CREATE TABLE `t_recharge_plan`(
+  `plan_id` int(8) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT '充值方案id',
+  `description` VARCHAR(32) DEFAULT NULL COMMENT '简介',
+  `recharge_money` DECIMAL(10,1) UNSIGNED NULL DEFAULT NULL COMMENT '充值（金额）',
+  `recharge_send` DECIMAL(10,1) UNSIGNED NULL DEFAULT NULL COMMENT '赠送金额',
+  `recharge_time` int(8) DEFAULT NULL COMMENT '充值（时长）',
+  `recharge_type` int(4) DEFAULT NULL COMMENT '充值类型', -- 0：体验卡 1：储值卡 2：包时卡
+  `price` DECIMAL(10,2) UNSIGNED NULL DEFAULT NULL COMMENT '价格',
+  `effective_time` int(4) DEFAULT NULL COMMENT '有效时间', -- 单位：天
+  `isActive` int(4) DEFAULT NULL COMMENT '活动是否有效', -- 0：无效 1：有效
+   PRIMARY KEY (`plan_id`) USING BTREE
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of t_recharge_plan
+-- ----------------------------
+INSERT INTO `t_recharge_plan`(description,recharge_money,recharge_send,recharge_type,price,effective_time,isActive) VALUES ('充500.0送0.0',500.0,0.0,1,500.00,365,1);
+INSERT INTO `t_recharge_plan`(description,recharge_money,recharge_send,recharge_type,price,effective_time,isActive) VALUES ('充299.0送61.0',299.0,61.0,1,299.00,365,1);
+INSERT INTO `t_recharge_plan`(description,recharge_money,recharge_send,recharge_type,price,effective_time,isActive) VALUES ('充499.0送201.0',499.0,201.0,1,499.00,365,1);
+INSERT INTO `t_recharge_plan`(description,recharge_money,recharge_send,recharge_type,price,effective_time,isActive) VALUES ('充999.0送601.0',999.0,601.0,1,999.00,365,1);
+INSERT INTO `t_recharge_plan`(description,recharge_money,recharge_send,recharge_type,price,effective_time,isActive) VALUES ('充1999.0送1501.0',1999.0,1501.0,1,1999.00,730,1);
+INSERT INTO `t_recharge_plan`(description,recharge_money,recharge_send,recharge_type,price,effective_time,isActive) VALUES ('充2999.0送3001.0',2999.0,3001.0,1,2999.00,730,1);
+INSERT INTO `t_recharge_plan`(description,recharge_time,recharge_type,price,effective_time,isActive) VALUES ('周卡(7天)',7,2,238.00,7,1);
+INSERT INTO `t_recharge_plan`(description,recharge_time,recharge_type,price,effective_time,isActive) VALUES ('月卡(30天)',30,2,666.00,30,1);
+INSERT INTO `t_recharge_plan`(description,recharge_time,recharge_type,price,effective_time,isActive) VALUES ('双月卡(60天)',60,2,1266.00,60,1);
+INSERT INTO `t_recharge_plan`(description,recharge_time,recharge_type,price,effective_time,isActive) VALUES ('半年卡(180天)',180,2,3166.00,180,1);
+INSERT INTO `t_recharge_plan`(description,recharge_time,recharge_type,price,effective_time,isActive) VALUES ('年卡(365天)',365,2,4566.00,365,1);
 
 -- ----------------------------
 -- Table structure for t_order
@@ -296,6 +326,23 @@ CREATE TABLE `status_history` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
+-- Table structure for recharge_history 
+-- 创建充值记录表
+-- ----------------------------
+DROP TABLE IF EXISTS `recharge_history`;
+CREATE TABLE `recharge_history` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `user_id` bigint(20) NOT NULL,
+  `recharge_id` bigint(20) NOT NULL,
+  `plan_id` bigint(20) NOT NULL,
+  `recharge_date` datetime DEFAULT NULL COMMENT '充值日期',
+  `deadline` datetime DEFAULT NULL COMMENT '有效期',
+  `operatetype` varchar(200) NOT NULL,
+  `operatetime` datetime NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- ----------------------------
 -- Table structure for tri_insert_order 
 -- 创建order表插入事件对应的触发器
 -- ----------------------------
@@ -304,21 +351,28 @@ CREATE TRIGGER `tri_insert_order` AFTER INSERT ON `t_order` FOR EACH ROW
 
 -- ----------------------------
 -- Table structure for tri_update_order_status 
--- 创建order表插入事件对应的触发器
+-- 创建订单状态改变事件对应的触发器
 -- ----------------------------
 CREATE TRIGGER `tri_update_order_status` AFTER UPDATE ON `t_order` FOR EACH ROW  
   INSERT INTO status_history(order_id,user_id,pid,order_refund,order_status,operatetype,operatetime) VALUES (new.order_id,new.user_id,new.pid,new.order_refund,new.order_status,'改变订座状态',  now());
 
 -- ----------------------------
+-- Table structure for tri_recharge_insert 
+-- 创建加入会员对应的触发器
+-- ----------------------------
+CREATE TRIGGER `tri_recharge_insert` AFTER INSERT ON `t_recharge` FOR EACH ROW
+  INSERT recharge_history(user_id,recharge_id,plan_id,recharge_date,deadline,operatetype,operatetime) VALUES(new.user_id,new.recharge_id,new.plan_id,new.recharge_date,new.deadline,'办理会员卡',now());
+
+-- ----------------------------
 -- Table structure for tri_recharge_balance 
--- 创建order_status=4时对应的触发器
+-- 创建订单逾期时对应的触发器
 -- ----------------------------
 CREATE TRIGGER `tri_recharge_balance` BEFORE INSERT ON `status_history` FOR EACH ROW 
   UPDATE t_recharge set balance=balance+new.order_refund WHERE recharge_id=new.pid and new.order_status=4;
 
 -- ----------------------------
 -- Table structure for tri_user_balance 
--- 创建order_status=4时对应的触发器
+-- 创建订单逾期时对应的触发器
 -- ----------------------------
 CREATE TRIGGER `tri_user_balance` AFTER INSERT ON `status_history` FOR EACH ROW 
   UPDATE t_user set balance = balance+new.order_refund WHERE user_id=new.user_id and new.order_status=4;

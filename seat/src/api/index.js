@@ -51,4 +51,8 @@ export const getSeatSoldDetail = (shopId, dateVal, seatId) => ajax('/api/getSeat
 // 获取用户会员卡信息
 export const getVipInfo = (userId) => ajax('/api/getVipInfo', { userId }, 'POST')
 // 预定座位
-export const orderSeat = (userId, shopId, seatId,dateVal,startVal, endVal, cardType, rechargeId) => ajax('/api/orderSeat', { userId, shopId, seatId, dateVal,startVal, endVal, cardType, rechargeId }, 'POST')
+export const orderSeat = (userId, shopId, seatId, dateVal, startVal, endVal, cardType, rechargeId) => ajax('/api/orderSeat', { userId, shopId, seatId, dateVal, startVal, endVal, cardType, rechargeId }, 'POST')
+// 获取会员活动方案
+export const getPlan = () => ajax('/api/getPlan')
+// 加入会员
+export const joinMember = (userId, planId) => ajax('/api/joinMember', { userId, planId },'POST')

@@ -11,6 +11,46 @@ router.get('/', function (req, res, next) {
   res.render('index', { title: 'Express' });
 });
 
+// 获取储值卡活动方案
+router.get('/api/getPlan', (req, res) => {
+  let sql = 'SELECT * FROM t_recharge_plan WHERE isActive=? AND recharge_type=?;'
+  sql += 'SELECT * FROM t_recharge_plan WHERE isActive=? AND recharge_type=?;'
+  pool.query(sql, [1,1,1,2], (err, result) => {
+    if (err) throw err;
+    if (result[0] && result[1]) {
+      res.send({ success_code: 200, data: result })
+    }
+  })
+})
+
+// 加入会员
+router.post('/api/joinMember', (req, res) => {
+  let { userId, planId } = req.body;
+  let sql = 'SELECT * FROM t_recharge_plan where plan_id =?'
+  pool.query(sql, [planId], (err, result) => {
+    if (err) throw err;
+    let { recharge_money, recharge_send, recharge_time, recharge_type, effective_time } = result[0],
+        balance = recharge_money + recharge_send;
+    sql = 'SELECT date_add(now(), INTERVAL effective_time day) as deadline from t_recharge_plan WHERE plan_id=?'
+    pool.query(sql, [planId],(err, result) => {
+      if (err) throw err;
+      let deadline = result[0].deadline;
+      sql = 'INSERT INTO t_recharge VALUES (?,?,?,?,?,now(),?);'
+      if (recharge_type == 1) {
+        sql += 'UPDATE t_user AS A SET balance = (SELECT SUM(balance) FROM t_recharge AS B'
+        sql += ' WHERE A.user_id = B.user_id AND B.user_id = ? AND B.recharge_type = 1 AND B.deadline >= NOW())';
+      }
+      pool.query(sql, [null, userId, planId, recharge_type, balance, deadline,userId], (err, result) => {
+        if (err) throw err;
+        if (result[0].affectedRows > 0) {
+          res.send({success_code:200,message:'充值成功'})
+        }
+      })
+    })
+    
+  })
+})
+
 // 加载店铺信息
 router.get('/api/getShopInfo', (req, res) => {
   let sql = 'SELECT shop_id,shop_name,address FROM t_shop';
@@ -92,7 +132,6 @@ router.post('/api/getVipInfo', (req, res) => {
 })
 
 // 预定座位
-// 还需判断该用户同一时段有无其他订单
 router.post('/api/orderSeat', (req, res) => {
   let { userId, shopId, dateVal, startVal, endVal, seatId, cardType, rechargeId } = req.body,
     time = endVal - startVal,

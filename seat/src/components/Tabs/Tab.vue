@@ -1,7 +1,7 @@
 <template>
   <div id="tab">
     <div class="tab-container">
-      <div class="tab-item" :class="{'active':clickedIndex==index}" v-for="(item,index) in tabs" :key="index" @click="getPlanId(index,item.plan_id)">
+      <div class="tab-item" :class="{'active':clickedIndex==index}" v-for="(item,index) in tabs" :key="index" @click="getPlanId(index,item)">
         {{item.description}}
       </div>
     </div>
@@ -18,10 +18,15 @@ export default {
   props:{
     tabs:null
   },
+  watch:{
+    tabs(){
+      this.clickedIndex=null;
+    }
+  },
   methods:{
-    getPlanId(index,id){
+    getPlanId(index,item){
       this.clickedIndex=index; 
-      this.$emit("change",id)  // 将选中项的plan_id传递给父组件
+      this.$emit("change",item)  // 将选中项传递给父组件
     }
   }
 }

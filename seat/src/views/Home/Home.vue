@@ -19,7 +19,7 @@
     <!-- 可用的订座 -->
     <div class="order-box">
       <div class="media" v-if="Object.keys(jsonData).length">
-        <a class="navigate-right" @click="$router.push(`/order_details/${jsonData.order_id}`)">
+        <div class="navigate-right" @click="$router.push(`/order_details/${jsonData.order_id}`)">
           <img class="media-object float-left" src="../../assets/img/ordered.png" />
           <div class="media-body">
             <div>{{jsonData.shop_name}}</div>
@@ -34,7 +34,7 @@
               <p>状态：{{jsonData.order_status|orderStatusFilter}}</p>
             </div>
           </div>
-        </a>
+        </div>
       </div>
       <div class="media-none" v-else>
         <img src="../../assets/img/check.png" />&nbsp;暂无可用的订座记录

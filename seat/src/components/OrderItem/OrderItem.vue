@@ -9,9 +9,8 @@
             时间：{{orderData.start_time|dateTimeFilter('timeOnly')}}-{{orderData.end_time|dateTimeFilter('timeOnly')}}
           </p>
         </div>
-        <!-- <div class="order-status border-top">状态：{{orderData.start_time|orderStatusFilter(orderData.end_time)}}</div> -->
-        <div class="order-status border-top">状态：{{orderData.order_status|orderStatusFilter}}</div>
-        <a class="navigate-right border-top" @click="$router.push(`/order_details/${orderData.order_id}`)">查看详情</a>
+        <div class="order-bottom border-top">状态：{{orderData.order_status|orderStatusFilter}}</div>
+        <div class="order-bottom navigate-right border-top" @click="$router.push(`/order_details/${orderData.order_id}`)">查看详情</div>
       </div>
   </div>
 </template>
@@ -46,7 +45,7 @@ export default {
               font-size 16px
               color #999
 
-        .order-status, a 
+        .order-bottom 
           padding 10px 0
           font-size 16px
           color #999 !important

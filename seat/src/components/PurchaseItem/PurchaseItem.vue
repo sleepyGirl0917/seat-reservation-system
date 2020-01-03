@@ -2,7 +2,7 @@
     <div id="purchase-item">
         <div class="order-box ignore">
             <div class="media">
-                <a class="navigate-right" @click="$router.push(`${$route.path}/details/${myData.order_id}`)">
+                <div class="navigate-right" @click="$router.push(`${$route.path}/details/${myData.order_id}`)">
                     <img class="media-object float-left" src="../../assets/img/ordered.png" />
                     <div class="media-body">
                     <div>{{myData.shop_name}}</div>
@@ -13,7 +13,7 @@
                         <p>支付类型：<span class="font_orange">{{myData.pay_type|payTypeFilter}}</span></p>
                     </div>
                     </div>
-                </a>
+                </div>
             </div>
         </div>  
     </div>

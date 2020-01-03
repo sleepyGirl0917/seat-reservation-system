@@ -38,16 +38,19 @@ router.post('/api/joinMember', (req, res) => {
       sql = 'INSERT INTO t_recharge VALUES (?,?,?,?,?,now(),?);'
       if (recharge_type == 1) {
         sql += 'UPDATE t_user AS A SET balance = (SELECT SUM(balance) FROM t_recharge AS B'
-        sql += ' WHERE A.user_id = B.user_id AND B.user_id = ? AND B.recharge_type = 1 AND B.deadline >= NOW())';
+        sql += ' WHERE A.user_id = B.user_id AND B.user_id = ? AND B.recharge_type = ? AND B.deadline >= NOW())';
       }
-      pool.query(sql, [null, userId, planId, recharge_type, balance, deadline,userId], (err, result) => {
+      pool.query(sql, [null, userId, planId, recharge_type, balance, deadline,userId,1], (err, result) => {
         if (err) throw err;
-        if (result[0].affectedRows > 0) {
-          res.send({success_code:200,message:'充值成功'})
+        if (recharge_type == 1 && result[0].affectedRows > 0) {
+          res.send({ success_code: 200, message: '储值卡充值成功' })
+        } else if (recharge_type == 2 && result.affectedRows > 0) {
+          res.send({ success_code: 200, message: '畅享卡充值成功' })
+        } else {
+          res.send({ error_code:1, message: '充值失败' })
         }
       })
     })
-    
   })
 })
 
@@ -77,7 +80,6 @@ router.post('/api/getSeatSoldInfo', (req, res) => {
       seat.push(result[i].seat_id)
     }
     res.send({ success_code: 200, data: seat, detail: result })
-    // res.send({success_code:200,data:result})
   })
 })
 

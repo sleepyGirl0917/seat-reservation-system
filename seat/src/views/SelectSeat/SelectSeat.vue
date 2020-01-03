@@ -52,7 +52,7 @@
       </div>
     </div>
     <btn-container :text="btnText" @submit="confirmSelect"></btn-container>
-    <mt-popup class="show-detail" v-model="popupVisible" popup-transition="popup-fade" v-show="seatSoldDetail">
+    <mt-popup class="show-detail" v-model="popupVisible" v-show="seatSoldDetail" popup-transition="popup-fade" >
       <div class="popup-content">
         <p>座位：{{clickedSeatInfo}}</p>
         <p>已被预定的时段：</p>

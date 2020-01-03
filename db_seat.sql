@@ -183,9 +183,6 @@ CREATE TABLE `t_user`  (
 -- ----------------------------
 -- Records of t_user
 -- ----------------------------
-INSERT INTO `t_user` VALUES (1, 'Ann', '/img/avatar/default.png', '123456', '13414850282', '0','300.8');
-INSERT INTO `t_user` VALUES (2, 'Tom', '/img/avatar/default.png', '123456', '13672606065', '1','644.9');
-INSERT INTO `t_user` VALUES (3, 'Ali', '/img/avatar/default.png', '123456', '18162536357', '1','1300.0');
 
 -- ----------------------------
 -- Table structure for t_recharge
@@ -206,11 +203,6 @@ CREATE TABLE `t_recharge`(
 -- ----------------------------
 -- Records of t_recharge
 -- ----------------------------
-INSERT INTO `t_recharge` VALUES (1,'1',null,'1','300.8','2019-1-3 15:03:00','2020-1-3 15:03:00');
-INSERT INTO `t_recharge` VALUES (2,'2',null,'1','644.9','2019-2-9 16:27:15','2021-2-9 16:27:15');
-INSERT INTO `t_recharge` VALUES (3,'3',null,'2',null,'2019-2-9 16:10:00','2020-2-9 16:10:00');
-INSERT INTO `t_recharge` VALUES (4,'3',null,'1','1000.0','2019-2-9 16:11:00','2020-2-9 16:11:00');
-INSERT INTO `t_recharge` VALUES (5,'3',null,'1','300.8','2019-2-9 16:22:00','2020-2-9 16:22:00');
 
 -- ----------------------------
 -- Table structure for t_recharge_plan
@@ -363,29 +355,4 @@ CREATE TRIGGER `tri_update_order_status` AFTER UPDATE ON `t_order` FOR EACH ROW
 CREATE TRIGGER `tri_recharge_insert` AFTER INSERT ON `t_recharge` FOR EACH ROW
   INSERT recharge_history(user_id,recharge_id,plan_id,recharge_date,deadline,operatetype,operatetime) VALUES(new.user_id,new.recharge_id,new.plan_id,new.recharge_date,new.deadline,'办理会员卡',now());
 
--- ----------------------------
--- Table structure for tri_recharge_balance 
--- 创建订单逾期时对应的触发器
--- ----------------------------
-CREATE TRIGGER `tri_recharge_balance` BEFORE INSERT ON `status_history` FOR EACH ROW 
-  UPDATE t_recharge set balance=balance+new.order_refund WHERE recharge_id=new.pid and new.order_status=4;
 
--- ----------------------------
--- Table structure for tri_user_balance 
--- 创建订单逾期时对应的触发器
--- ----------------------------
-CREATE TRIGGER `tri_user_balance` AFTER INSERT ON `status_history` FOR EACH ROW 
-  UPDATE t_user set balance = balance+new.order_refund WHERE user_id=new.user_id and new.order_status=4;
-
--- ----------------------------
--- 定义一个存储过程取名为e_test
--- 超过开始时间15分钟后将order_status设为4
--- ----------------------------
-DELIMITER $$
-DROP PROCEDURE IF EXISTS e_test $$
-CREATE PROCEDURE e_test()
-BEGIN
-  update t_order set order_status=4 where REPLACE(unix_timestamp(current_timestamp(3)),'.','')-start_time>=1000*60*15 and order_status=0;
-  update t_order set order_status=5 where REPLACE(unix_timestamp(current_timestamp(3)),'.','')-end_time>=0 and order_status=1;
-END$$
-DELIMITER ;

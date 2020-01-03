@@ -38,7 +38,7 @@
       </div>
     </div>
     <btn-container id="btn-submit" :text="btnText1" @submit="handleSubmit"></btn-container>
-    <mt-popup v-model="popupVisible" position="bottom" class="select-card" popup-transition="popup-fade" >
+    <mt-popup v-model="popupVisible" position="bottom" class="select-card">
       <div class="popup-content">
         <div class="card-title">选择会员卡</div>
         <div class="card-container">

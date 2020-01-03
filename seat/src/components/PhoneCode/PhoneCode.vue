@@ -65,23 +65,22 @@ export default {
 .send-code
   .info
     position  relative
-    height 60px
     margin-top 10px
     button 
       position  absolute
       right  5px
-      bottom  10px
+      bottom  25px
       height  50px
       font-size  20px 
     input 
-      font-size  28px
+      width  100%
       height  60px
       line-height  60px
-      width  100%
+      font-size  32px
       border  none
       border-bottom  1px solid #222
-      background  transparent    
+      background  transparent 
   .btn-container
-    margin 30px 0 20px
+    margin 60px 0 30px
 </style>
 

@@ -27,6 +27,7 @@ import MyMember from '../views/MyMember/MyMember'
 import RechargeRecord from '../views/RechargeRecord/RechargeRecord'
 import InviteNew from '../views/InviteNew/InviteNew'
 import Contact from '../views/Contact/Contact'
+import UpdateUserInfo from '../views/UpdateUserInfo/UpdateUserInfo'
 
 Vue.use(VueRouter)
 
@@ -73,6 +74,16 @@ const routes = [
     meta: {
       title: '个人中心',
       showTabbar: true
+    }
+  },
+  {
+    path:'/user/update_info',
+    name:'update_info',
+    component:UpdateUserInfo,
+    meta:{
+      title:'编辑资料',
+      showHeader: true,
+      requireAuth: true,
     }
   },
   {

@@ -65,7 +65,7 @@
     color  #000 
     background-color #F7F7F7
   .strong
-    font-size 22px 
+    font-size 24px 
     font-weight 700
   .border 
     // border-bottom  1px solid rgba(120, 120, 120,0.12) 

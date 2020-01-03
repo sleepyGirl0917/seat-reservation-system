@@ -29,7 +29,8 @@
       </div>
       <div>
         <span>小计:</span>
-        <span>&yen;{{seat_type==0?duration*9:duration*20}}</span>
+        <span v-if="duration<6">&yen;{{seat_type==0?duration*9:duration*20}}</span>
+        <span v-else>&yen;{{seat_type==0?54:120}}</span>
       </div>
       <div @click=" open">
         <span>我的会员</span>

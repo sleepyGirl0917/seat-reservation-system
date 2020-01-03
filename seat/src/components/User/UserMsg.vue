@@ -3,7 +3,7 @@
     <!-- 余额和手机号 -->
     <ul class="row user-msg ignore">
       <li>
-        <div class="num">{{Object.keys(jsonData).length?jsonData.balance.toFixed(1):'登录后查看'}}</div>
+        <div class="num">{{Object.keys(jsonData).length?jsonData.balance:'登录后查看'}}</div>
         <div class="text">余额</div>
       </li>
       <li>
@@ -16,11 +16,6 @@
 
 <script>
   export default {
-    data(){
-      return{
-        
-      }
-    },
     props:{
       jsonData:{}
     }

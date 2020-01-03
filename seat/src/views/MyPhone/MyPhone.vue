@@ -1,17 +1,19 @@
 <template>
   <div id="app-phone">
     <div class="title">
-      <span class="mui-icon mui-icon-arrowthinleft"></span>
+      <span class="mui-icon mui-icon-arrowthinleft" @click="$router.go(-1)"></span>
     </div>
     <div class="container">
       <div class="top">修改手机号</div>
-      <my-phone :btnText=btnText @submit="changePhone(arguments)"></my-phone>
+      <my-phone :btnText=btnText @submit="updatePhoneNum(arguments)"></my-phone>
     </div>
   </div>
 </template>
 
 <script>
-import PhoneCode from "../../components/PhoneCode/PhoneCode";
+import PhoneCode from "../../components/PhoneCode/PhoneCode"
+import {updatePhone} from "../../api/index"
+import {Toast} from "mint-ui"
 export default {
   data(){
     return {
@@ -22,10 +24,17 @@ export default {
     "my-phone":PhoneCode
   },
   methods:{
-    changePhone(msg){
-      console.log(msg)
-      let phone=msg[0];
-      console.log('修改手机号')
+    async updatePhoneNum(msg){
+      // console.log(msg)
+      let phone=msg[0],
+          phoneCode=msg[1];
+      let result = await updatePhone(this.$store.getters.uid,phone,phoneCode);
+      if(result.success_code==200){
+        Toast('修改成功！');
+        this.$router.go(-1);
+      }else{
+        Toast(result.message);
+      }
     }
   }
 }
@@ -34,24 +43,26 @@ export default {
 <style lang="stylus" scoped>
 #app-phone
   width 100%
-  height  100vh
+  overflow hidden
 
   .title
     position fixed
-    top 0
+    top  30px
+    left 15px
     span.mui-icon.mui-icon-arrowthinleft
-      font-size 50px
+      font-size 100px
       font-weight 700
+      text-shadow 2px 2px 1px #999
 
   .container   
-    margin 25vh 5vw
-    height  50vh
+    width 75%
+    margin 350px auto 0
     .top
       font-size 40px
       font-weight 700
       height 100px
       line-height 100px
-      margin-bottom 80px
-    
+      margin-bottom 150px
+      text-shadow 1px 1px 1px #999
 </style>
 

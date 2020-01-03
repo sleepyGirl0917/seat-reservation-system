@@ -130,7 +130,7 @@ export default {
         this.order_id,
         this.jsonData.pid
       );
-      console.log(result);
+      // console.log(result);
       if (result.success_code == 200) {
         Toast("取消成功");
         this.$router.go(-1);

@@ -226,7 +226,7 @@ export default {
           width:50%;
           height:60px;
           border-radius:5Px;
-          background-color:#45be5a;
+          background-color:#2BA245;
           font-size:24px;
           color:#fff;
         }

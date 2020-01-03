@@ -83,18 +83,19 @@ export default {
     display  flex
     justify-content  center
     align-items  center
-    margin  100px auto
+    margin  200px auto
     img 
       display  block
       width  100px
       height  100px
 
   .login-box 
-    width  70%
+    width  75%
     margin  20px auto
     
     .login-remind 
-      font-size  17px
+      font-size  20px
+      line-height 1.5
       color  #666
       margin  10px 5px
       a 

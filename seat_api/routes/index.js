@@ -148,7 +148,9 @@ router.post('/api/orderSeat', (req, res) => {
       pool.query(sql, [shopId, seatId], (err, result) => {
         if (err) throw err;
         let { sid, seat_type, seat_price } = result[0][0];
-        let orderCost = Math.ceil(time / unit) * 0.5 * seat_price;
+        let duration=Math.ceil(time / unit);
+        if(duration>=12) duration=12; // 6小时封顶
+        let orderCost =  duration * 0.5 * seat_price;
         let sysDate = new Date().Format('yyyyMMddhhmmss'); // 生成系统时间
         let fn = (num, length) => (Array(length).join('0') + num).slice(-length);
         let id = fn(result[1][0].length + 1, 4);
@@ -156,16 +158,16 @@ router.post('/api/orderSeat', (req, res) => {
         if (cardType == 1) { //储值卡：余额大于orderCost且在有效期内
           sql2 = `INSERT INTO t_order(user_id,shop_id,sid,order_date,start_time,end_time,order_cost,pay_type,order_num,pid)  
       SELECT '${userId}','${shopId}','${sid}','${dateVal}','${startVal}','${endVal}','${orderCost}','${cardType}','${orderNum}','${rechargeId}' FROM DUAL 
-      WHERE (select balance from t_recharge where recharge_id=${rechargeId} and deadline>=NOW()) >=${orderCost};`
+      WHERE (select balance from t_recharge where recharge_id='${rechargeId}' and deadline>=NOW()) >=${orderCost};`
           // 更新会员卡余额
-          sql2 += ` UPDATE t_recharge SET balance=balance-${orderCost} WHERE recharge_id = ${rechargeId} ;`;
+          sql2 += ` UPDATE t_recharge SET balance=balance-${orderCost} WHERE recharge_id = '${rechargeId}' ;`;
           // 更新用户表余额（可以有多张储值卡）
           sql2 += `UPDATE t_user AS A SET balance=(SELECT SUM(balance) FROM t_recharge AS B 
-      WHERE A.user_id=B.user_id AND B.user_id=3 AND B.recharge_type=1 AND B.deadline>=NOW())`;
+      WHERE A.user_id=B.user_id AND B.user_id='${userId}' AND B.recharge_type=1 AND B.deadline>=NOW())`;
         } else if (cardType == 2 && seat_type == 0) { //包时卡：在有效期内且只能订单人座
           sql2 = `INSERT INTO t_order(user_id,shop_id,sid,order_date,start_time,end_time,order_cost,pay_type,order_num,pid) 
       SELECT '${userId}','${shopId}','${sid}','${dateVal}','${startVal}','${endVal}','${orderCost}','${cardType}','${orderNum}','${rechargeId}' FROM DUAL 
-      WHERE (select deadline from t_recharge where recharge_id=${rechargeId} )>=NOW();`;
+      WHERE (select deadline from t_recharge where recharge_id='${rechargeId}' )>=NOW();`;
         } else {
           res.send({ error_code: 1, message: '订座失败' })
           return;
@@ -173,9 +175,11 @@ router.post('/api/orderSeat', (req, res) => {
         pool.query(sql2, (err, result) => {
           if (err) throw err;
           // console.log(result)
-          if (result[0].affectedRows > 0) {
-            res.send({ success_code: 200, message: '订座成功' })
-          } else {
+          if (cardType == 1 && result[0].affectedRows > 0) {
+            res.send({ success_code: 200, message: '储值卡订座成功' })
+          }else if(cardType == 2 && result.affectedRows > 0){
+            res.send({ success_code: 200, message: '包时卡订座成功' })
+          }else {
             res.send({ error_code: 1, message: '订座失败' })
           }
         })
@@ -256,14 +260,28 @@ router.post('/api/getOrderDetails', (req, res) => {
 // 取消订单
 router.post('/api/cancelOrder', (req, res) => {
   let { userId, orderId, rechargeId } = req.body;
-  let sql = 'UPDATE t_order SET order_status=?,order_refund=order_cost,status_change_time=NOW() WHERE user_id = ? AND order_id=?;';
-  sql += 'UPDATE t_recharge SET balance=balance+(SELECT order_refund from t_order WHERE order_id=?) WHERE recharge_id =?;';
-  sql += 'UPDATE t_user SET balance=balance+(SELECT order_refund from t_order WHERE order_id=?) WHERE user_id = ?;';
-  pool.query(sql, [3, userId, orderId, orderId, rechargeId, orderId, userId], (err, result) => {
-    if (err) throw err;
-    // console.log(result)
-    if (result[0].affectedRows > 0) {
-      res.send({ success_code: 200, message: '取消订座执行完毕' });
+  let sql='SELECT pay_type FROM t_order WHERE user_id = ? AND order_id=?';
+  pool.query(sql,[userId,orderId],(err,result)=>{
+    if(err) throw err;
+    if(result[0].pay_type==1){
+      sql = 'UPDATE t_order SET order_status=?,order_refund=order_cost,status_change_time=NOW() WHERE user_id = ? AND order_id=?;';
+      sql += 'UPDATE t_recharge SET balance=balance+(SELECT order_refund from t_order WHERE order_id=?) WHERE recharge_id =?;';
+      sql += 'UPDATE t_user SET balance=balance+(SELECT order_refund from t_order WHERE order_id=?) WHERE user_id = ?;';
+      pool.query(sql, [3, userId, orderId, orderId, rechargeId, orderId, userId], (err, result) => {
+        if (err) throw err;
+        // console.log(result)
+        if (result[0].affectedRows > 0) {
+          res.send({ success_code: 200, message: '取消订座执行完毕' });
+        }
+      })
+    }else if(result[0].pay_type==2){
+      sql='UPDATE t_order SET order_status=?,status_change_time=NOW() WHERE user_id = ? AND order_id=?';
+      pool.query(sql,[3, userId, orderId, orderId],(err, result) =>{
+        if (err) throw err;
+        if (result.affectedRows > 0) {
+          res.send({ success_code: 200, message: '取消订座执行完毕' });
+        }
+      })
     }
   })
 })
@@ -553,6 +571,80 @@ router.post('/api/pwdLogin', function (req, res) {
     }
   })
 });
+
+// 修改手机号
+router.post('/api/updatePhone',(req, res) =>{
+  let {userId,phone, phoneCode}=req.body;
+  if(user[phone] === phoneCode){
+    let sql='UPDATE t_user SET phone=? WHERE user_id=?';
+    pool.query(sql,[phone,userId],(err,result)=>{
+      if(err) throw err;
+      if(result.affectedRows>0){
+        res.send({success_code:200,message:'手机号修改成功'});
+      }else{
+        res.send({error_code:1,message:'手机号修改失败'});
+      }
+    })
+  }else{
+    res.send({error_code:1,message:'验证码错误'});
+  }
+})
+
+// 修改用户头像
+/* router.post('/api/updateUserAvatar',function(req,res){
+  let {userId,avatar} = req.body;
+  if (userId){
+      let sqlStr = 'SELECT * from t_user WHERE user_id = ? LIMIT 1;';
+      conn.query(sqlStr,[userId],(error,result,field)=>{
+          if (error){
+              res.json({error_code:1,message:'用户不存在'});
+          } else{
+              //更新数据库
+              let sqlStr = 'UPDATE t_user SET avatar = ? WHERE user_id = ?;';
+              conn.query(sqlStr,[avatar,userId],(error,result,field)=>{
+                  if (error){
+                      res.json({error_code:1,message:'更新用户头像失败'});
+                  } else{
+                      res.json({success_code:200});
+                  }
+              });
+          }
+      })
+  }
+}); */
+
+// 修改用户名
+router.post('/api/updateUserName',(req,res)=>{
+  let {userId,userName} = req.body;
+  let sql='UPDATE t_user SET user_name=? WHERE use_id=?';
+  pool.query(sql,[userName,userId],(err,result)=>{
+    if(err) throw err;
+    if(result.affectedRows>0){
+      res.send({success_code:200,message:'用户名修改成功'});
+    }else{
+      res.send({error_code:1,message:'用户名修改失败'});
+    }
+  })
+});
+
+/* var datatime = './public/images/avatar/';
+//将图片放到服务器
+var storage = multer.diskStorage({
+  // 如果你提供的 destination 是一个函数，你需要负责创建文件夹
+  destination: datatime,
+  // //给上传文件重命名，获取添加后缀名
+  filename: function (req, file, cb) {
+    cb(null, new Date().getTime()+'.jpg');
+  }
+});
+var upload = multer({
+  storage: storage
+});
+// let upload = multer({dest:'./public/images/avatar'}).any();
+router.post('/api/admin/upLoadImg',upload.any(),function (req,res) {
+  res.json({success_code:200,data:req.files});
+  console.log(req.files);
+}); */
 
 // 退出登录
 router.get("/api/logout", (req, res) => {

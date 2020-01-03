@@ -176,7 +176,7 @@ CREATE TABLE `t_user`  (
   `password` varchar(32) DEFAULT NULL COMMENT '用户密码',
   `phone` varchar(20) DEFAULT NULL COMMENT '用户手机号码',
   `gender` int(4) DEFAULT NULL COMMENT '用户性别',
-  `balance` decimal(10,1) DEFAULT 0 COMMENT '用户所有储值卡余额', 
+  `balance` decimal(10,2) DEFAULT 0 COMMENT '用户所有储值卡余额', 
   PRIMARY KEY (`user_id`) USING BTREE
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 
@@ -194,7 +194,7 @@ CREATE TABLE `t_recharge`(
   `user_id` int(8) UNSIGNED NULL DEFAULT NULL COMMENT '用户id',
   `plan_id` int(8) DEFAULT NULL COMMENT '充值方案id',
   `recharge_type` int(4) DEFAULT NULL COMMENT '会员卡类型', -- 0：体验卡 1：储值卡 2：包时卡
-  `balance` decimal(10,1) DEFAULT 0 COMMENT '储值卡余额',
+  `balance` decimal(10,2) DEFAULT 0 COMMENT '储值卡余额',
   `recharge_date` datetime DEFAULT NULL COMMENT '充值日期',
   `deadline` datetime DEFAULT NULL COMMENT '有效期',
    PRIMARY KEY (`recharge_id`) USING BTREE
@@ -252,7 +252,7 @@ CREATE TABLE `t_order`  (
   `start_time` bigint(64) DEFAULT NULL COMMENT '订座开始时间',
   `end_time` bigint(64) DEFAULT NULL COMMENT '订座结束时间',
   `status_change_time` datetime DEFAULT NULL COMMENT '状态改变时间',
-  `order_cost` decimal(10,1) DEFAULT 0  COMMENT '订座费用',
+  `order_cost` decimal(10,2) DEFAULT 0  COMMENT '订座费用',
   `order_refund` decimal(10,2) DEFAULT 0  COMMENT '订座退款',
   `is_delay` int(4) DEFAULT 0 COMMENT '是否为延长时段', -- 0：不是 1：是
   `order_status` int(4) DEFAULT 0 COMMENT '订单状态',  -- 0：未开始 1：进行中  2：结束 3：取消 4：逾期，释放座位 5:时间到，释放座位

@@ -22,6 +22,11 @@ import JoinMember from '../views/JoinMember/JoinMember'
 import SelectShop from '../views/SelectShop/SelectShop'
 import SelectSeat from '../views/SelectSeat/SelectSeat'
 import OrderConfirm from '../views/OrderConfirm/OrderConfirm'
+import MyPhone from '../views/MyPhone/MyPhone'
+import MyMember from '../views/MyMember/MyMember'
+import RechargeRecord from '../views/RechargeRecord/RechargeRecord'
+import InviteNew from '../views/InviteNew/InviteNew'
+import Contact from '../views/Contact/Contact'
 
 Vue.use(VueRouter)
 
@@ -68,6 +73,59 @@ const routes = [
     meta: {
       title: '个人中心',
       showTabbar: true
+    }
+  },
+  {
+    path: '/user/tel',
+    name: 'my_telephone',
+    component: MyPhone,
+    meta: {
+      title: '',
+      showTabbar: false,
+      requireAuth: true
+    }
+  },
+  {
+    path: '/user/member',
+    name: 'my_member',
+    component: MyMember,
+    meta: {
+      title: '我的会员',
+      showHeader: true,
+      showTabbar: false,
+      requireAuth: true
+    }
+  },
+  {
+    path: '/user/record',
+    name: 'my_record',
+    component: RechargeRecord,
+    meta: {
+      title: '办卡记录',
+      showHeader: true,
+      showTabbar: false,
+      requireAuth: true
+    }
+  },
+  {
+    path: '/user/invite',
+    name: 'my_invite',
+    component: InviteNew,
+    meta: {
+      title: '邀请有礼',
+      showHeader: true,
+      showTabbar: false,
+      requireAuth: true
+    }
+  },
+  {
+    path: '/user/contact',
+    name: 'my_cantact',
+    component: Contact,
+    meta: {
+      title: '联系我们',
+      showHeader: true,
+      showTabbar: false
     }
   },
   {

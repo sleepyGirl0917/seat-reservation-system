@@ -124,7 +124,8 @@ router.post('/api/getUserInfo', (req, res) => {
 // 获取用户会员卡信息
 router.post('/api/getVipInfo', (req, res) => {
   let userId = req.body.userId;
-  let sql = 'SELECT A.recharge_id,A.recharge_type,A.deadline,A.balance FROM t_recharge A,t_user B WHERE A.user_id=B.user_id AND A.user_id=? AND A.deadline>=NOW()';
+  let sql = 'SELECT A.recharge_id,A.recharge_type,A.deadline,A.balance FROM t_recharge A,t_user B';
+  sql +=' WHERE A.user_id = B.user_id AND A.user_id =? AND A.deadline >= NOW() ORDER BY A.recharge_id'
   pool.query(sql, [userId], (err, result) => {
     if (err) throw err;
     if (result[0]) {

@@ -3,14 +3,27 @@
     <div class="info-top">
       <div class="left">
         <span class="bg"></span>
-        <div>储值卡</div>
+        <div>{{vipData.recharge_type|payTypeFilter}}</div>
       </div>
-      <div class="right">&yen;43.9</div>
+      <div class="right">
+        <span v-if="vipData.recharge_type==1">&yen;{{vipData.balance}}</span>
+      </div>
     </div>
-    <div class="info-middle">充值后消费抵扣，预订座位按时计费，当日各门店累计完成单时长超过6小时后，超出时段免费</div>
-    <div class="validity">有效期:2020-10-23</div>
+    <div class="info-middle">
+      <span v-if="vipData.recharge_type==1">充值后消费抵扣，预订座位按时计费，当日各门店累计完成单时长超过6小时后，超出时段免费</span>
+      <span v-if="vipData.recharge_type==2">有效期内随时预定座位使用，不收取订座费用</span>
+    </div>
+    <div class="validity">有效期:{{vipData.deadline|dateTimeFilter('dateOnly')}}</div>
   </div>
 </template>
+<script>
+export default {
+  props:{
+    vipData:null
+  }
+}
+</script>
+
 <style lang="stylus">
 .vip-card-box {
   position: relative;
@@ -24,6 +37,7 @@
     display: flex;
     align-items: center;
     font-size: 26px;
+    line-height:80px;
 
     .left {
       flex: 1;

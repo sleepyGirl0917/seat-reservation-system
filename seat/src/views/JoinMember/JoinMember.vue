@@ -16,7 +16,7 @@
       </div>
     </div>
     <btn-container :text="btnText" @submit="confirm"></btn-container>
-    <mt-popup v-model="popupVisible" position="middle" class="pay-card">
+    <mt-popup v-model="popupVisible" position="middle" class="pay-card" v-if="popupVisible">
       <div class="popup-content">
         <div class="top">
           <span class="mui-icon mui-icon-closeempty" @click="popupVisible=false"></span>
@@ -24,7 +24,7 @@
         </div>
         <div class="middle">
           <div class="pay-shop">众独空间</div>
-          <div class="pay-price">&yen;{{`${this.selectedItem.price.toFixed(2)}`}}</div>
+          <div class="pay-price">&yen;{{selectedItem.price.toFixed(2)}}</div>
           <div class="pay-type navigate-right">
             <span>支付方式</span>
             <span @click="choosePayType">{{selectedPayType}}</span>
@@ -35,7 +35,7 @@
         </div>
       </div>
     </mt-popup>
-    <mt-popup v-model="popupVisible2" position="middle" :closeOnClickModal="false" class="pay-type-card">
+    <mt-popup v-model="popupVisible2" position="middle" :closeOnClickModal="false" class="pay-type-card" v-if="popupVisible2">
       <div class="popup-content">
         <div class="top">
           <span class="mui-icon mui-icon-back" @click="goBackPay"></span>

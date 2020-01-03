@@ -4,7 +4,7 @@
     <ul class="member-list ignore">
       <li class="navigate-right" v-for="(item,i) in memberList" :key="i" @click="$router.push(item.path)">
         <img :src="item.img_url" class="">
-        <div>{{item.name}}</div>
+        <div>{{item.title}}</div>
       </li>
     </ul>
   </div>
@@ -15,11 +15,11 @@
     data(){
       return{
         memberList:[
-          {name:'绑定手机号',img_url:require('../../assets/img/user/tel.png'),path:'/user/tel'},
-          {name:'我的会员',img_url:require('../../assets/img/user/member.png'),path:'/user/member'},
-          {name:'办卡记录',img_url:require('../../assets/img/user/record.png'),path:'/user/record'},
-          {name:'邀请有礼',img_url:require('../../assets/img/user/invite.png'),path:'/user/invite'},
-          {name:'联系我们',img_url:require('../../assets/img/user/contact.png'),path:'/user/contact'}
+          {title:'绑定手机号',img_url:require('../../assets/img/user/tel.png'),path:'/user/tel'},
+          {title:'我的会员',img_url:require('../../assets/img/user/member.png'),path:'/user/member'},
+          {title:'办卡记录',img_url:require('../../assets/img/user/record.png'),path:'/user/record'},
+          {title:'邀请有礼',img_url:require('../../assets/img/user/invite.png'),path:'/user/invite'},
+          {title:'联系我们',img_url:require('../../assets/img/user/contact.png'),path:'/user/contact'}
         ]
       }
     }

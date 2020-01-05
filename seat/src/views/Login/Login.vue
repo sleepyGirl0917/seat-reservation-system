@@ -34,11 +34,11 @@ export default {
   methods: {
     // 登录
     async btnLogin(msg) {
-      console.log(msg)
+      // console.log(msg)
       let phone=msg[0],
           phoneCode=msg[1],
           checkPhone=msg[2];
-      console.log(phone,phoneCode,checkPhone)
+      // console.log(phone,phoneCode,checkPhone)
       if (phone === "") {
         MessageBox.alert("请输入手机号码");
       } else if (!checkPhone) {

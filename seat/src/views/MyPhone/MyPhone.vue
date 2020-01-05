@@ -56,7 +56,7 @@ export default {
 
   .container   
     width 75%
-    margin 350px auto 0
+    margin 300px auto 0
     .top
       font-size 40px
       font-weight 700

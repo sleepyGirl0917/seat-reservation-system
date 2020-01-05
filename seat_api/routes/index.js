@@ -2,7 +2,7 @@ require('../util/util');
 const pool = require('../db/pool');
 const express = require('express');
 const router = express.Router();
-
+const multer = require('multer');
 
 let user = {};
 
@@ -98,12 +98,12 @@ router.post('/api/getSeatSoldDetail', (req, res) => {
 
 //获取用户信息
 router.post('/api/getUserInfo', (req, res) => {
-  /* if (!req.session.userId) {
+  if (!req.session.userId) {
     res.send({ error_code: -1, message: "请登录" });
     return;
   }
-  let userId = req.session.userId; */
-  let userId = req.body.userId;
+  let userId = req.session.userId;
+  // let userId = req.body.userId;
   if (userId) {
     let sql = 'SELECT user_id,user_name,avatar,phone,balance FROM t_user WHERE user_id = ?';
     pool.query(sql, [userId], (err, result) => {
@@ -129,7 +129,19 @@ router.post('/api/getVipInfo', (req, res) => {
   pool.query(sql, [userId], (err, result) => {
     if (err) throw err;
     if (result[0]) {
-      res.send({ success_code: 200, data: result })
+      res.send({ success_code: 200, data: result });
+    }
+  })
+})
+
+// 获取用户办卡记录
+router.post('/api/getRechargeRecord',(req, res) =>{
+  let userId = req.body.userId;
+  let sql='SELECT * FROM recharge_history A LEFT JOIN t_recharge_plan B ON A.plan_id=B.plan_id WHERE A.user_id=?';
+  pool.query(sql,[userId],(err,result)=>{
+    if(err) throw err;
+    if(result[0]){
+      res.send({ success_code: 200, data: result });
     }
   })
 })
@@ -547,7 +559,7 @@ router.post('/api/phoneLogin', (req, res) => {
 });
 
 //密码登录
-router.post('/api/pwdLogin', function (req, res) {
+router.post('/api/pwdLogin', (req, res) => {
   let name = req.body.userName;
   let pwd = req.body.password;
   let sql = 'SELECT user_id from t_user WHERE user_name =? LIMIT 1 ;'
@@ -591,32 +603,31 @@ router.post('/api/updatePhone',(req, res) =>{
 })
 
 // 修改用户头像
-/* router.post('/api/updateUserAvatar',function(req,res){
+router.post('/api/updateUserAvatar',(req,res)=>{
   let {userId,avatar} = req.body;
-  if (userId){
-      let sqlStr = 'SELECT * from t_user WHERE user_id = ? LIMIT 1;';
-      conn.query(sqlStr,[userId],(error,result,field)=>{
-          if (error){
-              res.json({error_code:1,message:'用户不存在'});
-          } else{
-              //更新数据库
-              let sqlStr = 'UPDATE t_user SET avatar = ? WHERE user_id = ?;';
-              conn.query(sqlStr,[avatar,userId],(error,result,field)=>{
-                  if (error){
-                      res.json({error_code:1,message:'更新用户头像失败'});
-                  } else{
-                      res.json({success_code:200});
-                  }
-              });
-          }
+  let sql = 'SELECT * from t_user WHERE user_id = ? LIMIT 1;';
+  pool.query(sql,[userId],(err,result)=>{
+    if(err) throw err;
+    if(result[0]){
+      sql='UPDATE t_user SET avatar = ? WHERE user_id = ?;';
+      pool.query(sql,[avatar,userId],(err,result)=>{
+        if(err) throw err;
+        if(result.affectedRows>0){
+          res.send({success_code:200,message:'修改用户头像成功'});
+        }else{
+          res.send({error_code:1,message:'修改用户头像失败'});
+        }
       })
-  }
-}); */
+    }else{
+      res.send({error_code:1,message:'用户不存在'});
+    }
+  })
+});
 
 // 修改用户名
 router.post('/api/updateUserName',(req,res)=>{
   let {userId,userName} = req.body;
-  let sql='UPDATE t_user SET user_name=? WHERE use_id=?';
+  let sql='UPDATE t_user SET user_name=? WHERE user_id=?';
   pool.query(sql,[userName,userId],(err,result)=>{
     if(err) throw err;
     if(result.affectedRows>0){
@@ -627,9 +638,23 @@ router.post('/api/updateUserName',(req,res)=>{
   })
 });
 
-/* var datatime = './public/images/avatar/';
+// 修改用户资料（头像和用户名）
+router.post('/api/updateUserInfo',(req,res)=>{
+  let {userId,userName,avatar} = req.body;
+  let sql='UPDATE t_user SET user_name=?,avatar=? WHERE user_id=?';
+  pool.query(sql,[userName,avatar,userId],(err,result)=>{
+    if(err) throw err;
+    if(result.affectedRows>0){
+      res.send({success_code:200,message:'修改成功'});
+    }else{
+      res.send({error_code:1,message:'修改失败'});
+    }
+  })
+});
+
+let datatime = './public/img/avatar/';
 //将图片放到服务器
-var storage = multer.diskStorage({
+let storage = multer.diskStorage({
   // 如果你提供的 destination 是一个函数，你需要负责创建文件夹
   destination: datatime,
   // //给上传文件重命名，获取添加后缀名
@@ -637,14 +662,16 @@ var storage = multer.diskStorage({
     cb(null, new Date().getTime()+'.jpg');
   }
 });
-var upload = multer({
+let upload = multer({
   storage: storage
 });
-// let upload = multer({dest:'./public/images/avatar'}).any();
-router.post('/api/admin/upLoadImg',upload.any(),function (req,res) {
-  res.json({success_code:200,data:req.files});
-  console.log(req.files);
-}); */
+// let upload = multer({dest:'./public/img/avatar'}).any();
+router.post('/api/upLoadImg',upload.any(),(req,res) =>{
+  if(req.files[0]){
+    res.send({success_code:200,data:req.files});
+    // console.log(req.files);
+  }
+});
 
 // 退出登录
 router.get("/api/logout", (req, res) => {

@@ -32,10 +32,10 @@
       "member-list":MemberList
     },
     created(){
-      this.getUserData();
+      this.loadUserInfo();
     },
     methods:{
-      async getUserData(){
+      async loadUserInfo(){
         if(this.$store.getters.uid){
           Indicator.open('加载中...')
           let result = await getUserInfo(this.$store.getters.uid);

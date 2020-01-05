@@ -18,6 +18,7 @@ import Logout from '../views/Logout/Logout'
 import NotFound from '../views/NotFound/NotFound'
 import Purchase from '../views/Purchase/Purchase'
 import PurchaseDetails from '../views/PurchaseDetails/PurchaseDetails'
+// import Experience from '../views/Experience/Experience'
 import JoinMember from '../views/JoinMember/JoinMember'
 import SelectShop from '../views/SelectShop/SelectShop'
 import SelectSeat from '../views/SelectSeat/SelectSeat'
@@ -45,6 +46,16 @@ const routes = [
       showTabbar: true
     }
   },
+  // {
+  //   path:'/experience',
+  //   name:'experience',
+  //   component:Experience,
+  //   meta:{
+  //     title:'预约体验',
+  //     showHeader: true,
+  //     requireAuth: true
+  //   }
+  // },
   {
     path: '/my_order',
     name: 'my_order',
@@ -53,7 +64,7 @@ const routes = [
       title: '我的预定',
       showHeader: true,
       showTabbar: true,
-      requireAuth: true,
+      requireAuth: true
     }
   },
   {
@@ -64,7 +75,7 @@ const routes = [
     meta: {
       title: '预定详情',
       showHeader: true,
-      requireAuth: true,
+      requireAuth: true
     }
   },
   {
@@ -83,7 +94,7 @@ const routes = [
     meta:{
       title:'编辑资料',
       showHeader: true,
-      requireAuth: true,
+      requireAuth: true
     }
   },
   {
@@ -145,7 +156,7 @@ const routes = [
     component: Login,
     meta: {
       title: '用户登录',
-      showHeader: true,
+      showHeader: true
     }
   },
   {
@@ -154,7 +165,7 @@ const routes = [
     component: Logout,
     meta: {
       title: '退出登录',
-      showHeader: true,
+      showHeader: true
     }
   },
   {
@@ -164,7 +175,7 @@ const routes = [
     meta: {
       title: '加入会员',
       showHeader: true,
-      requireAuth: true,
+      requireAuth: true
     }
   },
   {
@@ -174,7 +185,7 @@ const routes = [
     meta: {
       title: '选择店铺',
       showHeader: true,
-      requireAuth: true,
+      requireAuth: true
     }
   },
   {
@@ -184,7 +195,7 @@ const routes = [
     meta: {
       title: '预定座位',
       showHeader: true,
-      requireAuth: true,
+      requireAuth: true
     }
   },
   {
@@ -194,7 +205,7 @@ const routes = [
     meta: {
       title: '确认订单',
       showHeader: true,
-      requireAuth: true,
+      requireAuth: true
     }
   },
   // vue多个路由使用同一个页面,通过name判断参数,渲染页面数据
@@ -205,7 +216,7 @@ const routes = [
     meta: {
       title: '消费记录',
       showHeader: true,
-      requireAuth: true,
+      requireAuth: true
     },
   },
   {
@@ -215,7 +226,7 @@ const routes = [
     meta: {
       title: '消费记录-延长时段',
       showHeader: true,
-      requireAuth: true,
+      requireAuth: true
     },
   },
   {
@@ -225,7 +236,7 @@ const routes = [
     meta: {
       title: '消费记录-取消订单',
       showHeader: true,
-      requireAuth: true,
+      requireAuth: true
     },
   },
   {
@@ -235,7 +246,7 @@ const routes = [
     meta: {
       title: '消费记录-结束',
       showHeader: true,
-      requireAuth: true,
+      requireAuth: true
     },
   },
   {
@@ -245,7 +256,7 @@ const routes = [
     meta: {
       title: '消费记录-逾期',
       showHeader: true,
-      requireAuth: true,
+      requireAuth: true
     },
   },
   {
@@ -256,7 +267,7 @@ const routes = [
     meta: {
       title: '消费详情',
       showHeader: true,
-      requireAuth: true,
+      requireAuth: true
     }
   },
   {
@@ -267,7 +278,7 @@ const routes = [
     meta: {
       title: '消费详情-延长时段',
       showHeader: true,
-      requireAuth: true,
+      requireAuth: true
     }
   },
   {
@@ -278,7 +289,7 @@ const routes = [
     meta: {
       title: '消费详情-取消订单',
       showHeader: true,
-      requireAuth: true,
+      requireAuth: true
     }
   },
   {
@@ -289,7 +300,7 @@ const routes = [
     meta: {
       title: '消费详情-结束',
       showHeader: true,
-      requireAuth: true,
+      requireAuth: true
     }
   },
   {
@@ -300,7 +311,7 @@ const routes = [
     meta: {
       title: '消费详情-逾期',
       showHeader: true,
-      requireAuth: true,
+      requireAuth: true
     }
   },
   {
@@ -309,7 +320,7 @@ const routes = [
     component: NotFound,
     meta: {
       title: '404-Not Found',
-      showHeader: true,
+      showHeader: true
     }
   },
 ];

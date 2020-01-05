@@ -3,7 +3,7 @@
     <div v-if="Object.keys(jsonData).length" class="user-info">
       <div
         class="avatar"
-        :style="'background:url('+(jsonData?baseUrl+jsonData.avatar:avatar)+') no-repeat 50% 50%;background-size:cover;'"
+        :style="'background-image:url('+(jsonData.avatar)+');'"
         @click="$router.push('/user/update_info')"
       ></div>
       <div class="uname">{{jsonData.user_name}}</div>
@@ -18,14 +18,19 @@
 </template>
 <script>
 export default {
-  data() {
-    return {
-      baseUrl: process.env.VUE_APP_API,
-      avatar: process.env.VUE_APP_API + "/img/avatar/default.png"
-    };
-  },
   props: {
     jsonData: {}
+  },
+  methods:{
+    // jumpToUserInfo(){
+    //   this.$router.push({
+    //     name:'update_info',
+    //     params:{
+    //       avatar:this.jsonData.avatar,
+    //       uname:this.jsonData.user_name
+    //     }
+    //   })
+    // }
   }
 };
 </script>
@@ -65,6 +70,9 @@ export default {
       overflow: hidden;
       border-radius: 50%;
       border: 8px solid #fff;
+      background-repeat: no-repeat ;
+      background-position: 50% 50%;
+      background-size: cover;
 
       img {
         width: 100%;

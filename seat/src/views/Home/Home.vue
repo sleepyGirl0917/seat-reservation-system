@@ -1,8 +1,6 @@
 <template>
   <div id="app-home">
-    <div class="title">
-      众独空间
-    </div>
+    <div class="title">众独空间</div>
     <!-- 轮播图 -->
     <mt-swipe>
       <mt-swipe-item v-for="item in swipeList" :key="item.id">
@@ -11,9 +9,17 @@
     </mt-swipe>
     <!-- 菜单列表 -->
     <ul class="menu">
-      <li class="menu-item" v-for="item in menuList" :key="item.id" @click="$router.push(item.path)">
-        <img :src="item.img_url" />
-        <span class="menu-title">{{item.title}}</span>
+      <li class="menu-item" @click="getExperience">
+        <img src="../../assets/img/home/menu1.jpg" alt="">
+        <span class="menu-title">预约体验</span>
+      </li>
+      <li class="menu-item" @click="$router.push('/join_member')">
+        <img src="../../assets/img/home/menu2.jpg" alt="">
+        <span class="menu-title">加入会员</span>
+      </li>
+      <li class="menu-item" @click="$router.push('/select_shop')">
+        <img src="../../assets/img/home/menu3.jpg" alt="">
+        <span class="menu-title">预定座位</span>
       </li>
     </ul>
     <!-- 可用的订座 -->
@@ -54,11 +60,6 @@ export default {
         { id: 1, img_url: require("../../assets/img/home/banner1.jpg") },
         { id: 2, img_url: require("../../assets/img/home/banner2.jpg") },
         { id: 3, img_url: require("../../assets/img/home/banner3.jpg") }
-      ],
-      menuList: [
-        { id: 1, title: "预约体验", img_url: require("../../assets/img/home/menu1.jpg"), path: "/" },
-        { id: 2, title: "加入会员", img_url: require("../../assets/img/home/menu2.jpg"), path: "/join_member" },
-        { id: 3, title: "预定座位", img_url: require("../../assets/img/home/menu3.jpg"), path: "/select_shop" }
       ],
       jsonData: {},
       now:null,
@@ -116,6 +117,9 @@ export default {
       }, 1000)
       // console.log(this.timeOut)
     },
+    getExperience(){
+      Toast('您暂无可用的体验卡')
+    }
   }
 };
 </script>

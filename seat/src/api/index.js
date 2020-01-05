@@ -8,12 +8,14 @@ export const phoneLogin = (phone, phoneCode) => ajax('/api/phoneLogin', { phone,
 export const pwdLogin = (userName, password, captcha) => ajax('/api/pwdLogin', { userName, password, captcha }, 'POST')
 // 修改手机号
 export const updatePhone=(userId,phone, phoneCode)=>ajax('/api/updatePhone',{userId,phone, phoneCode},'POST')
-// 修改用户头像
-export const updateUserAvatar = (userId,avatar)=>ajax('/api/updateUserAvatar',{userId,avatar},'POST');
 // 上传图片到服务器
-export const upLoadImg = (formData)=>ajax('/api/admin/upLoadImg',formData,'POST');
+export const upLoadImg = (formData)=>ajax('/api/upLoadImg',formData,'POST');
 // 修改用户名
 export const updateUserName = (userId,userName)=>ajax('/api/updateUserName',{userId,userName},'POST');
+// 修改用户头像
+export const updateUserAvatar = (userId,avatar)=>ajax('/api/updateUserAvatar',{userId,avatar},'POST');
+// 修改用户资料（头像和用户名）
+export const updateUserInfo = (userId,userName,avatar)=>ajax('/api/updateUserInfo',{userId,userName,avatar},'POST');
 // 获取用户信息
 export const getUserInfo = (userId) => ajax('/api/getUserInfo', { userId }, 'POST')
 // 获取当天订座信息
@@ -54,6 +56,8 @@ export const getSeatSoldInfo = (shopId, dateVal,startVal, endVal) => ajax('/api/
 export const getSeatSoldDetail = (shopId, dateVal, seatId) => ajax('/api/getSeatSoldDetail', { shopId, dateVal, seatId }, 'POST')
 // 获取用户会员卡信息
 export const getVipInfo = (userId) => ajax('/api/getVipInfo', { userId }, 'POST')
+// 获取用户办卡记录
+export const getRechargeRecord = (userId) => ajax('/api/getRechargeRecord', { userId }, 'POST')
 // 预定座位
 export const orderSeat = (userId, shopId, seatId, dateVal, startVal, endVal, cardType, rechargeId) => ajax('/api/orderSeat', { userId, shopId, seatId, dateVal, startVal, endVal, cardType, rechargeId }, 'POST')
 // 获取会员活动方案

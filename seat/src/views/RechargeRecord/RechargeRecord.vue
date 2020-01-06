@@ -56,8 +56,8 @@ export default {
 <style lang="stylus" scoped>
 #recharge-record
   width 100%
-  height 100vh
-  padding-top 60px
+  height 100%
+  padding-top 80px
 
   ul
     margin 20px 30px
@@ -71,12 +71,12 @@ export default {
       justify-content space-between
       padding 10px 20px
       span  
-        font-size 18px
+        font-size 25px
         font-weight 500
         line-height 1.5
         &:first-child
-            color #8f8f94
+          color #8f8f94
         &:last-child
-            color #222
+          color #222
             
 </style>

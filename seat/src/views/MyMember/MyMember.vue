@@ -34,7 +34,7 @@ export default {
 #app-member
   width 100%
   height  100vh
-  padding 60px 20px 0
+  padding 80px 20px 0
   overflow auto
   .card
     margin 20px 0

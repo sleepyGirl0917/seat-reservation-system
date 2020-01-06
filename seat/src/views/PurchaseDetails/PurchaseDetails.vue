@@ -1,55 +1,57 @@
 <template>
   <div id="purchase-details" v-if="loadingStatus">
-    <div class="container">
-      <div>
-        <span>店铺名称:</span>
-        <span>{{jsonData.shop_name}}</span>
+    <div class="containers">
+      <div class="container-item">
+        <div>
+          <span>店铺名称:</span>
+          <span>{{jsonData.shop_name}}</span>
+        </div>
+        <div>
+          <span>时间段:</span>
+          <span>
+            {{jsonData.order_date|dateTimeFilter('dateOnly')}} 
+            {{jsonData.start_time|dateTimeFilter('timeOnly')}}-{{jsonData.end_time|dateTimeFilter('timeOnly')}}
+          </span>
+        </div>
+        <div  v-if="$route.path.includes('cancle')||$route.path.includes('end')">
+          <span>退款金额:</span>
+          <span>&yen;{{Math.abs(jsonData.order_refund)}}</span>
+        </div>
+        <div  v-else>
+          <span>小计:</span>
+          <span>&yen;{{jsonData.order_cost}}</span>
+        </div>
+        <div>
+          <span>类型:</span>
+          <span>{{$route.name|orderFilter}}</span>
+        </div>
+        <div>
+          <span>支付方式:</span>
+          <span>{{jsonData.pay_type|payTypeFilter}}</span>
+        </div>
+        <div>
+          <span>余额抵扣:</span>
+          <span>- &yen;{{jsonData.order_cost}}</span>
+        </div>
+        <div>
+          <span>实际支付:</span>
+          <span>&yen;0</span>
+        </div>
       </div>
-      <div>
-        <span>时间段:</span>
-        <span>
-          {{jsonData.order_date|dateTimeFilter('dateOnly')}} 
-          {{jsonData.start_time|dateTimeFilter('timeOnly')}}-{{jsonData.end_time|dateTimeFilter('timeOnly')}}
-        </span>
+      <div class="container-item"  v-if="$route.path.includes('overdue')">
+        <div>
+          <span>扣取逾期费用:</span>
+          <span>&yen;{{jsonData.order_cost-jsonData.order_refund}}</span>
+        </div>
+        <div>
+          <span>退款金额:</span>
+          <span>&yen;{{jsonData.order_refund}}</span>
+        </div>
       </div>
-      <div  v-if="$route.path.includes('cancle')||$route.path.includes('end')">
-        <span>退款金额:</span>
-        <span>&yen;{{Math.abs(jsonData.order_refund)}}</span>
+      <div class="container-item">
+        <div>支付时间：{{jsonData.pay_time|dateTimeFilter}}</div>
+        <div>订单编号：{{jsonData.order_num}}</div>
       </div>
-      <div  v-else>
-        <span>小计:</span>
-        <span>&yen;{{jsonData.order_cost}}</span>
-      </div>
-      <div>
-        <span>类型:</span>
-        <span>{{$route.name|orderFilter}}</span>
-      </div>
-      <div>
-        <span>支付方式:</span>
-        <span>{{jsonData.pay_type|payTypeFilter}}</span>
-      </div>
-      <div>
-        <span>余额抵扣:</span>
-        <span>- &yen;{{jsonData.order_cost}}</span>
-      </div>
-      <div>
-        <span>实际支付:</span>
-        <span>&yen;0</span>
-      </div>
-    </div>
-    <div class="container"  v-if="$route.path.includes('overdue')">
-      <div>
-        <span>扣取逾期费用:</span>
-        <span>&yen;{{jsonData.order_cost-jsonData.order_refund}}</span>
-      </div>
-      <div>
-        <span>退款金额:</span>
-        <span>&yen;{{jsonData.order_refund}}</span>
-      </div>
-    </div>
-    <div class="container">
-      <div>支付时间：{{jsonData.pay_time|dateTimeFilter}}</div>
-      <div>订单编号：{{jsonData.order_num}}</div>
     </div>
     <btn-container :text="btnText" @submit="$router.go(-1)"></btn-container>
   </div>
@@ -94,38 +96,39 @@ export default {
   height 100%
   padding-top 80px
   
-  .container
+  .container-item
     background #fff
     border-top  1px solid rgba(88,88,88,0.3) 
     border-bottom  1px solid rgba(88,88,88,0.3) 
-    margin 15px
+    margin 20px
       
     &:not(:last-child)
-      padding-left 15px
+      padding-left 20px
       &>div
         display flex
         justify-content space-between
         align-items center
-        padding-right 15px
-        height  80px
-        font-size  20px
-
+        padding-right 20px
+        height  100px
+        
         :nth-child(1)
-          font-weight 600
+          font-size  28px
+          font-weight 500
         :nth-child(2)
+          font-size  26px
           color #8f8f94
         &:not(:last-child)
           border-bottom 1px solid rgba(88, 88,88,0.3) 
 
     &:last-child
-      padding 10px 15px
+      padding-left 20px
       &>div
-        height  50px  
-        line-height 50px
-        font-size  18px
+        font-size  25px
         font-weight  400
+        height  80px  
+        line-height 80px
 
   .btn-container
-    margin:50px 30px;      
+    padding  60px 40px      
 </style>
 

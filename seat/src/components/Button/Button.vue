@@ -15,7 +15,7 @@ export default {
 .btn-container
   display flex
   align-items center
-  margin 50px 10px
+  padding 50px 10px
   .submit
     width 100%
     height 75px

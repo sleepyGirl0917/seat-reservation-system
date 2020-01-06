@@ -44,7 +44,7 @@ export default {
           color #999
 
     .order-bottom 
-      font-size 24px
+      font-size 25px
       color #999 !important
 
       &.border-top 

@@ -1,10 +1,10 @@
 <template>
   <div class="middle">
     <!-- 消费记录 -->
-    <ul class="row order-record ignore">
+    <ul class="order-record ignore">
       <li v-for="(item,i) in orderList" :key="i" @click="$router.push(item.path)">
         <img :src="item.img_url" alt="">
-        <div class="text">{{item.name}}</div>
+        <span>{{item.name}}</span>
       </li>
     </ul>
   </div>
@@ -27,29 +27,32 @@
 </script>
 
 <style lang="stylus" scoped>
-.middle 
+.middle
+  width 100%
   ul 
-    margin 15px 
+    margin 20px 25px
     list-style-type  none 
-    background  #fff 
-    li 
-      position  relative 
-      padding 15px 
-  .row 
-    display  flex 
-    justify-content space-around 
+    background  #fff  
+  .order-record 
+    height 160px
+    display  flex  
     align-items  center 
     text-align  center 
-    .num 
-      font-size  20px 
-      color #222 
-      margin-top 8px 
-    .text 
-      font-size  16px 
-      color #999 
-      margin-top 8px 
-  .order-record li img 
-    width 40px 
-    height 40px 
+    li 
+      flex 1
+      display  flex  
+      justify-content  center
+      align-items  center 
+      text-align  center 
+      flex-direction column
+      img 
+        width 40px 
+        height 40px 
+      span 
+        display inline-block
+        margin-top 10px
+        font-size  24px 
+        line-height 2
+        color #999 
 </style>
 

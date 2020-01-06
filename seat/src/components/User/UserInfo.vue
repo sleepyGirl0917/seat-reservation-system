@@ -82,7 +82,7 @@ export default {
 
     .uname {
       padding-left: 30px;
-      font-size: 30px;
+      font-size: 32px;
       font-weight: 500;
       color: #fff;
     }

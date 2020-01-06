@@ -134,20 +134,20 @@ export default {
   width 100%
   height 100%
   padding-top 80px
+  overflow hidden
   .member-navbar
     width 100%
     .navbar-item
       display inline-block
       width 50%
-      padding 0 50px
-      height  60px
+      height  80px
       text-align  center
       .navbar-item-title
         display inline
-        padding 10px
+        padding 15px
         color #999
         line-height 60px
-        font-size 22px
+        font-size 25px
         font-weight 500
         &.active
           color #cf7c2e
@@ -155,10 +155,11 @@ export default {
   .member-body
     margin 20px 30px
     .text
-      margin 100px 50px
+      padding 200px 50px 
       text-align center
       span 
-        font-size 18px
+        font-size 22px
+        line-height 1.5
         color #777
   .mint-popup.pay-card{
     width:500px;
@@ -274,5 +275,12 @@ export default {
             width 25px
           &:last-child
             color blue
+  .btn-container
+    position fixed
+    z-index 1000
+    width 100%
+    padding 0 20px
+    left 0
+    bottom 70px   
 </style>
 

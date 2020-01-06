@@ -71,7 +71,7 @@ export default {
       right  5px
       bottom  25px
       height  50px
-      font-size  20px 
+      font-size  25px 
     input 
       width  100%
       height  60px

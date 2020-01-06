@@ -432,9 +432,8 @@ $bg6='../../assets/img/seat/double-seat-choose.png'
     width: 100%;
     position: fixed;
     z-index: 1000;
-    margin:-15px;
+    left:0;
     bottom: 50px;
-    padding: 0 30px;
     background-color:transparent;
     button.submit {
       opacity: 0.8;

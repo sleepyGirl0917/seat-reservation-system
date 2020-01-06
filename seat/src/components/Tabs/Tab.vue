@@ -34,7 +34,6 @@ export default {
 <style lang="stylus" scoped>
 #tab
   width 100%
-  
   &:after
     content ""
     display block 
@@ -43,13 +42,13 @@ export default {
     float left
     width 46%
     margin 2%
-    height  60px
+    height  80px
+    line-height 80px
     text-align  center
     border  1px solid #e1e1e1
     border-radius 5Px
-    font-size 22px
+    font-size 25px
     font-weight 500
-    line-height 60px
     color #999
     &.active
       background-color #cf7c2e

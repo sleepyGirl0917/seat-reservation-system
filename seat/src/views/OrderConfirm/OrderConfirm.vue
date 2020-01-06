@@ -161,11 +161,11 @@ export default {
   position: relative;
 
   .confirm-title {
-    font-size: 18px;
+    font-size: 28px;
     color: #222;
     text-align: center;
-    line-height: 50px;
-    height: 50px;
+    line-height: 60px;
+    height: 60px;
   }
 
   .confirm-container {
@@ -179,8 +179,8 @@ export default {
       justify-content: space-between;
       align-items: center;
       padding-right: 15px;
-      height: 80px;
-      font-size: 20px;
+      height: 100px;
+      font-size: 28px;
 
       :nth-child(1) {
         font-weight: 600;
@@ -200,8 +200,8 @@ export default {
     width: 100%;
     position: fixed;
     z-index: 1000;
+    left:0;
     bottom: 50px;
-    margin: 0;
     padding: 0 30px;
   }
 
@@ -213,7 +213,7 @@ export default {
       padding:0 5%;
       .card-title{
         text-align:center;
-        font-size:22px;
+        font-size:25px;
         font-weight:500;
         height:50px;
         line-height:50px;
@@ -258,13 +258,13 @@ export default {
               height: 45px;
               line-height: 45px;
               text-align: center;
-              font-size:22px;
+              font-size:24px;
             }
           }
 
           .info-middle{
             padding-left:100px;
-            font-size:20px;
+            font-size:22px;
           }
 
           .info-bottom{

@@ -28,15 +28,15 @@ export default {
 .vip-card-box {
   position: relative;
   width: 100%;
-  height: 300px;
+  height: 350px;
   background: rgb(224, 153, 57);
   border-radius: 10Px;
-  padding: 60px 30px 0;
+  padding: 70px 30px 0;
 
   .info-top {
     display: flex;
     align-items: center;
-    font-size: 26px;
+    font-size: 30px;
     line-height:80px;
 
     .left {
@@ -66,14 +66,15 @@ export default {
 
   .info-middle {
     margin-top: 50px;
-    font-size: 20px;
+    font-size: 25px;
+    line-height:1.5;
   }
 
   .validity {
     position: absolute;
     top: 8%;
     right: 6%;
-    font-size: 20px;
+    font-size: 24px;
   }
 }
 </style>

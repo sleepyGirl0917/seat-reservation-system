@@ -86,15 +86,15 @@ export default {
     margin  200px auto
     img 
       display  block
-      width  100px
-      height  100px
+      width  120px
+      height  120px
 
   .login-box 
     width  75%
     margin  20px auto
     
     .login-remind 
-      font-size  20px
+      font-size  25px
       line-height 1.5
       color  #666
       margin  10px 5px

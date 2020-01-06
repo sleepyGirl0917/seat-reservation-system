@@ -60,7 +60,7 @@ export default {
 #contact
   width 100%
   height 100%
-  margin-top 60px
+  padding-top 80px
   .shop-item
     margin 20px 15px 30px
     .top
@@ -68,7 +68,6 @@ export default {
       justify-content space-between
       align-items center
       width 100%
-      height  250px
       .left
         width 25%
         img 
@@ -78,10 +77,10 @@ export default {
       .right
         width 75%
         padding-left 2%
-        div
-          font-size 22px
+        div>span
+          font-size 24px
           font-weight 500
-          line-height 40px
+          line-height 2
           color #222
     .bottom
       img

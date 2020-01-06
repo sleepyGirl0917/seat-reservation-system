@@ -1,14 +1,14 @@
 <template>
   <div class="middle">
     <!-- 余额和手机号 -->
-    <ul class="row user-msg ignore">
+    <ul class="user-msg ignore">
       <li>
-        <div class="num">{{Object.keys(jsonData).length?jsonData.balance:'登录后查看'}}</div>
-        <div class="text">余额</div>
+        <span class="num">{{Object.keys(jsonData).length?jsonData.balance:'登录后查看'}}</span>
+        <span class="text">余额</span>
       </li>
       <li>
-        <div class="num">{{Object.keys(jsonData).length?jsonData.phone:'登录后查看'}}</div>
-        <div class="text">手机号</div>
+        <span class="num">{{Object.keys(jsonData).length?jsonData.phone:'登录后查看'}}</span>
+        <span class="text">手机号</span>
       </li>
     </ul>
   </div>
@@ -24,24 +24,29 @@
 
 <style lang="stylus" scoped>
 .middle
+  width 100%
   ul 
-    margin 15px 
+    margin 20px 25px
     list-style-type  none 
-    background  #fff 
-    li 
-      position  relative 
-      padding 15px 
-  .row 
-    display  flex 
-    justify-content space-around 
+    background  #fff  
+  .user-msg 
+    height 140px
+    display  flex  
     align-items  center 
     text-align  center 
-    .num 
-      font-size  20px 
-      color #222 
-      margin-top 8px 
-    .text 
-      font-size  16px 
-      color #999 
-      margin-top 8px 
+    li
+      flex  1
+      display  flex 
+      justify-content space-around 
+      align-items  center 
+      text-align  center 
+      flex-direction column
+      .num 
+        font-size  30px 
+        line-height 2 
+        color #222 
+      .text 
+        font-size  24px 
+        line-height 2
+        color #999 
 </style>

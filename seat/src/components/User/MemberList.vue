@@ -4,7 +4,7 @@
     <ul class="member-list ignore">
       <li class="navigate-right" v-for="(item,i) in memberList" :key="i" @click="$router.push(item.path)">
         <img :src="item.img_url" class="">
-        <div>{{item.title}}</div>
+        <span>{{item.title}}</span>
       </li>
     </ul>
   </div>
@@ -27,23 +27,26 @@
 </script>
 
 <style lang="stylus" scoped>
-.middle 
+.middle
+  width 100%
   ul 
-    margin 15px 
+    margin 20px 25px
     list-style-type  none 
-    background  #fff 
+    background  #fff  
+  .member-list 
     li 
       position  relative 
-      padding 15px 
-  .member-list li 
-    display  flex 
-    justify-content flex-start 
-    align-items  center 
-    border-bottom 1px solid rgba(120, 120, 120,0.12) 
-    img 
-      width 40px 
-      height 40px 
-    div 
-      font-size 20px 
-      margin-left 20px 
+      padding-right  15px
+      margin-left 15px
+      display  flex 
+      justify-content flex-start 
+      align-items  center 
+      border-bottom 1px solid rgba(120, 120, 120,0.12) 
+      img 
+        width 40px 
+        height 40px 
+      span 
+        font-size 24px 
+        line-height 90px
+        padding-left 20px 
 </style>

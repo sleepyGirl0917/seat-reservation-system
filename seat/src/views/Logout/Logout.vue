@@ -38,8 +38,9 @@ export default {
 
   button 
     display block
-    width 70%
+    width 80%
+    line-height  75px
+    font-size 30px
     margin  100px auto
-    font-size 25px
 </style>
 

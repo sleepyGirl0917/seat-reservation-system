@@ -185,7 +185,8 @@ export default {
         display flex
         align-items center
         justify-content flex-start
-        padding  15px 65px 15px 15px 
+        padding  0 65px 0 15px 
+        height 100% 
         .media-object 
           width 80px
           img
@@ -195,17 +196,13 @@ export default {
         .media-body
           padding-left 20px
           div
+            line-height 2
             &:nth-child(1)
-              font-size   30px
+              font-size   28px
               font-weight 500
-              line-height 60px
-              height  60px
-            &:nth-child(2)  
-              p
-                font-size  24px
-                line-height 50px
-                height  50px
-                margin 0
+            &:nth-child(2)>p
+              font-size  25px
+              margin 0
       .media-none 
         position  relative 
         top 50% 

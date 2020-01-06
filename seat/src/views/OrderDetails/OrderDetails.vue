@@ -2,7 +2,7 @@
   <div id="order-detail" v-if="loadingStatus">
     <div class="order-title">{{jsonData.order_date|dateTimeFilter('dateOnly')}}</div>
     <div class="order-info">
-      <p>{{jsonData.shop_name}}</p>
+      <p>店铺名称：{{jsonData.shop_name}}</p>
       <p>{{jsonData.seat_info}}</p>
       <p class="small">
         时间段：{{jsonData.order_date|dateTimeFilter('dateOnly')}}
@@ -181,30 +181,31 @@ export default {
 </script>
 <style lang="stylus">
 #order-detail {
+  position:fixed;
   width: 100%;
-  height 100%
-  padding-top 80px
+  height 100%;
+  margin-top 80px
   background-color: #fff;
 
   .order-title {
-    padding: 15px 0;
-    font-size: 17px;
+    font-size: 30px;
+    line-height:80px;
     color: #999;
     text-align: center;
   }
 
   .order-info {
-    padding: 0 25px;
+    padding-left:40px;
 
     p {
-      font-size: 18px;
+      font-size: 28px;
+      line-height:3;
       font-weight: 500;
       color: #333;
-      padding: 15px 0;
       margin: 0;
 
       &.small {
-        font-size: 17px;
+        font-size: 26px;
         font-weight: 500;
         color: #999;
       }
@@ -212,19 +213,19 @@ export default {
   }
 
   .btn-container {
+    position:fixed;
+    bottom: 20px;
+    left: 0;
+    z-index :1000;
     width: 100%;
     display: flex;
     align-items: center;
-    margin: 0;
-    position: absolute;
-    bottom: 20px;
-    left: 0;
-
+    
     button {
       flex: 1;
-      margin: 50px;
-      height: 50px;
-      font-size: 18px;
+      margin: 50px 30px;
+      height: 75px;
+      font-size: 28px;
       font-weight: 500;
     }
   }

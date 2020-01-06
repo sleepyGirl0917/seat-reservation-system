@@ -54,8 +54,7 @@
 <style lang="stylus" scoped>
 #app-user 
   width 100%
-  min-height 100vh
-  padding-bottom 80px
-  overflow hidden
+  height 100%
+  padding-bottom 80px  
 </style>
 

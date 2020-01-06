@@ -63,7 +63,7 @@ export default {
       display flex
       align-items center
       span,p
-        font-size 22px
+        font-size 25px
         font-weight 500
         line-height 2
         margin 0
@@ -93,12 +93,12 @@ export default {
           width 40%  
           height 100%
           border-radius 5Px
-          font-size 22px
+          font-size 25px
         input[type=text]
           width 60%
           height 100%
           margin 0 
-          font-size 22px
+          font-size 25px
           caret-color #36369c
 </style>
 

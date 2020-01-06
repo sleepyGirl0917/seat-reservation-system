@@ -7,7 +7,7 @@ module.exports = {
     "postcss-cssnext": {},
     "postcss-px-to-viewport": {
       viewportWidth: 750, // 视窗的宽度，对应的是设计稿的宽度，一般是750，那么100vw=750px 即1vw对应设计稿的7.5px
-      viewportHeight: 1334, // 视窗的高度，根据750设备的宽度来指定，一般指定1334，也可以不指定
+      // viewportHeight: 1334, // 视窗的高度，根据750设备的宽度来指定，一般指定1334，也可以不指定
       unitPrecision: 3, // 指定`px`转换为视窗单位值后保留的小数点个数
       viewportUnit: 'vw',  // 指定需要转换成的视窗单位，建议使用vw
       selectorBlackList: ['.ignore'], // 指定不转换为视窗单位的类，可以自定义，可以无限添加,建议定义一至两个通用的类名 

@@ -12,11 +12,10 @@ DROP TABLE IF EXISTS `t_shop`;
 CREATE TABLE `t_shop`  (
   `shop_id` int(4) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT '店铺id',
   `shop_name` varchar(128) DEFAULT NULL COMMENT '店铺名称',
-  `shop_phone` varchar(16) DEFAULT NULL COMMENT '店铺电话',
-  `province` varchar(8) DEFAULT NULL COMMENT '店铺所在省份',
-  `city` varchar(8) DEFAULT NULL COMMENT '店铺所在市',
-  `district` varchar(8) DEFAULT NULL COMMENT '店铺所在区县',
-  `address` varchar(128) DEFAULT NULL COMMENT '店铺详细地址',
+  `shop_phone` varchar(16) DEFAULT NULL COMMENT '店铺联系电话',
+  `open_time` varchar(16) DEFAULT NULL COMMENT '开门时间',
+  `close_time` varchar(16) DEFAULT NULL COMMENT '关门时间',
+  `address` varchar(128) DEFAULT NULL COMMENT '店铺地址',
   `pic_title` varchar(255) DEFAULT NULL COMMENT '店铺头图',
   `pic_map` varchar(255) DEFAULT NULL COMMENT '店铺地图',
   PRIMARY KEY (`shop_id`) USING BTREE
@@ -25,9 +24,9 @@ CREATE TABLE `t_shop`  (
 -- ----------------------------
 -- Records of t_shop
 -- ----------------------------
-INSERT INTO `t_shop` VALUES (1, '众独空间(大智无界店)', '13498476301', '湖北', '武汉', '江岸区', '武汉市江岸区大智路大智无界空中小镇1栋8楼804号铺','img/shop/shop_title_1.jpg','img/shop/shop_map_1.jpg');
-INSERT INTO `t_shop` VALUES (2, '众独空间(昙华林店)', '13745454545', '湖北', '武汉', '武昌区', '武汉市武昌区中山路泛悦中心A栋1905室
-（轨道交通2号线/7号线螃蟹站E出口步行10米）','img/shop/shop_title_2.jpg','img/shop/shop_map_1.jpg');
+INSERT INTO `t_shop` VALUES (1, '众独空间(大智无界店)', '13498476301','08:30','23:30', '武汉市江岸区大智路大智无界空中小镇1栋8楼804号铺','img/shop/shop_title_1.jpg','img/shop/shop_map_1.jpg');
+INSERT INTO `t_shop` VALUES (2, '众独空间(昙华林店)', '13745454545','08:30','23:30', '武汉市武昌区中山路泛悦中心A栋1905室
+（轨道交通2号线/7号线螃蟹站E出口步行10米）','img/shop/shop_title_2.jpg','img/shop/shop_map_2.jpg');
 -- ----------------------------
 -- Table structure for t_shop_seat
 -- ----------------------------

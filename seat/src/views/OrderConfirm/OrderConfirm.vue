@@ -156,7 +156,8 @@ export default {
 <style lang="stylus" scoped>
 #order-confirm {
   width: 100%;
-  padding-top: 60px;
+  height 100%
+  padding-top:80px;
   position: relative;
 
   .confirm-title {

@@ -41,9 +41,9 @@ export default {
 </script>
 <style lang="stylus" scoped>
 #app-error 
-  padding-top 60px 
   width 100%
-  height 100vh
+  height 100%
+  padding-top 80px
   overflow hidden
   .error-box 
     font-size  28px 

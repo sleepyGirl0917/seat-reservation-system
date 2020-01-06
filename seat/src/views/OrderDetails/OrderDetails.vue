@@ -182,8 +182,8 @@ export default {
 <style lang="stylus">
 #order-detail {
   width: 100%;
-  min-height: 100vh;
-  padding-top: 60px;
+  height 100%
+  padding-top 80px
   background-color: #fff;
 
   .order-title {

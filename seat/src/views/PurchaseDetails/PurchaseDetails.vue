@@ -91,8 +91,8 @@ export default {
 <style lang="stylus" scoped>
 #purchase-details
   width 100%
-  min-height 100vh
-  padding-top 60px
+  height 100%
+  padding-top 80px
   
   .container
     background #fff

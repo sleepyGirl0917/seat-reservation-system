@@ -39,8 +39,8 @@ export default {
 <style lang="stylus">
 #app-order 
   width 100%
-  min-height 100vh
-  padding-top 60px
+  height 100%
+  padding-top 80px
   padding-bottom 80px
   .order-container 
     padding 0 15px

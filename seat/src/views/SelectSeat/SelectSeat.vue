@@ -297,38 +297,40 @@ $bg6='../../assets/img/seat/double-seat-choose.png'
 
 #select-seat {
   width: 100%;
-  min-height: 100vh;
-  padding: 60px 15px 0;
+  height:100%;
+  padding: 80px 15px 0;
   background-color: #efeff4;
 
   .shop {
     width: 100%;
-    height: 50px;
-    line-height: 50px;
-    font-size: 20px;
+    font-size: 25px;
     font-weight: 500;
+    line-height: 1.5;
+    margin-top:15px;
     text-align: center;
   }
 
   .dp-container {
     width: 100%;
-    height: 170px;
-
+    &:before{
+        content:"";
+        display:table;
+    }
     .box {
       background-color: #fff;
       margin: 15px 0;
-
       .choosedate {
         height: 60px;
         display: flex;
         justify-content: center;
         align-items: center;
-        font-size: 24px;
-        text-align: center;
+        span{
+          font-size: 30px;
+        }
       }
 
       .choosetime {
-        height: 40px;
+        height: 60px;
         display: flex;
         justify-content: space-around;
         align-items: center;
@@ -336,9 +338,9 @@ $bg6='../../assets/img/seat/double-seat-choose.png'
         >div {
           flex: 1;
           text-align: center;
-          font-size: 18px;
-          height: 40px;
-          line-height: 40px;
+          font-size: 24px;
+          height: 60px;
+          line-height: 60px;
         }
       }
     }
@@ -351,14 +353,14 @@ $bg6='../../assets/img/seat/double-seat-choose.png'
     height: 80px;
     line-height: 80px;
     background-color: #fff;
-
+    
     .example {
       flex: 1;
       text-align: center;
       display: flex;
       justify-content: center;
       align-items: center;
-      font-size: 18px;
+      font-size: 24px;
       color: #888;
 
       img {
@@ -376,14 +378,14 @@ $bg6='../../assets/img/seat/double-seat-choose.png'
     position: relative;
     overflow: auto;
     width: 100%;
-    height: calc(100vh - 400px);
+    height: calc(100vh - 420px);
 
     .seat-inner-container {
       position: absolute;
-      overflow: auto;
-      width: 100%;
-      height: 100%;
-
+      overflow: scroll;
+      width: 120%;
+      height: 120%;
+  
       .seat {
         position: absolute;
         background-repeat: no-repeat;
@@ -433,26 +435,13 @@ $bg6='../../assets/img/seat/double-seat-choose.png'
     margin:-15px;
     bottom: 50px;
     padding: 0 30px;
-
+    background-color:transparent;
     button.submit {
       opacity: 0.8;
     }
   }
 
-  span.mint-datetime-action {
-    display: block;
-    padding: 0 15px;
-
-    &.mint-datetime-cancel {
-      text-align: left;
-      color: gray;
-    }
-
-    &.mint-datetime-confirm {
-      text-align: right;
-      color: blue;
-    }
-  }
+  
   .mint-popup.show-detail{
     width:300px;
     height:150px;
@@ -469,6 +458,28 @@ $bg6='../../assets/img/seat/double-seat-choose.png'
       }
     }
   } 
+  .mint-popup>.picker{
+      .picker-toolbar{
+        height:50px;
+        span.mint-datetime-action {
+          display: block;
+          padding: 0 15px;
+          font-size:28px;
+          line-height:50px;
+          &.mint-datetime-cancel {
+            text-align: left;
+            color: gray;
+          }
+          &.mint-datetime-confirm {
+            text-align: right;
+            color: blue;
+          }
+        }
+      }
+      .picker-items .picker-item{
+        font-size:28px;
+      }
+  }  
 }
 </style>
 

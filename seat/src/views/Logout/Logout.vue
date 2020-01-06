@@ -30,8 +30,8 @@ export default {
 <style lang="stylus" scoped>
 #app-logout 
   width 100%
-  min-height 100vh
-  padding-top 60px
+  height 100%
+  padding-top 80px
   &:after
     content ''
     display table

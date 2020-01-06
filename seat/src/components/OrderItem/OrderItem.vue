@@ -3,11 +3,11 @@
       <div class="order-title">{{orderData.order_date|dateTimeFilter('dateOnly')}}</div>
       <div class="order-item">
         <div class="order-info">
-          <p>{{orderData.shop_name}}</p>
-          <p>{{orderData.seat_info}}</p>
-          <p class="small">
+          <div>{{orderData.shop_name}}</div>
+          <div>{{orderData.seat_info}}</div>
+          <div class="small">
             时间：{{orderData.start_time|dateTimeFilter('timeOnly')}}-{{orderData.end_time|dateTimeFilter('timeOnly')}}
-          </p>
+          </div>
         </div>
         <div class="order-bottom border-top">状态：{{orderData.order_status|orderStatusFilter}}</div>
         <div class="order-bottom navigate-right border-top" @click="$router.push(`/order_details/${orderData.order_id}`)">查看详情</div>
@@ -23,40 +23,37 @@ export default {
 </script>
 <style lang="stylus" scoped>
 #order-item
+  line-height 2.5
   .order-title 
-        padding 15px 0
-        font-size 16px
-        color #999
-        text-align center
+    font-size 25px
+    color #999
+    text-align center
       
-      .order-item 
-        background #fff
-        padding  0 25px
+  .order-item 
+    background #fff
+    padding  0 25px
 
-        .order-info 
-          p 
-            font-size 18px
-            font-weight 500
-            color #333
-            padding 15px 0
-            margin 0
+    .order-info 
+      div 
+        font-size 28px
+        font-weight 500
+        color #333
 
-            &.small 
-              font-size 16px
-              color #999
+        &.small 
+          font-size 26px
+          color #999
 
-        .order-bottom 
-          padding 10px 0
-          font-size 16px
-          color #999 !important
+    .order-bottom 
+      font-size 24px
+      color #999 !important
 
-          &.border-top 
-            border-top 1px solid rgba(80, 80, 80, 0.1)
+      &.border-top 
+        border-top 1px solid rgba(80, 80, 80, 0.1)
 
-        .navigate-right 
-          position relative
-          display block
+    .navigate-right 
+      position relative
+      display block
 
-          &:after
-            right 0
+      &:after
+        right 0
 </style>

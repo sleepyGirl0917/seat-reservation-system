@@ -16,9 +16,9 @@ export default {
 <style lang="stylus">
 #app-icon
   position fixed
+  top -1px
   left 8px
-  // .mui-icon
-  //   font-size 28px
-  //   font-weight 700
+  .mui-icon
+    font-size 32px
 </style>
 

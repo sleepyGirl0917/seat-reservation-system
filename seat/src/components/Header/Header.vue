@@ -52,22 +52,22 @@
 <style lang="stylus">
 #app-header
   width   100%
-  height  60px 
+  height  80px 
   position fixed
   top 0
   z-index  1000
   
   .title  
     width  100% 
-    line-height  60px 
-    height  60px 
+    line-height  80px 
+    height  80px 
     text-align  center 
     white-space  nowrap 
     color  #000 
     background-color #F7F7F7
   .strong
-    font-size 24px 
-    font-weight 700
+    font-size 30px 
+    font-weight 600
   .border 
     // border-bottom  1px solid rgba(120, 120, 120,0.12) 
     box-shadow   0 1px 1px rgba(88, 88, 88, 0.15)

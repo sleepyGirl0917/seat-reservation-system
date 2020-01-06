@@ -132,8 +132,8 @@ export default {
 <style lang="stylus" scoped>
 #join-member
   width 100%
-  height 100vh
-  padding-top 60px
+  height 100%
+  padding-top 80px
   .member-navbar
     width 100%
     .navbar-item

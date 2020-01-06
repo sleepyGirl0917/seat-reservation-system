@@ -50,7 +50,7 @@
     justify-content  center
     align-items center
     flex-direction  column
-    font-size  18px
+    font-size  20px
     color  #fff
     padding-top 10px
     img

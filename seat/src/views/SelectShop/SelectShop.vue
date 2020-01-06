@@ -72,42 +72,41 @@
 <style lang="stylus" scoped>
 #select-shop
   width 100%
-  padding-top 60px
+  height 100%
+  padding-top 80px
 
   .shop-container
     background #fff
     border-top  1px solid rgba(88,88,88,0.3) 
     border-bottom  1px solid rgba(88,88,88,0.3) 
-    padding-left 15px
+    padding-left 20px
 
     .shop-item
       display flex
       justify-content space-between
       align-items center
-      padding-right 20px
-      height  150px
+      padding 15px 20px 15px 0
 
       .left
-        width 70%    
-        &>div
-          font-size 20px
-          line-height 1.8
+        width 90%    
+        line-height 2
         .shop-name
+          font-size 32px
           font-weight 500
-          padding 10px 0
         .shop-address
+          font-size 28px
           font-weight 400
           color #8f8f94  
           
       .right
-        width 30%
+        width 10%
         position relative
         text-align right
         input[type=radio]
           position  absolute
           display inline-block
-          width  30px
-          height 30px
+          width  40px
+          height 40px
           right  0
           opacity  0
           outline none
@@ -118,8 +117,8 @@
           background-size 100% 100%
           display inline-block
           vertical-align  middle
-          width   30px
-          height  30px
+          width   40px
+          height  40px
           cursor  pointer  
         .on 
           background-image url('../../assets/img/check-circle.svg')

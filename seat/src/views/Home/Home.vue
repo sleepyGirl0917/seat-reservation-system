@@ -23,10 +23,12 @@
       </li>
     </ul>
     <!-- 可用的订座 -->
-    <div class="order-box">
-      <div class="media" v-if="Object.keys(jsonData).length">
-        <div class="navigate-right" @click="$router.push(`/order_details/${jsonData.order_id}`)">
-          <img class="media-object float-left" src="../../assets/img/ordered.png" />
+    <div class="order-content">
+      <div class="order-box">
+        <div class="media navigate-right" v-if="Object.keys(jsonData).length" @click="$router.push(`/order_details/${jsonData.order_id}`)">
+          <div class="media-object">
+            <img src="../../assets/img/ordered.png" />
+          </div>
           <div class="media-body">
             <div>{{jsonData.shop_name}}</div>
             <div>
@@ -41,9 +43,9 @@
             </div>
           </div>
         </div>
-      </div>
-      <div class="media-none" v-else>
-        <img src="../../assets/img/check.png" />&nbsp;暂无可用的订座记录
+        <div class="media-none" v-else>
+          <img src="../../assets/img/check.png" /><span>&nbsp;暂无可用的订座记录</span>
+        </div>
       </div>
     </div>
   </div>
@@ -127,17 +129,16 @@ export default {
 <style lang="stylus" scoped>
 #app-home 
   width 100%
-  min-height 100vh
-  padding-bottom 80px
+  height 100%
   .title
     width 100%
-    height  60px
-    line-height  60px
-    font-size 18px
+    height  80px
+    line-height  80px
+    font-size 30px
     font-weight 500
     text-align  center 
   .mint-swipe  
-    height  300px 
+    height  380px 
     margin-left  25px 
     margin-right  25px 
     border-radius  10px 
@@ -150,7 +151,7 @@ export default {
     margin  0 
     padding  0 
     width  100% 
-    height  180px 
+    height  200px 
     background  #fff 
  
   .menu  
@@ -165,40 +166,55 @@ export default {
         height  80px 
       .menu-title  
         display  block 
-        font-size  18px 
+        font-size  28px 
         margin  15px 
- 
-
-  .order-box  
-    position  relative 
-    background  #fff 
-    height 150px 
-    margin  20px 15px
-    .media,
-    .media .media-body  
-        overflow  hidden 
-    .media  
-      padding  15px 65px 15px 15px 
-      .media-object 
-        margin 30px 15px 30px 0 
-        width  60px 
-        height  60px 
-      .media-body
-        * 
-          margin 10px 0 
-        div
-          font-size   18px
-          font-weight 500
-          p
-            font-size  16px
-            font-weight 400
-    .media-none 
+  .order-content
+    position fixed
+    top 660px
+    bottom 0
+    width 100%
+    .order-box  
       position  relative 
-      top 50% 
-      transform translateY(-50%) 
-      text-align  center 
-      img 
-        width  30px 
-        height 30px 
-        vertical-align  bottom 
+      background  #fff 
+      height 240px 
+      margin 20px 15px
+      .media,
+      .media .media-body  
+          overflow  hidden 
+      .media  
+        display flex
+        align-items center
+        justify-content flex-start
+        padding  15px 65px 15px 15px 
+        .media-object 
+          width 80px
+          img
+            width  100% 
+            height  100% 
+            display block
+        .media-body
+          padding-left 20px
+          div
+            &:nth-child(1)
+              font-size   30px
+              font-weight 500
+              line-height 60px
+              height  60px
+            &:nth-child(2)  
+              p
+                font-size  24px
+                line-height 50px
+                height  50px
+                margin 0
+      .media-none 
+        position  relative 
+        top 50% 
+        transform translateY(-50%) 
+        text-align  center 
+        span 
+          font-size 28px
+        img 
+          width  38px 
+          height 38px 
+          vertical-align  bottom 
 </style>

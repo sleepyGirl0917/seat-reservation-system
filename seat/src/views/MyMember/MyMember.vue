@@ -1,5 +1,5 @@
 <template>
-  <div id="app-member">
+  <div id="app-member" v-if="vipInfo.length">
     <my-vip v-for="(item,i) in vipInfo" :vipData=item :key="i" class="card"></my-vip>
   </div>
 </template>

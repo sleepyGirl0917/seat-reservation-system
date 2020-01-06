@@ -1,5 +1,5 @@
 <template>
-  <div id="recharge-record">
+  <div id="recharge-record" v-if="jsonData.length">
     <ul v-for="(item,i) in jsonData" :key="i">
         <li>
             <span>会员卡</span>
@@ -14,7 +14,7 @@
             <span>{{item.deadline|dateTimeFilter()}}</span>
         </li>
         <li>
-            <span>充值类别</span>
+            <span>套餐详情</span>
             <span>{{item.description}}</span>
         </li>
         <li>
@@ -65,18 +65,18 @@ export default {
     border-radius 5Px
     background-color #fff
     list-style none
-    font-size 22px
-    line-height 1.8
     li
       display flex
       align-items center
       justify-content space-between
-      padding 10px
+      padding 10px 20px
       span  
+        font-size 18px
+        font-weight 500
+        line-height 1.5
         &:first-child
-            color #222
-            font-weight 600
-        &:last-child
             color #8f8f94
-      
+        &:last-child
+            color #222
+            
 </style>

@@ -80,7 +80,7 @@ export default {
       let result= await getPurchaseDetails(this.$store.getters.uid,this.order_id);
       if(result.success_code==200){
         this.jsonData=result.data;
-        this.loadingStatus=true;
+        this.loadingStatus=true; // 有返回值才显示
       }
       Indicator.close();
     }

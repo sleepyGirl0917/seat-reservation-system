@@ -61,5 +61,6 @@ export default {
     button 
       flex 1
       margin 10px
-      line-height  50px 
+      line-height  50px
+      border-radius 5Px
 </style>

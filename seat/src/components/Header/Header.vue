@@ -54,6 +54,7 @@
   width   100%
   height  60px 
   position fixed
+  top 0
   z-index  1000
   
   .title  

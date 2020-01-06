@@ -1,5 +1,5 @@
 <template>
-    <div id="update-user-info">
+    <div id="update-user-info" v-if="loadingStatus">
         <div class="info-container">
             <div class="info">
                 <span>头像</span>
@@ -21,8 +21,8 @@
 
 <script>
 import Button from "../../components/Button/Button"
-import {getUserInfo,upLoadImg,updateUserAvatar,updateUserInfo} from "../../api/index"
-import { Indicator,Toast } from 'mint-ui'
+import {getUserInfo,upLoadImg,updateUserInfo} from "../../api/index"
+import { Indicator,Toast } from "mint-ui"
 export default {
   data(){
     return {
@@ -31,7 +31,8 @@ export default {
         btnText:'确定', 
         uname:null,
         avatar:null,
-        newAvatar:null
+        newAvatar:null,
+        loadingStatus:false,
     }
   },
   props: ["user_id"],
@@ -46,12 +47,14 @@ export default {
         if(this.$store.getters.uid){
           Indicator.open('加载中...')
           let result = await getUserInfo(this.$store.getters.uid);
+          
           if(result.success_code===200){
             this.uname=result.data.user_name;
             this.avatar=result.data.avatar;
           }
           Indicator.close();
         }
+        this.loadingStatus=true;
     },
     changeImg() {
       let reader = new FileReader();

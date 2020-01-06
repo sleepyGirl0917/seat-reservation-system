@@ -17,16 +17,17 @@ CREATE TABLE `t_shop`  (
   `city` varchar(8) DEFAULT NULL COMMENT '店铺所在市',
   `district` varchar(8) DEFAULT NULL COMMENT '店铺所在区县',
   `address` varchar(128) DEFAULT NULL COMMENT '店铺详细地址',
+  `pic_title` varchar(255) DEFAULT NULL COMMENT '店铺头图',
+  `pic_map` varchar(255) DEFAULT NULL COMMENT '店铺地图',
   PRIMARY KEY (`shop_id`) USING BTREE
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of t_shop
 -- ----------------------------
-INSERT INTO `t_shop` VALUES (1, '众独空间(大智无界店)', '13498476301', '湖北', '武汉', '江岸区', '武汉市江岸区大智路大智无界空中小镇1栋8楼804号铺');
+INSERT INTO `t_shop` VALUES (1, '众独空间(大智无界店)', '13498476301', '湖北', '武汉', '江岸区', '武汉市江岸区大智路大智无界空中小镇1栋8楼804号铺','img/shop/shop_title_1.jpg','img/shop/shop_map_1.jpg');
 INSERT INTO `t_shop` VALUES (2, '众独空间(昙华林店)', '13745454545', '湖北', '武汉', '武昌区', '武汉市武昌区中山路泛悦中心A栋1905室
-（轨道交通2号线/7号线螃蟹站E出口步行10米）');
-
+（轨道交通2号线/7号线螃蟹站E出口步行10米）','img/shop/shop_title_2.jpg','img/shop/shop_map_1.jpg');
 -- ----------------------------
 -- Table structure for t_shop_seat
 -- ----------------------------
@@ -183,7 +184,7 @@ CREATE TABLE `t_user`  (
 -- ----------------------------
 -- Records of t_user
 -- ----------------------------
-
+INSERT INTO `t_user` VALUES(1,'Ali','/img/avatar/default.png',NULL,'18162536357',NULL,0);
 -- ----------------------------
 -- Table structure for t_recharge
 -- 会员卡详情

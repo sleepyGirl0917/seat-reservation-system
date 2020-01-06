@@ -11,7 +11,7 @@ router.get('/', function (req, res, next) {
   res.render('index', { title: 'Express' });
 });
 
-// 获取储值卡活动方案
+// 获取会员卡活动方案
 router.get('/api/getPlan', (req, res) => {
   let sql = 'SELECT * FROM t_recharge_plan WHERE isActive=? AND recharge_type=?;'
   sql += 'SELECT * FROM t_recharge_plan WHERE isActive=? AND recharge_type=?;'
@@ -19,6 +19,8 @@ router.get('/api/getPlan', (req, res) => {
     if (err) throw err;
     if (result[0] && result[1]) {
       res.send({ success_code: 200, data: result })
+    } else {
+      res.send({ error_code: 1, message: '获取会员卡活动方案失败' })
     }
   })
 })
@@ -56,7 +58,7 @@ router.post('/api/joinMember', (req, res) => {
 
 // 加载店铺信息
 router.get('/api/getShopInfo', (req, res) => {
-  let sql = 'SELECT shop_id,shop_name,address FROM t_shop';
+  let sql = 'SELECT * FROM t_shop';
   pool.query(sql, (err, result) => {
     if (err) throw err;
     if (result[0]) {
@@ -128,8 +130,11 @@ router.post('/api/getVipInfo', (req, res) => {
   sql +=' WHERE A.user_id = B.user_id AND A.user_id =? AND A.deadline >= NOW() ORDER BY A.recharge_id'
   pool.query(sql, [userId], (err, result) => {
     if (err) throw err;
+    console.log(result)
     if (result[0]) {
       res.send({ success_code: 200, data: result });
+    } else {
+      res.send({ error_code: 1, message: '用户会员卡信息不存在' })
     }
   })
 })
@@ -142,6 +147,8 @@ router.post('/api/getRechargeRecord',(req, res) =>{
     if(err) throw err;
     if(result[0]){
       res.send({ success_code: 200, data: result });
+    } else {
+      res.send({ error_code: 1, message: '用户办卡记录不存在' })
     }
   })
 })
@@ -602,54 +609,31 @@ router.post('/api/updatePhone',(req, res) =>{
   }
 })
 
-// 修改用户头像
-router.post('/api/updateUserAvatar',(req,res)=>{
-  let {userId,avatar} = req.body;
-  let sql = 'SELECT * from t_user WHERE user_id = ? LIMIT 1;';
-  pool.query(sql,[userId],(err,result)=>{
-    if(err) throw err;
-    if(result[0]){
-      sql='UPDATE t_user SET avatar = ? WHERE user_id = ?;';
-      pool.query(sql,[avatar,userId],(err,result)=>{
-        if(err) throw err;
-        if(result.affectedRows>0){
-          res.send({success_code:200,message:'修改用户头像成功'});
-        }else{
-          res.send({error_code:1,message:'修改用户头像失败'});
-        }
-      })
-    }else{
-      res.send({error_code:1,message:'用户不存在'});
-    }
-  })
-});
-
-// 修改用户名
-router.post('/api/updateUserName',(req,res)=>{
-  let {userId,userName} = req.body;
-  let sql='UPDATE t_user SET user_name=? WHERE user_id=?';
-  pool.query(sql,[userName,userId],(err,result)=>{
-    if(err) throw err;
-    if(result.affectedRows>0){
-      res.send({success_code:200,message:'用户名修改成功'});
-    }else{
-      res.send({error_code:1,message:'用户名修改失败'});
-    }
-  })
-});
-
 // 修改用户资料（头像和用户名）
 router.post('/api/updateUserInfo',(req,res)=>{
-  let {userId,userName,avatar} = req.body;
-  let sql='UPDATE t_user SET user_name=?,avatar=? WHERE user_id=?';
-  pool.query(sql,[userName,avatar,userId],(err,result)=>{
-    if(err) throw err;
-    if(result.affectedRows>0){
-      res.send({success_code:200,message:'修改成功'});
-    }else{
-      res.send({error_code:1,message:'修改失败'});
-    }
-  })
+  let { userId, userName, avatar } = req.body;
+  if (avatar) {
+    let sql = 'UPDATE t_user SET user_name=?,avatar=? WHERE user_id=?';
+    pool.query(sql, [userName, avatar, userId], (err, result) => {
+      if (err) throw err;
+      if (result.affectedRows > 0) {
+        res.send({ success_code: 200, message: '修改成功' });
+      } else {
+        res.send({ error_code: 1, message: '修改失败' });
+      }
+    })
+  } else {
+    let sql = 'UPDATE t_user SET user_name=? WHERE user_id=?';
+    pool.query(sql, [userName, userId], (err, result) => {
+      if (err) throw err;
+      if (result.affectedRows > 0) {
+        res.send({ success_code: 200, message: '修改成功' });
+      } else {
+        res.send({ error_code: 1, message: '修改失败' });
+      }
+    })
+  }
+  
 });
 
 let datatime = './public/img/avatar/';

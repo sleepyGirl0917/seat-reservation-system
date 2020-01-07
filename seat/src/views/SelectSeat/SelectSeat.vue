@@ -432,14 +432,14 @@ $bg6='../../assets/img/seat/double-seat-choose.png'
     position: fixed;
     z-index: 1000;
     left:0;
-    bottom: 50px;
+    bottom: 20px;
+    padding:0 10px;
     background-color:transparent;
     button.submit {
       opacity: 0.8;
     }
   }
 
-  
   .mint-popup.show-detail{
     width:300px;
     height:150px;

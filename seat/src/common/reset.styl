@@ -3,6 +3,11 @@
   padding 0
   margin  0
   border  0
+  scrollbar-width none    /* 兼容火狐 */
+  -ms-overflow-style none /* 兼容IE10+ */
+
+::-webkit-scrollbar /* 兼容chrome和safari浏览器 */
+  display none !important  
 
 body
   background  #f5f5f5
@@ -40,5 +45,27 @@ a
 .ignore
   border-radius 5px  
 
-::-webkit-scrollbar 
-  display none !important
+
+.mint-msgbox
+  border-radius 5Px
+  .mint-msgbox-header
+    height 50px
+    line-height 2
+    .mint-msgbox-title  
+      font-size 25px
+  .mint-msgbox-content 
+    .mint-msgbox-message
+      font-size 25px
+      height 50px
+      line-height 2
+  .mint-msgbox-btns    
+    height 50px
+    line-height 2
+    .mint-msgbox-btn
+      font-size 25px  
+
+.mint-toast.is-placemiddle    
+  .mint-toast-text
+    font-size 25px
+    line-height 1.5
+    

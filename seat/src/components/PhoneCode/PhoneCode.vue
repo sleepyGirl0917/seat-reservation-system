@@ -82,5 +82,6 @@ export default {
       background  transparent 
   .btn-container
     margin 60px 0 30px
+  
 </style>
 

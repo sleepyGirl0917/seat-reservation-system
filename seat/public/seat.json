@@ -9,7 +9,7 @@
           "seatId": "1",
           "type": 0,
           "isSold": false,
-          "classNormal": "seat seat-single seat-1-1",
+          "class": "seat seat-single seat-1-1",
           "classBg": "seat-bg1"
         },
         {

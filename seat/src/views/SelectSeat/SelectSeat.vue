@@ -84,7 +84,6 @@ export default {
       selectedSeatType:null,  // 当前选中的座位类型
       seatCount:0,  // 当前选中的座位数
       popupVisible:null, // 控制popupVisible的显示和隐藏
-      buttonText:null,
       types: ["date", "time", "datetime"], // 日期选择器类型
       dateVal: formatDate(new Date(),'yyyy-MM-dd'), // 默认为当前日期
       selectedStartValue: null,
@@ -249,7 +248,7 @@ export default {
             this.selectedSeatInfo=id;
             this.selectedSeatType=this.seatJson[i].type;
             this.seatCount=1;
-            this.buttonText=(this.seatJson[i].type==0?'单人座：':'双人座：')+this.seatJson[i].seatId+' ';
+            this.btnText=(this.seatJson[i].type==0?'单人座：':'双人座：')+this.seatJson[i].seatId+' ';
           }else{
             this.clickedSeatInfo=id;
             this.loadSeatSoldDetail();
@@ -260,7 +259,7 @@ export default {
           this.selectedSeatInfo=null;
           this.selectedSeatType=null;
           this.seatCount=0;
-          this.buttonText=null;
+          this.btnText='确认选座';
         }
       }
     },

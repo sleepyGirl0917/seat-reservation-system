@@ -255,7 +255,7 @@ CREATE TABLE `t_order`  (
   `order_cost` decimal(10,2) DEFAULT 0  COMMENT '订座费用',
   `order_refund` decimal(10,2) DEFAULT 0  COMMENT '订座退款',
   `is_delay` int(4) DEFAULT 0 COMMENT '是否为延长时段', -- 0：不是 1：是
-  `order_status` int(4) DEFAULT 0 COMMENT '订单状态',  -- 0：未开始 1：进行中  2：结束 3：取消 4：逾期，释放座位 5:时间到，释放座位
+  `order_status` int(4) DEFAULT 0 COMMENT '订单状态',  -- 0：未开始 1：进行中  2：结束 3：取消 4：逾期，释放座位
   `pay_time` datetime NULL DEFAULT CURRENT_TIMESTAMP COMMENT '支付时间',
   `pay_type` int(4) DEFAULT NULL COMMENT '支付方式',  -- 0：体验卡 1：储值卡 2：包时卡
   `pid` int(4) DEFAULT NULL COMMENT '支付会员卡id', 

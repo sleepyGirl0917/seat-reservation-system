@@ -1,8 +1,10 @@
 <template>
   <div id="app-purchase">
-    <div v-for="(item,i) of jsonData" :key="i">
-      <purchase-item :myData="item"></purchase-item>
-    </div>
+    <mt-loadmore :bottom-method="loadBottom" :bottom-all-loaded="allLoaded" ref="loadmore">
+      <div v-for="(item,i) of jsonList" :key="i">
+        <purchase-item :myData="item"></purchase-item>
+      </div>
+    </mt-loadmore>
   </div>
 </template>
 
@@ -19,7 +21,10 @@ import { Indicator } from "mint-ui";
 export default {
   data() {
     return {
-      jsonData: []
+      jsonList: [],
+      pno:0,
+      pageSize:5,
+      allLoaded:false
     };
   },
   components: {
@@ -32,22 +37,29 @@ export default {
     async loadPurchaseData() {
         Indicator.open();
         let result;
+        this.pno++;
         if (this.$route.name == "purchase-all") {
-            result = await getMyDataAll(this.$store.getters.uid);
+            result = await getMyDataAll(this.$store.getters.uid,this.pno,this.pageSize);
         } else if (this.$route.name == "purchase-delay") {
-            result = await getMyDataDelay(this.$store.getters.uid);
+            result = await getMyDataDelay(this.$store.getters.uid,this.pno,this.pageSize);
         } else if (this.$route.name == "purchase-cancel") {
-            result = await getMyDataCancel(this.$store.getters.uid);
+            result = await getMyDataCancel(this.$store.getters.uid,this.pno,this.pageSize);
         } else if ((this.$route.name == "purchase-end")) {
-            result = await getMyDataEnd(this.$store.getters.uid);
+            result = await getMyDataEnd(this.$store.getters.uid,this.pno,this.pageSize);
         } else {
-            result = await getMyDataOverdue(this.$store.getters.uid);
+            result = await getMyDataOverdue(this.$store.getters.uid,this.pno,this.pageSize);
         }
         // console.log(result)
         if (result.success_code == 200) {
-            this.jsonData = result.data;
+          this.jsonList = this.jsonList.concat(result.data);
+        }else{
+          this.allLoaded = true; // 数据已全部获取完毕
         }
         Indicator.close();
+    },
+    loadBottom() {
+      this.loadPurchaseData(); // 加载更多数据
+      this.$refs.loadmore.onBottomLoaded(); // 对数组进行重新定位
     }
   }
 };

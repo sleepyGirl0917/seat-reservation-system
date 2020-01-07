@@ -14,10 +14,10 @@ export const upLoadImg = (formData)=>ajax('/api/upLoadImg',formData,'POST');
 export const updateUserInfo = (userId,userName,avatar)=>ajax('/api/updateUserInfo',{userId,userName,avatar},'POST');
 // 获取用户信息
 export const getUserInfo = (userId) => ajax('/api/getUserInfo', { userId }, 'POST')
-// 获取当天订座信息
+// 获取距离最近的可用订座信息
 export const getOrderLatest = (userId) => ajax('/api/getOrderLatest', { userId }, 'POST')
 // 获取所有订座信息
-export const getOrderAll = (userId) => ajax('/api/getOrderAll', { userId }, 'POST')
+export const getOrderAll = (userId) => ajax('/api/getOrderAll', { userId}, 'POST')
 // 获取订单详情
 export const getOrderDetails = (userId, orderId) => ajax('/api/getOrderDetails', { userId, orderId }, 'POST')
 // 取消订单
@@ -29,15 +29,15 @@ export const endOrder = (userId, orderId, rechargeId) => ajax('/api/endOrder', {
 // 订单逾期
 export const overOrder = (userId, orderId, rechargeId) => ajax('/api/overOrder', { userId, orderId, rechargeId},'POST')
 // 获取所有订座记录
-export const getMyDataAll = (userId) => ajax('/api/getMyDataAll', { userId }, 'POST')
+export const getMyDataAll = (userId, pno, pageSize) => ajax('/api/getMyDataAll', { userId,pno, pageSize }, 'POST')
 // 获取延长时段记录
-export const getMyDataDelay = (userId) => ajax('/api/getMyDataDelay', { userId }, 'POST')
+export const getMyDataDelay = (userId, pno, pageSize) => ajax('/api/getMyDataDelay', { userId, pno, pageSize}, 'POST')
 // 获取取消订单记录
-export const getMyDataCancel = (userId) => ajax('/api/getMyDataCancel', { userId }, 'POST')
+export const getMyDataCancel = (userId, pno, pageSize) => ajax('/api/getMyDataCancel', { userId, pno, pageSize}, 'POST')
 // 获取完成订单记录
-export const getMyDataEnd = (userId) => ajax('/api/getMyDataEnd', { userId }, 'POST')
+export const getMyDataEnd = (userId, pno, pageSize) => ajax('/api/getMyDataEnd', { userId, pno, pageSize }, 'POST')
 // 获取逾期订单记录
-export const getMyDataOverdue = (userId) => ajax('/api/getMyDataOverdue', { userId }, 'POST')
+export const getMyDataOverdue = (userId, pno, pageSize) => ajax('/api/getMyDataOverdue', { userId, pno, pageSize }, 'POST')
 // 获取消费记录
 export const getPurchaseDetails = (userId, orderId) => ajax('/api/getPurchaseDetails', { userId, orderId }, 'POST')
 // 更新座位信息

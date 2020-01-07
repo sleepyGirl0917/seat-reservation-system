@@ -184,8 +184,8 @@ router.post('/api/orderSeat', (req, res) => {
           sql2 += `UPDATE t_user AS A SET balance=(SELECT SUM(balance) FROM t_recharge AS B 
       WHERE A.user_id=B.user_id AND B.user_id='${userId}' AND B.recharge_type=1 AND B.deadline>=NOW())`;
         } else if (cardType == 2 && seat_type == 0) { //包时卡：在有效期内且只能订单人座
-          sql2 = `INSERT INTO t_order(user_id,shop_id,sid,order_date,start_time,end_time,order_cost,pay_type,order_num,pid) 
-      SELECT '${userId}','${shopId}','${sid}','${dateVal}','${startVal}','${endVal}','${orderCost}','${cardType}','${orderNum}','${rechargeId}' FROM DUAL 
+          sql2 = `INSERT INTO t_order(user_id,shop_id,sid,order_date,start_time,end_time,pay_type,order_num,pid) 
+      SELECT '${userId}','${shopId}','${sid}','${dateVal}','${startVal}','${endVal}','${cardType}','${orderNum}','${rechargeId}' FROM DUAL 
       WHERE (select deadline from t_recharge where recharge_id='${rechargeId}' )>=NOW();`;
         } else {
           res.send({ error_code: 1, message: '订座失败' })
@@ -294,8 +294,8 @@ router.post('/api/cancelOrder', (req, res) => {
         }
       })
     }else if(result[0].pay_type==2){
-      sql='UPDATE t_order SET order_status=?,status_change_time=NOW() WHERE user_id = ? AND order_id=?';
-      pool.query(sql,[3, userId, orderId, orderId],(err, result) =>{
+      sql='UPDATE t_order SET order_status=?,status_change_time=NOW() WHERE user_id = ? AND order_id=?;';
+      pool.query(sql,[3, userId, orderId],(err, result) =>{
         if (err) throw err;
         if (result.affectedRows > 0) {
           res.send({ success_code: 200, message: '取消订座执行完毕' });
@@ -322,59 +322,91 @@ router.post('/api/startOrder', (req, res) => {
 router.post('/api/endOrder', (req, res) => {
   let { userId, orderId, rechargeId } = req.body;
   let timeBefore, timeNow, distance, refund, unit = 1000 * 60 * 30;
-  // 获得当天已完结的订单时长
-  let sql = 'SELECT SUM(UNIX_TIMESTAMP(status_change_time)*1000-start_time) AS time FROM t_order WHERE order_status=? AND user_id=? AND order_date=date(NOW());';
-  sql += 'SELECT A.sid,A.seat_type,A.seat_price FROM t_shop_seat A,t_order B WHERE A.sid=B.sid AND B.order_id=?;'
-  pool.query(sql, [2, userId, orderId], (err, result) => {
+  let sql = 'SELECT pay_type FROM t_order WHERE user_id = ? AND order_id=?;';
+  pool.query(sql, [userId, orderId], (err, result) => {
     if (err) throw err;
-    let { sid, seat_type, seat_price } = result[1][0];
-    timeBefore = Math.ceil(result[0][0].time / unit);
-    if (timeBefore < 12) { // 还没有达到封顶时长，需要计算应返还的费用  4.5：单人座半小时费用  10：双人座半小时费用
-      sql = "SELECT (REPLACE(unix_timestamp(current_timestamp(3)),'.','')-start_time) AS time,order_cost FROM t_order where user_id=? AND order_id =?";
-      pool.query(sql, [userId, orderId], (err, result) => {
+    if (result[0].pay_type == 1) {
+      // 获得当天已完结的订单时长
+      sql = 'SELECT SUM(UNIX_TIMESTAMP(status_change_time)*1000-start_time) AS time FROM t_order WHERE order_status=? AND user_id=? AND order_date=date(NOW());';
+      sql += 'SELECT A.sid,A.seat_type,A.seat_price FROM t_shop_seat A,t_order B WHERE A.sid=B.sid AND B.order_id=?;'
+      pool.query(sql, [2, userId, orderId], (err, result) => {
         if (err) throw err;
-        timeNow = Math.ceil(result[0].time / unit);
-        distance = 12 - timeBefore; // 离封顶时长的距离
-        if (timeNow >= distance) { // 到达封顶时长，应付distance*seat_price，返还=已付-应付
-          refund = result[0].order_cost - distance * seat_price*0.5
-        } else { // 未到达封顶时长
-          refund = result[0].order_cost - timeNow * seat_price*0.5
+        let { sid, seat_type, seat_price } = result[1][0];
+        timeBefore = Math.ceil(result[0][0].time / unit);
+        if (timeBefore < 12) { // 还没有达到封顶时长，需要计算应返还的费用  4.5：单人座半小时费用  10：双人座半小时费用
+          sql = "SELECT (REPLACE(unix_timestamp(current_timestamp(3)),'.','')-start_time) AS time,order_cost FROM t_order where user_id=? AND order_id =?";
+          pool.query(sql, [userId, orderId], (err, result) => {
+            if (err) throw err;
+            timeNow = Math.ceil(result[0].time / unit);
+            distance = 12 - timeBefore; // 离封顶时长的距离
+            if (timeNow >= distance) { // 到达封顶时长，应付distance*seat_price，返还=已付-应付
+              refund = result[0].order_cost - distance * seat_price * 0.5
+            } else { // 未到达封顶时长
+              refund = result[0].order_cost - timeNow * seat_price * 0.5
+            }
+            sql = 'UPDATE t_order SET order_status=?,order_refund=?,status_change_time=NOW() WHERE user_id = ? AND order_id=?;';
+            sql += 'UPDATE t_recharge SET balance=balance+? WHERE recharge_id =?;';
+            sql += 'UPDATE t_user SET balance=balance+? WHERE user_id = ?;';
+            pool.query(sql, [2, refund, userId, orderId, refund, rechargeId, refund, userId], (err, result) => {
+              if (err) throw err;
+              if (result[0].affectedRows > 0) {
+                res.send({ success_code: 200, message: '结束订座执行完毕' });
+              }
+            })
+          })
+        } else { // 已经达到封顶时长，退还订座费用
+          sql = 'UPDATE t_order SET order_status=?,order_refund=order_cost,status_change_time=NOW() WHERE user_id = ? AND order_id=?;';
+          sql += 'UPDATE t_recharge SET balance=balance+(SELECT order_refund from t_order WHERE order_id=?) WHERE recharge_id =?;';
+          sql += 'UPDATE t_user SET balance=balance+(SELECT order_refund from t_order WHERE order_id=?) WHERE user_id = ?;';
+          pool.query(sql, [2, userId, orderId, orderId, rechargeId, orderId, userId], (err, result) => {
+            if (err) throw err;
+            if (result[0].affectedRows > 0) {
+              res.send({ success_code: 200, message: '结束订座执行完毕' });
+            }
+          })
         }
-        sql = 'UPDATE t_order SET order_status=?,order_refund=?,status_change_time=NOW() WHERE user_id = ? AND order_id=?;';
-        sql += 'UPDATE t_recharge SET balance=balance+? WHERE recharge_id =?;';
-        sql += 'UPDATE t_user SET balance=balance+? WHERE user_id = ?;';
-        pool.query(sql, [2, refund, userId, orderId, refund, rechargeId, refund, userId], (err, result) => {
-          if (err) throw err;
-          if (result[0].affectedRows > 0) {
-            res.send({ success_code: 200, message: '结束订座执行完毕' });
-          }
-        })
       })
-    } else { // 已经达到封顶时长，退还订座费用
-      sql = 'UPDATE t_order SET order_status=?,order_refund=order_cost,status_change_time=NOW() WHERE user_id = ? AND order_id=?;';
-      sql += 'UPDATE t_recharge SET balance=balance+(SELECT order_refund from t_order WHERE order_id=?) WHERE recharge_id =?;';
-      sql += 'UPDATE t_user SET balance=balance+(SELECT order_refund from t_order WHERE order_id=?) WHERE user_id = ?;';
-      pool.query(sql, [2, userId, orderId, orderId, rechargeId, orderId, userId], (err, result) => {
+    } else if (result[0].pay_type == 2) {
+      sql = 'UPDATE t_order SET order_status=?,status_change_time=NOW() WHERE user_id = ? AND order_id=?;';
+      pool.query(sql, [2, userId, orderId], (err, result) => {
         if (err) throw err;
-        if (result[0].affectedRows > 0) {
+        if (result.affectedRows > 0) {
           res.send({ success_code: 200, message: '结束订座执行完毕' });
         }
       })
+    } else {
+      res.send({ error_code: 1, message: '查询出错' });
     }
-  })
+  })  
 })
 
-// 订单逾期
+// 订单逾期 
 router.post('/api/overOrder', (req, res) => {
   let { userId, orderId, rechargeId } = req.body;
-  let sql = 'UPDATE t_order SET order_status=?,order_refund=order_cost*0.7 WHERE user_id=? AND order_id=?; '
-  sql += 'UPDATE t_recharge SET balance=balance+(SELECT order_refund from t_order WHERE order_id=?) WHERE recharge_id =?; ';
-  sql += 'UPDATE t_user SET balance=balance+(SELECT order_refund from t_order WHERE order_id=?) WHERE user_id = ?; ';
-  pool.query(sql, [4, userId, orderId, orderId, rechargeId, orderId, userId], (err, result) => {
+  let sql = 'SELECT pay_type FROM t_order WHERE user_id = ? AND order_id=?';
+  pool.query(sql, [userId, orderId], (err, result) => {
     if (err) throw err;
-    // console.log(result)
-    if (result[0].affectedRows > 0) {
-      res.send({ success_code: 200, message: '订单逾期，座位已释放' });
+    if (result[0].pay_type == 1) {
+      sql = 'UPDATE t_order SET order_status=?,order_refund=order_cost*0.7,status_change_time=NOW() WHERE user_id = ? AND order_id=?;';
+      sql += 'UPDATE t_recharge SET balance=balance+(SELECT order_refund from t_order WHERE order_id=?) WHERE recharge_id =?;';
+      sql += 'UPDATE t_user SET balance=balance+(SELECT order_refund from t_order WHERE order_id=?) WHERE user_id = ?;';
+      pool.query(sql, [4, userId, orderId, orderId, rechargeId, orderId, userId], (err, result) => {
+        if (err) throw err;
+        // console.log(result)
+        if (result[0].affectedRows > 0) {
+          res.send({ success_code: 200, message: '订单逾期，座位已释放' });
+        }
+      })
+    } else if (result[0].pay_type == 2) {
+      sql = 'UPDATE t_order SET order_status=?,status_change_time=NOW() WHERE user_id = ? AND order_id=?;';
+      pool.query(sql, [4, userId, orderId], (err, result) => {
+        if (err) throw err;
+        if (result.affectedRows > 0) {
+          res.send({ success_code: 200, message: '订单逾期，座位已释放' });
+        }
+      })
+    } else {
+      res.send({ error_code:1, message: '查询出错' });
     }
   })
 })

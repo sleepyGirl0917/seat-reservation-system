@@ -11,13 +11,22 @@ Vue.prototype.axios = axios;
 
 Vue.config.productionTip = false;
 
+// import VueLazyLoad from 'vue-lazyload'
+// Vue.use(VueLazyLoad, {
+//   preLoad: 1.3,
+//   error: require('./assets/img/error.jpg'),
+//   loading: require('./assets/img/loading.gif'),
+//   attempt: 1
+// })
+
 import './filters'
 import 'mint-ui/lib/style.css'
 import './lib/mui/css/mui.css'
 import './lib/mui/css/icons-extra.css'
 import './seat/seat.styl'
 import './common/reset.styl'
-import { Header, Swipe, SwipeItem, Popup, Picker, DatetimePicker, Loadmore } from "mint-ui"
+import { Header, Swipe, SwipeItem, Popup, Picker, DatetimePicker, Loadmore, Lazyload } from "mint-ui"
+Vue.use(Lazyload);
 Vue.component(Header.name, Header);
 Vue.component(Swipe.name, Swipe);
 Vue.component(SwipeItem.name, SwipeItem);

@@ -1,7 +1,10 @@
 <template>
   <div id="app">
     <my-header v-if="$route.meta.showHeader"></my-header>
-    <router-view/>
+    <keep-alive :include="cacheComponent">
+      <router-view/>
+    </keep-alive>
+    <!-- <router-view/> -->
     <tab-bar v-if="$route.meta.showTabbar"/>
     
   </div>
@@ -12,10 +15,15 @@
   import Tabbar from './components/Tabbar/Tabbar'
   export default {
     name:'App',
+    data(){
+      return {
+        cacheComponent:['InviteNew','Contact']
+      }
+    },
     components:{
       "tab-bar":Tabbar,
       "my-header":Header
-    }
+    },
   }
 </script>
 

@@ -3,7 +3,7 @@
     <div v-for="(item,i) in jsonData" :key="i" class="shop-item">
       <div class="top">
         <div class="left">
-          <img :src="item.pic_title" alt="">
+          <img v-lazy="item.pic_title" alt="" :key="i+1">
         </div>
         <div class="right">
           <div>
@@ -25,7 +25,7 @@
         </div>
       </div>
       <div class="bottom">
-        <img :src="item.pic_map" alt="">
+        <img v-lazy="item.pic_map" alt="" :key="i+2">
       </div>
     </div>
   </div>
@@ -35,9 +35,10 @@
 import {Indicator} from "mint-ui"
 import {getShopInfo} from "../../api/index"
 export default {
+  name:'Contact',
   data(){
     return {
-      jsonData:[]
+      jsonData:[],
     }
   },
   created(){
@@ -86,6 +87,7 @@ export default {
       img
         width 100%
         height 100%
-        display block 
+        display block
+  
 </style>
 

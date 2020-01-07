@@ -287,7 +287,7 @@ INSERT INTO `t_admin` VALUES (1, 'admin', 'admin', '1', '13414850215', '/img/def
 
 -- ----------------------------
 -- Table structure for order_history 
--- 创建对order表操作历史表
+-- 创建order新增记录表
 -- ----------------------------
 DROP TABLE IF EXISTS `order_history`;
 CREATE TABLE `order_history` (
@@ -302,7 +302,7 @@ CREATE TABLE `order_history` (
 
 -- ----------------------------
 -- Table structure for status_history 
--- 创建对order_status操作历史表
+-- 创建order_status改变记录表
 -- ----------------------------
 DROP TABLE IF EXISTS `status_history`;
 CREATE TABLE `status_history` (

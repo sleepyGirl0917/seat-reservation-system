@@ -187,11 +187,19 @@ export default {
       if(new_value<=openTime||new_value>closeTime||new_value<=startValue){
         return;
       }
-      this.selectedEndValue = value;
-      // 选择结束时间后，自动计算时长
-      let length =parseTime(this.selectedEndValue) -parseTime(this.selectedStartValue);
-      this.duration = Math.ceil(length / this.unit) * 0.5;
-      this.loadSeatSoldInfo();
+      // 选择结束时间后，先计算时长，时长小于半小时将结束时间设为空
+      // let length =parseTime(this.selectedEndValue) -parseTime(this.selectedStartValue);
+      let length =parseTime(value) -parseTime(this.selectedStartValue);
+      if(length<this.unit){
+        this.selectedEndValue=null;
+        this.duration=0;
+        Toast('订座时间必须大于30分钟');
+        return
+      }else{
+        this.selectedEndValue = value;
+        this.duration = Math.ceil(length / this.unit) * 0.5;
+        this.loadSeatSoldInfo();
+      }
     },
     // 获取可选座位
     async loadSeatSoldInfo(){

@@ -35,6 +35,7 @@
 
 <script>
 export default {
+  name:'InviteNew',
   data(){
     return {
       code:null

@@ -1,5 +1,5 @@
 import axios from '../../src/http'
-import qs from 'qs'
+// import qs from 'qs'
 
 //封装ajax
 export default function ajax(url = '', params = {}, type = 'GET') {

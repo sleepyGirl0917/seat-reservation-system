@@ -43,7 +43,7 @@ module.exports = {
     proxy: {
       // 配置跨域
       '/': { 
-        target: process.env.VUE_APP_API,
+        target: process.env.VUE_APP_BASE_API,
         changeOrigin: true,
         ws: true, // websocket支持
         secure:false, // 如果是https接口，则需要配置这个参数

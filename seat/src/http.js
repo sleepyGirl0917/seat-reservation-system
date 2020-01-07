@@ -9,8 +9,8 @@ import router from './router/router'
 
 // axios 配置
 axios.defaults.timeout = 5000
-axios.defaults.withCredentials = true;
-// axios.defaults.baseURL = 'https://127.0.0.1:3000'
+axios.defaults.withCredentials = true
+axios.defaults.baseURL = process.env.VUE_APP_BASE_API
 
 // request 拦截器
 axios.interceptors.request.use(

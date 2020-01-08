@@ -7,12 +7,12 @@ const multer = require('multer');
 let user = {};
 
 /* GET home page. */
-router.get('/', function (req, res, next) {
-  res.render('index', { title: 'Express' });
-});
+// router.get('/', function (req, res, next) {
+//   res.render('index', { title: 'Express' });
+// });
 
 // 获取会员卡活动方案
-router.get('/api/getPlan', (req, res) => {
+router.get('/getPlan', (req, res) => {
   let sql = 'SELECT * FROM t_recharge_plan WHERE isActive=? AND recharge_type=?;'
   sql += 'SELECT * FROM t_recharge_plan WHERE isActive=? AND recharge_type=?;'
   pool.query(sql, [1,1,1,2], (err, result) => {
@@ -26,7 +26,7 @@ router.get('/api/getPlan', (req, res) => {
 })
 
 // 加入会员
-router.post('/api/joinMember', (req, res) => {
+router.post('/joinMember', (req, res) => {
   let { userId, planId } = req.body;
   let sql = 'SELECT * FROM t_recharge_plan where plan_id =?'
   pool.query(sql, [planId], (err, result) => {
@@ -57,7 +57,7 @@ router.post('/api/joinMember', (req, res) => {
 })
 
 // 加载店铺信息
-router.get('/api/getShopInfo', (req, res) => {
+router.get('/getShopInfo', (req, res) => {
   let sql = 'SELECT * FROM t_shop';
   pool.query(sql, (err, result) => {
     if (err) throw err;
@@ -70,7 +70,7 @@ router.get('/api/getShopInfo', (req, res) => {
 })
 
 // 获取已被预定的座位
-router.post('/api/getSeatSoldInfo', (req, res) => {
+router.post('/getSeatSoldInfo', (req, res) => {
   let { shopId, dateVal, startVal, endVal } = req.body;
   let seat = [];
   let sql = 'SELECT A.order_date,A.start_time,A.end_time,B.seat_id from t_order A LEFT JOIN t_shop_seat B ON A.sid=B.sid ';
@@ -86,7 +86,7 @@ router.post('/api/getSeatSoldInfo', (req, res) => {
 })
 
 // 获取座位被预定的时段详情
-router.post('/api/getSeatSoldDetail', (req, res) => {
+router.post('/getSeatSoldDetail', (req, res) => {
   let { shopId, dateVal, seatId } = req.body;
   let sql = 'SELECT A.start_time,A.end_time FROM t_order A,t_shop_seat B WHERE A.sid=B.sid'
   sql += ' AND A.shop_id=? AND A.order_date=? AND B.seat_id=?';
@@ -99,7 +99,7 @@ router.post('/api/getSeatSoldDetail', (req, res) => {
 })
 
 //获取用户信息
-router.post('/api/getUserInfo', (req, res) => {
+router.post('/getUserInfo', (req, res) => {
   // if (!req.session.userId) {
   //   res.send({ error_code: -1, message: "请登录" });
   //   return;
@@ -124,7 +124,7 @@ router.post('/api/getUserInfo', (req, res) => {
 });
 
 // 获取用户会员卡信息
-router.post('/api/getVipInfo', (req, res) => {
+router.post('/getVipInfo', (req, res) => {
   let userId = req.body.userId;
   let sql = 'SELECT A.recharge_id,A.recharge_type,A.deadline,A.balance FROM t_recharge A,t_user B';
   sql +=' WHERE A.user_id = B.user_id AND A.user_id =? AND A.deadline >= NOW() ORDER BY A.recharge_id'
@@ -140,7 +140,7 @@ router.post('/api/getVipInfo', (req, res) => {
 })
 
 // 获取用户办卡记录
-router.post('/api/getRechargeRecord',(req, res) =>{
+router.post('/getRechargeRecord',(req, res) =>{
   let userId = req.body.userId;
   let sql='SELECT * FROM recharge_history A LEFT JOIN t_recharge_plan B ON A.plan_id=B.plan_id WHERE A.user_id=?';
   pool.query(sql,[userId],(err,result)=>{
@@ -154,7 +154,7 @@ router.post('/api/getRechargeRecord',(req, res) =>{
 })
 
 // 预定座位
-router.post('/api/orderSeat', (req, res) => {
+router.post('/orderSeat', (req, res) => {
   let { userId, shopId, dateVal, startVal, endVal, seatId, cardType, rechargeId } = req.body,
     time = endVal - startVal,
     unit = 1000 * 60 * 30;
@@ -210,7 +210,7 @@ router.post('/api/orderSeat', (req, res) => {
 })
 
 // 获取距离最近的可用订座信息
-router.post('/api/getOrderLatest', (req, res) => {
+router.post('/getOrderLatest', (req, res) => {
   let userId = req.body.userId;
   if (userId) {
     let sql = 'SELECT A.order_id, A.order_status,A.pid,B.shop_name,C.seat_id,C.seat_type,C.seat_info,A.order_date,A.start_time,A.end_time from t_order A';
@@ -233,7 +233,7 @@ router.post('/api/getOrderLatest', (req, res) => {
 });
 
 // 获取所有订座信息
-router.post('/api/getOrderAll', (req, res) => {
+router.post('/getOrderAll', (req, res) => {
   let userId = req.body.userId;
   if (userId) {
     let sql = 'SELECT A.order_id,A.order_status,B.shop_name,C.seat_id,C.seat_type,C.seat_info,A.order_date,A.start_time,A.end_time from t_order A';
@@ -256,7 +256,7 @@ router.post('/api/getOrderAll', (req, res) => {
 });
 
 // 获取订单详情
-router.post('/api/getOrderDetails', (req, res) => {
+router.post('/getOrderDetails', (req, res) => {
   let { userId, orderId } = req.body;
   let sql = 'SELECT A.order_id,A.order_status,B.shop_name,C.seat_id,C.seat_type,C.seat_info,A.order_date,A.start_time,A.end_time,A.pid from t_order A';
   sql += ' LEFT JOIN t_shop B on A.shop_id=B.shop_id';
@@ -277,7 +277,7 @@ router.post('/api/getOrderDetails', (req, res) => {
 });
 
 // 取消订单
-router.post('/api/cancelOrder', (req, res) => {
+router.post('/cancelOrder', (req, res) => {
   let { userId, orderId, rechargeId } = req.body;
   let sql='SELECT pay_type FROM t_order WHERE user_id = ? AND order_id=?';
   pool.query(sql,[userId,orderId],(err,result)=>{
@@ -306,7 +306,7 @@ router.post('/api/cancelOrder', (req, res) => {
 })
 
 // 开始订单
-router.post('/api/startOrder', (req, res) => {
+router.post('/startOrder', (req, res) => {
   let { userId, orderId } = req.body;
   let sql = 'UPDATE t_order SET order_status=? WHERE user_id = ? AND order_id=?;';
   pool.query(sql, [1, userId, orderId], (err, result) => {
@@ -319,7 +319,7 @@ router.post('/api/startOrder', (req, res) => {
 })
 
 // 结束订单
-router.post('/api/endOrder', (req, res) => {
+router.post('/endOrder', (req, res) => {
   let { userId, orderId, rechargeId } = req.body;
   let timeBefore, timeNow, distance, refund, unit = 1000 * 60 * 30;
   let sql = 'SELECT pay_type FROM t_order WHERE user_id = ? AND order_id=?;';
@@ -381,7 +381,7 @@ router.post('/api/endOrder', (req, res) => {
 })
 
 // 订单逾期 
-router.post('/api/overOrder', (req, res) => {
+router.post('/overOrder', (req, res) => {
   let { userId, orderId, rechargeId } = req.body;
   let sql = 'SELECT pay_type FROM t_order WHERE user_id = ? AND order_id=?';
   pool.query(sql, [userId, orderId], (err, result) => {
@@ -412,7 +412,7 @@ router.post('/api/overOrder', (req, res) => {
 })
 
 // 获取所有订座记录
-router.post('/api/getMyDataAll', (req, res) => {
+router.post('/getMyDataAll', (req, res) => {
   // let userId = req.body.userId;
   let { userId, pno, pageSize } = req.body;
   if (!pno) { pno = 1 };
@@ -440,7 +440,7 @@ router.post('/api/getMyDataAll', (req, res) => {
 })
 
 // 获取延长时段记录
-router.post('/api/getMyDataDelay', (req, res) => {
+router.post('/getMyDataDelay', (req, res) => {
   // let userId = req.body.userId;
   let { userId, pno, pageSize } = req.body;
   if (!pno) { pno = 1 };
@@ -467,7 +467,7 @@ router.post('/api/getMyDataDelay', (req, res) => {
 })
 
 // 获取取消订单记录
-router.post('/api/getMyDataCancel', (req, res) => {
+router.post('/getMyDataCancel', (req, res) => {
   // let userId = req.body.userId;
   let { userId, pno, pageSize } = req.body;
   if (!pno) { pno = 1 };
@@ -494,7 +494,7 @@ router.post('/api/getMyDataCancel', (req, res) => {
 })
 
 // 获取完成订单记录
-router.post('/api/getMyDataEnd', (req, res) => {
+router.post('/getMyDataEnd', (req, res) => {
   // let userId = req.body.userId;
   let { userId, pno, pageSize } = req.body;
   if (!pno) { pno = 1 };
@@ -521,7 +521,7 @@ router.post('/api/getMyDataEnd', (req, res) => {
 })
 
 // 获取逾期订单记录
-router.post('/api/getMyDataOverdue', (req, res) => {
+router.post('/getMyDataOverdue', (req, res) => {
   // let userId = req.body.userId;
   let { userId, pno, pageSize } = req.body;
   if (!pno) { pno = 1 };
@@ -548,7 +548,7 @@ router.post('/api/getMyDataOverdue', (req, res) => {
 })
 
 // 获取消费详情
-router.post('/api/getPurchaseDetails', (req, res) => {
+router.post('/getPurchaseDetails', (req, res) => {
   let { userId, orderId } = req.body;
   if (userId) {
     let sql = 'SELECT shop_name,order_num,order_date,start_time,end_time,order_cost,order_refund,is_delay,pay_time,pay_type ';
@@ -569,7 +569,7 @@ router.post('/api/getPurchaseDetails', (req, res) => {
 })
 
 //获取手机验证码
-router.post('/api/getPhoneCode', (req, res) => {
+router.post('/getPhoneCode', (req, res) => {
   let phone = req.body.phone;
   let phoneCode = Math.random().toFixed(4).slice(-4) + "";
   if (!phoneCode) {
@@ -588,7 +588,7 @@ router.post('/api/getPhoneCode', (req, res) => {
 });
 
 // 手机验证码登录
-router.post('/api/phoneLogin', (req, res) => {
+router.post('/phoneLogin', (req, res) => {
   let { phone, phoneCode } = req.body;
   if (user[phone] === phoneCode) {
     let sql = 'SELECT user_id from t_user WHERE phone = ? LIMIT 1 ;';
@@ -622,7 +622,7 @@ router.post('/api/phoneLogin', (req, res) => {
 });
 
 //密码登录
-router.post('/api/pwdLogin', (req, res) => {
+router.post('/pwdLogin', (req, res) => {
   let name = req.body.userName;
   let pwd = req.body.password;
   let sql = 'SELECT user_id from t_user WHERE user_name =? LIMIT 1 ;'
@@ -648,7 +648,7 @@ router.post('/api/pwdLogin', (req, res) => {
 });
 
 // 修改手机号
-router.post('/api/updatePhone',(req, res) =>{
+router.post('/updatePhone',(req, res) =>{
   let {userId,phone, phoneCode}=req.body;
   if(user[phone] === phoneCode){
     let sql='UPDATE t_user SET phone=? WHERE user_id=?';
@@ -666,7 +666,7 @@ router.post('/api/updatePhone',(req, res) =>{
 })
 
 // 修改用户资料（头像和用户名）
-router.post('/api/updateUserInfo',(req,res)=>{
+router.post('/updateUserInfo',(req,res)=>{
   let { userId, userName, avatar } = req.body;
   if (avatar) {
     let sql = 'UPDATE t_user SET user_name=?,avatar=? WHERE user_id=?';
@@ -706,7 +706,7 @@ let upload = multer({
   storage: storage
 });
 // let upload = multer({dest:'./public/img/avatar'}).any();
-router.post('/api/upLoadImg',upload.any(),(req,res) =>{
+router.post('/upLoadImg',upload.any(),(req,res) =>{
   if(req.files[0]){
     res.send({success_code:200,data:req.files});
     // console.log(req.files);
@@ -714,7 +714,7 @@ router.post('/api/upLoadImg',upload.any(),(req,res) =>{
 });
 
 // 退出登录
-router.get("/api/logout", (req, res) => {
+router.get("/logout", (req, res) => {
   req.session.userId = null;
   res.clearCookie('user_id');
   res.send({ success_code: 200, message: "已退出" });

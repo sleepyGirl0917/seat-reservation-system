@@ -4,7 +4,8 @@
  * Module dependencies.
  */
 
-var app = require('../app');
+var myProxy = require('../proxy');
+var app=require('../app');
 var debug = require('debug')('seat-api:server');
 var http = require('http');
 
@@ -20,21 +21,28 @@ console.log('当前运行环境为：' + config.env);
 // 将端口号设置为配置文件的端口号，默认值为3000
 var port = normalizePort(config.port || '3000');
 // 打印输出端口号
-console.log('当前监听端口号为： ' + port);
+// console.log('项目运行监听端口号为：' + port);
 
-app.set('port', port);
+myProxy.set('port', port);
+app.set('port',8090);
 
 /**
  * Create HTTP server.
  */
 
-var server = http.createServer(app);
+var server = http.createServer(myProxy);
 
 /**
  * Listen on provided port, on all network interfaces.
  */
 
-server.listen(port);
+server.listen(port,()=>{
+  console.log('项目运行监听端口号为：' + port);
+});
+app.listen(8090,()=>{
+  console.log('接口API监听端口号为：8090')
+})
+
 server.on('error', onError);
 server.on('listening', onListening);
 

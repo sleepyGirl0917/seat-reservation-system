@@ -3,7 +3,7 @@
  * 生产环境配置文件
  */
 var config = {
-  env: 'production', //环境名称
+  env: 'production',  //环境名称
   port: 3001,         //服务端口号
   mysql_config: {
     //mysql数据库配置

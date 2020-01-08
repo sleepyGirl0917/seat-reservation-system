@@ -69,7 +69,7 @@ export default {
       jsonData:[],
       btnText:'确认',
       currentTab:0,
-      selectedItem:{},
+      selectedItem:null,
       popupVisible:false,
       popupVisible2:false,
       payType:['微信支付','支付宝支付','银联支付',],
@@ -79,6 +79,11 @@ export default {
   components: {
     "btn-container":Button,
     "tab-list":Tab
+  },
+  watch:{
+    currentTab(){
+      this.selectedItem=null;
+    }
   },
   created(){
     this.loadPlan();
@@ -94,14 +99,15 @@ export default {
       this.selectedItem=item;
     },
     confirm(){
-      console.log('确认购买，去付款')
-      // 打开支付弹窗
-      this.popupVisible=true;
+      if(this.selectedItem!==null){
+        // 打开支付弹窗
+        this.popupVisible=true;
+      } 
     },
     handlePay(){
       // 支付成功后，接收到返回值
       console.log('支付成功')
-      // 发送请求加入会员
+      // 发送请求
       this.loadJoinMember();
     },
     async loadJoinMember(){

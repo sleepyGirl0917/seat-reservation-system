@@ -8,20 +8,25 @@
     <order-record></order-record>
     <!-- 底部列表 -->
     <member-list></member-list>
+    <!-- 退出登录 -->
+    <btn-container v-if="$store.getters.uid" :text="btnText" @submit="btnLogout"></btn-container>
   </div>
 </template>
 
 <script>
-  import { Indicator } from 'mint-ui'
+  import { Indicator,Toast, MessageBox } from 'mint-ui'
   import UserInfo from '../../components/User/UserInfo'
   import OrderRecord from '../../components/User/OrderRecord'
   import MemberList from '../../components/User/MemberList'
   import UserMsg from '../../components/User/UserMsg'
-  import { getUserInfo } from '../../api/index'
+  import Button from '../../components/Button/Button'
+  import { getUserInfo,logout } from '../../api/index'
+  import * as types from "../../store/mutation-types";
   export default {
     data(){
       return{
         loadingStatus:false,
+        btnText:'退出登录',
         jsonData:{}
       }
     },
@@ -29,7 +34,8 @@
       "user-info":UserInfo,
       "user-msg":UserMsg,
       "order-record":OrderRecord,
-      "member-list":MemberList
+      "member-list":MemberList,
+      "btn-container":Button
     },
     created(){
       this.loadUserInfo();
@@ -46,15 +52,32 @@
           Indicator.close();
         }
         this.loadingStatus=true;
+      },
+      // 退出登录
+      async btnLogout() {
+        let result = await logout();
+        if (result.success_code == 200) {
+          this.$store.commit(types.LOGOUT);
+          this.jsonData={};
+          Toast({
+            message: "已退出",
+            position: "middle",
+            duration: 2000
+          });
+        } else {
+          MessageBox.alert("退出失败，请重试");
+        }
       }
     }
   }
 </script>
 
-<style lang="stylus" scoped>
+<style lang="stylus">
 #app-user 
   width 100%
   height 100%
   padding-bottom 80px  
+  .btn-container
+    padding 20px 20px 40px
 </style>
 

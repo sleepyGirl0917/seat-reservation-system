@@ -14,7 +14,6 @@ import MyOrder from '../views/MyOrder/MyOrder'
 import OrderDetails from '../views/OrderDetails/OrderDetails'
 import User from '../views/User/User'
 import Login from '../views/Login/Login'
-import Logout from '../views/Logout/Logout'
 import NotFound from '../views/NotFound/NotFound'
 import Purchase from '../views/Purchase/Purchase'
 import PurchaseDetails from '../views/PurchaseDetails/PurchaseDetails'
@@ -156,15 +155,6 @@ const routes = [
     component: Login,
     meta: {
       title: '用户登录',
-      showHeader: true
-    }
-  },
-  {
-    path: '/logout',
-    name: 'logout',
-    component: Logout,
-    meta: {
-      title: '退出登录',
       showHeader: true
     }
   },

@@ -20,7 +20,8 @@ myProxy.use("/img/*", proxy({
 
 myProxy.use("/", proxy({
   // vue/react启动后需要访问网页的地址
-  target: "http://127.0.0.1:5000",
+  // target: "http://127.0.0.1:5000",
+  target: "http://127.0.0.1:8000",
   // target: "http://www.baidu.com",
   changeOrigin: true,
 }));

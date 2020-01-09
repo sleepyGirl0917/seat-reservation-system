@@ -42,14 +42,14 @@ module.exports = {
     hotOnly: false,   // 热更新
     proxy: {
       // 配置跨域
-      '/api': { 
+      '/': { 
         target:'http://127.0.0.1:3000',
         changeOrigin: true,
         ws: true, // websocket支持
         secure:false, // 如果是https接口，则需要配置这个参数
-        pathRewrite: {  
-          '^/api': ''
-        }
+        // pathRewrite: {  
+        //   '^/': ''
+        // }
       }
     }
   }

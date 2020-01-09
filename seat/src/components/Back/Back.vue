@@ -19,6 +19,10 @@ export default {
   top -1px
   left 8px
   .mui-icon
-    font-size 32px
+    &.mui-icon-back
+      font-size 32px
+    &.mui-icon-closeempty
+      font-size 40px
+      font-weight 700
 </style>
 

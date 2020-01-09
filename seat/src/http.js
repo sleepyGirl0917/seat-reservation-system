@@ -8,9 +8,9 @@ import * as types from './store/mutation-types'
 import router from './router/router'
 
 // axios 配置
-axios.defaults.timeout = 10000
+axios.defaults.timeout = 5000
 axios.defaults.withCredentials = true
-axios.defaults.baseURL =''
+axios.defaults.baseURL = process.env.NODE_ENV==="production"?"http://127.0.0.1:3001/api":"/api"
 
 // request 拦截器
 axios.interceptors.request.use(

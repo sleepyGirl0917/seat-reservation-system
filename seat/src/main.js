@@ -26,7 +26,9 @@ import './lib/mui/css/icons-extra.css'
 import './seat/seat.styl'
 import './common/reset.styl'
 import { Header, Swipe, SwipeItem, Popup, Picker, DatetimePicker, Loadmore, Lazyload } from "mint-ui"
+
 Vue.use(Lazyload);
+
 Vue.component(Header.name, Header);
 Vue.component(Swipe.name, Swipe);
 Vue.component(SwipeItem.name, SwipeItem);
@@ -42,3 +44,5 @@ new Vue({
   render: h => h(App)
 }).$mount('#app')
 
+console.log(process.env)
+console.log(axios.defaults.baseURL)

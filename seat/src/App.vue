@@ -23,10 +23,7 @@
     components:{
       "tab-bar":Tabbar,
       "my-header":Header
-    },
-    // created(){
-    //   console.log(process.env)
-    // }
+    }
   }
 </script>
 

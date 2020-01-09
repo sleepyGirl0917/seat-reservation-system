@@ -9,6 +9,9 @@
       <div class="uname">{{jsonData.user_name}}</div>
     </div>
     <div v-else class="user-info" @click="$router.push('/login')">
+      <!-- <div class="avatar">
+        <img src="../../assets/img/user/userIcon.png" alt="">
+      </div> -->
       <div class="login">
         <span>立即登录&nbsp;</span>
         <span class="mui-icon mui-icon-forward"></span>

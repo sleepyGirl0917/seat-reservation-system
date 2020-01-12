@@ -19,7 +19,7 @@ myProxy.use("/img/*", proxy({
 }));
 
 /* myProxy.use("/", proxy({
-  // vue/react启动后需要访问网页的地址
+  // vue/react启动后需要访问网页的地址（开发模式）
   // target: "http://127.0.0.1:5000",
   target: "http://127.0.0.1:8000",
   changeOrigin: true,
@@ -27,6 +27,7 @@ myProxy.use("/img/*", proxy({
 
 myProxy.use("/", proxy({
   // vue/react启动后需要访问网页的地址
+  // 生产模式：静态资源放到了另外一个服务器上
   target: "http://127.0.0.1:8081",
   changeOrigin: true,
   pathRewrite:{

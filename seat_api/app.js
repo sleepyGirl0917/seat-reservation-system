@@ -1,5 +1,6 @@
 const express = require('express');
 const logger = require('morgan');
+const compression = require('compression')
 const path = require('path');
 const session = require('express-session');
 const cookieParser = require('cookie-parser');
@@ -24,6 +25,7 @@ myApp.use(session({
   },
 }));
 
+myApp.use(compression());
 myApp.use(logger('dev')); // 将请求信息打印在控制台
 myApp.use(express.json());
 myApp.use(express.urlencoded({ extended: false })); 

@@ -15,16 +15,29 @@ module.exports = {
   configureWebpack: (config) => {    
     if (process.env.NODE_ENV === 'production') {
       // 为生产环境修改配置...
-      config.mode = 'production'
+      config.mode = 'production';
+      //打包文件大小配置
+			config.performance = {
+				"maxEntrypointSize":10000000, //  //入口起点的最大体积
+        "maxAssetSize":30000000, // 生成文件的最大体积
+        assetFilter: function(assetFilename) {  //只给出 js 文件的性能提示
+          return assetFilename.endsWith('.js');
+        }
+			};
       config.plugins.push(
         // 生产环境自动删除console
         new UglifyJsPlugin({
           uglifyOptions: {
             compress: {
-              warnings: false,
-              drop_debugger: true,
-              drop_console: true,
+              warnings: false,  // 删除无用代码时不输出警告
+              drop_debugger: true,  
+              drop_console: true, // 删除所有console语句，可以兼容IE
+              pure_funcs: ['console.log'] //移除console
             },
+            output: {
+              beautify: false, //最紧凑的输出，不保留空格和制表符
+              comments: false, //删除所有注释
+            }
           },
           sourceMap: false,
           parallel: true,
@@ -36,18 +49,14 @@ module.exports = {
           },
           algorithm: 'gzip', 
           threshold: 10240,
-          test: new RegExp(
-            '\\.(' +
-            ['js'].join('|') +
-            ')$'
-          ),
+          test: /\.(js|css|html|svg)$/,
           minRatio: 0.8,
           deleteOriginalAssets: false
          })
       );
     } else {
       // 为开发环境修改配置...
-      config.mode = 'development'
+      config.mode = 'development';
     }
   },  
   chainWebpack: (config) => {

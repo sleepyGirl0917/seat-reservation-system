@@ -1,6 +1,6 @@
 <template>
   <div id="app-purchase">
-    <mt-loadmore :bottom-method="loadBottom" :bottom-all-loaded="allLoaded" ref="loadmore">
+    <mt-loadmore :bottom-method="loadBottom" :bottom-all-loaded="allLoaded" ref="loadmore" :auto-fill="false">
       <div v-for="(item,i) of jsonList" :key="i">
         <purchase-item :myData="item"></purchase-item>
       </div>
@@ -32,6 +32,7 @@ export default {
   },
   created() {
     this.loadPurchaseData();
+    console.log(this.$store.getters.uid,this.pno,this.pageSize,'开始')
   },
   methods: {
     async loadPurchaseData() {
@@ -59,6 +60,7 @@ export default {
     },
     loadBottom() {
       this.loadPurchaseData(); // 加载更多数据
+      console.log(this.$store.getters.uid,this.pno,this.pageSize,'下拉')
       this.$refs.loadmore.onBottomLoaded(); // 对数组进行重新定位
     }
   }

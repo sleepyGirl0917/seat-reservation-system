@@ -23,29 +23,27 @@
       </li>
     </ul>
     <!-- 可用的订座 -->
-    <div class="order-content">
-      <div class="order-box">
-        <div class="media navigate-right" v-if="Object.keys(jsonData).length" @click="$router.push(`/order_details/${jsonData.order_id}`)">
-          <div class="media-object">
-            <img src="../../assets/img/ordered.png" />
-          </div>
-          <div class="media-body">
-            <div>{{jsonData.shop_name}}</div>
-            <div>
-              <p>{{jsonData.seat_info}}</p>
-              <p>
-                日期：
-                {{jsonData.order_date|dateTimeFilter('dateOnly')}} 
-                {{jsonData.start_time|dateTimeFilter('timeOnly')}}-
-                {{jsonData.end_time|dateTimeFilter('timeOnly')}}
-              </p>
-              <p>状态：{{jsonData.order_status|orderStatusFilter}}</p>
-            </div>
+    <div class="order-box">
+      <div class="media navigate-right" v-if="Object.keys(jsonData).length" @click="$router.push(`/order_details/${jsonData.order_id}`)">
+        <div class="media-object">
+          <img src="../../assets/img/ordered.png" />
+        </div>
+        <div class="media-body">
+          <div>{{jsonData.shop_name}}</div>
+          <div>
+            <p>{{jsonData.seat_info}}</p>
+            <p>
+              日期：
+              {{jsonData.order_date|dateTimeFilter('dateOnly')}} 
+              {{jsonData.start_time|dateTimeFilter('timeOnly')}}-
+              {{jsonData.end_time|dateTimeFilter('timeOnly')}}
+            </p>
+            <p>状态：{{jsonData.order_status|orderStatusFilter}}</p>
           </div>
         </div>
-        <div class="media-none" v-else>
-          <img src="../../assets/img/check.png" /><span>&nbsp;暂无可用的订座记录</span>
-        </div>
+      </div>
+      <div class="media-none" v-else>
+        <img src="../../assets/img/check.png" /><span>&nbsp;暂无可用的订座记录</span>
       </div>
     </div>
   </div>
@@ -130,6 +128,7 @@ export default {
 #app-home 
   width 100%
   height 100%
+  
   .title
     width 100%
     height  80px
@@ -168,50 +167,46 @@ export default {
         display  block 
         font-size  28px 
         margin  15px 
-  .order-content
-    position fixed
-    top 660px
-    bottom 0
-    width 100%
-    .order-box  
+
+  .order-box  
+    position  relative 
+    background  #fff 
+    height 240px 
+    margin 20px 15px
+    .media,
+    .media .media-body  
+        overflow  hidden 
+    .media  
+      display flex
+      align-items center
+      justify-content flex-start
+      padding  0 65px 0 15px 
+      height 100% 
+      .media-object 
+        width 80px
+        img
+          width  100% 
+          height  100% 
+          display block
+      .media-body
+        padding-left 20px
+        div
+          line-height 2
+          &:nth-child(1)
+            font-size   28px
+            font-weight 500
+          &:nth-child(2)>p
+            font-size  25px
+            margin 0
+    .media-none 
       position  relative 
-      background  #fff 
-      height 240px 
-      margin 20px 15px
-      .media,
-      .media .media-body  
-          overflow  hidden 
-      .media  
-        display flex
-        align-items center
-        justify-content flex-start
-        padding  0 65px 0 15px 
-        height 100% 
-        .media-object 
-          width 80px
-          img
-            width  100% 
-            height  100% 
-            display block
-        .media-body
-          padding-left 20px
-          div
-            line-height 2
-            &:nth-child(1)
-              font-size   28px
-              font-weight 500
-            &:nth-child(2)>p
-              font-size  25px
-              margin 0
-      .media-none 
-        position  relative 
-        top 50% 
-        transform translateY(-50%) 
-        text-align  center 
-        span 
-          font-size 28px
-        img 
-          width  38px 
-          height 38px 
-          vertical-align  bottom 
+      top 50% 
+      transform translateY(-50%) 
+      text-align  center 
+      span 
+        font-size 28px
+      img 
+        width  38px 
+        height 38px 
+        vertical-align  bottom 
 </style>

@@ -126,9 +126,9 @@ export default {
     },
     // 发送订座请求
     async handleSubmit() {
-      let start_time=new Date(this.order_date+' '+this.start_time).getTime(),
-      end_time=new Date(this.order_date+' '+this.end_time).getTime();
-      // console.log(start_time,end_time)
+      // 通过new Date(‘yyyy-MM-DD’)在IOS上获取不到时间戳，返回NAN，而通过new Date(‘yyyy/MM/DD’)可以获取
+      let start_time=new Date((this.order_date).replace(/-/g,"/")+' '+this.start_time).getTime();
+      let end_time=new Date((this.order_date).replace(/-/g,"/")+' '+this.end_time).getTime();
       let result=await orderSeat(this.$store.getters.uid,this.shop_id,this.seat_id,this.order_date,start_time,end_time,this.payType,this.selectedCardId);
       // console.log(result)
       Toast(result.message);

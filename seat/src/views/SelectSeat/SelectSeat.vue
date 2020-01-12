@@ -118,7 +118,7 @@ export default {
   methods: {
     // 加载座位信息
     loadSeatJson(){
-      this.axios.get("seat.json").then(res => {
+      this.axios.get("./seat.json").then(res => {
         if (res.data.code == 200) {
           //请求成功
           // console.log(res.data.data);
@@ -170,10 +170,10 @@ export default {
         let endValue = new Date(startValue + this.unit);  // 默认结束时间比开始时间多半小时
         this.getEndTime(formatTime(endValue));
       }else{ // 设置结束时间后，限制修改的开始时间不能大于结束时间
-        let endValue=parseTime(this.selectEndValue);
+        let endValue=parseTime(this.selectedEndValue);
         if(new_value>=endValue){
           Toast('开始时间不能大于结束时间');
-          return 
+          return;
         }
       }
     },

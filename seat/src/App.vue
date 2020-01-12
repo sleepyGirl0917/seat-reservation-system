@@ -30,6 +30,6 @@
 <style lang="stylus">
 #app
   width 100%
-  height 100%
+  min-height 100vh
   overflow-x hidden
 </style>

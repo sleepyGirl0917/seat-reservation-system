@@ -10,7 +10,7 @@ import router from './router/router'
 // axios 配置
 axios.defaults.timeout = 5000
 axios.defaults.withCredentials = true
-axios.defaults.baseURL = process.env.NODE_ENV==="production"?process.env.VUE_APP_ROOT_API:"/"
+axios.defaults.baseURL = "/"
 
 // request 拦截器
 axios.interceptors.request.use(

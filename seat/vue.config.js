@@ -1,9 +1,10 @@
 const webpack = require("webpack")
 const CompressionWebpackPlugin = require('compression-webpack-plugin')
+const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
 
 module.exports = {
   //部署应用包时的基本 URL
-  publicPath: process.env.NODE_ENV === 'production' ? 'http://182.92.118.167:80/dist/' : '/',
+  publicPath: process.env.NODE_ENV === 'production' ? './' : '/',
   //当运行 vue-cli-service build 时生成的生产环境构建文件的目录
   outputDir: 'dist',
   //放置生成的静态资源 (js、css、img、fonts) 的 (相对于 outputDir 的) 目录
@@ -17,6 +18,7 @@ module.exports = {
     if (process.env.NODE_ENV === 'production') {
       // 为生产环境修改配置...
       config.mode = 'production';
+      // 生产环境自动删除console
       // config.optimization.minimizer[0].options.terserOptions.compress.drop_console = true;
       config.plugins.push(
         new CompressionWebpackPlugin({
@@ -26,8 +28,20 @@ module.exports = {
           threshold: 10240,
           minRatio: 0.8,
           deleteOriginalAssets: false
+        }),
+        //生产环境自动删除console
+        new UglifyJsPlugin({
+            uglifyOptions: {
+                compress: {
+                    drop_debugger: true,
+                    drop_console: true,
+                    pure_funcs: ['console.log']
+                },
+            },
+            sourceMap: false,
+            parallel: true,
         })
-      )
+      );
     } else {
       // 为开发环境修改配置...
       config.mode = 'development';
@@ -79,6 +93,7 @@ module.exports = {
     }
   },
   css: {
-    extract: true
+    extract: true,
+    sourceMap: false,
   }
 }

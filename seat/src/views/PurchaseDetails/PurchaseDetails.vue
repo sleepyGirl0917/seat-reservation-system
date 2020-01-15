@@ -38,7 +38,7 @@
           <span>&yen;0</span>
         </div>
       </div>
-      <div class="container-item"  v-if="$route.path.includes('overdue')">
+      <div class="container-item" v-if="$route.path.includes('overdue')">
         <div>
           <span>扣取逾期费用:</span>
           <span>&yen;{{printFn(jsonData.order_cost-jsonData.order_refund)}}</span>

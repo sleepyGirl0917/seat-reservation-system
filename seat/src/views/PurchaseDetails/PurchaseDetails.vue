@@ -41,7 +41,7 @@
       <div class="container-item"  v-if="$route.path.includes('overdue')">
         <div>
           <span>扣取逾期费用:</span>
-          <span>&yen;{{jsonData.order_cost-jsonData.order_refund}}</span>
+          <span>&yen;{{printFn(jsonData.order_cost-jsonData.order_refund)}}</span>
         </div>
         <div>
           <span>退款金额:</span>
@@ -85,6 +85,10 @@ export default {
         this.loadingStatus=true; // 有返回值才显示
       }
       Indicator.close();
+    },
+    printFn(value) {
+      const precision = 14;
+      return Number(math.format(value, precision));
     }
   }
 };

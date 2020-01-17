@@ -678,7 +678,7 @@ router.post('/updateUserInfo',(req,res)=>{
   let { userId, userName, avatar } = req.body;
   if (avatar) {
     let sql = 'UPDATE t_user SET user_name=?,avatar=? WHERE user_id=?';
-    pool.query(sql, [userName, avatar, userId], (err, result) => {
+    pool.query(sql, [userName, 'http://182.92.118.167:3001'+avatar, userId], (err, result) => {
       if (err) throw err;
       if (result.affectedRows > 0) {
         res.send({ success_code: 200, message: '修改成功' });

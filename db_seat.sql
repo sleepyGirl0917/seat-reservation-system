@@ -24,9 +24,9 @@ CREATE TABLE `t_shop`  (
 -- ----------------------------
 -- Records of t_shop
 -- ----------------------------
-INSERT INTO `t_shop` VALUES (1, '众独空间(大智无界店)', '13498476301','08:30','23:30', '武汉市江岸区大智路大智无界空中小镇1栋8楼804号铺','img/shop/shop_title_1.jpg','img/shop/shop_map_1.jpg');
+INSERT INTO `t_shop` VALUES (1, '众独空间(大智无界店)', '13498476301','08:30','23:30', '武汉市江岸区大智路大智无界空中小镇1栋8楼804号铺','http://182.92.118.167:3001/img/shop/shop_title_1.jpg','http://182.92.118.167:3001/img/shop/shop_map_1.jpg');
 INSERT INTO `t_shop` VALUES (2, '众独空间(昙华林店)', '13745454545','08:30','23:30', '武汉市武昌区中山路泛悦中心A栋1905室
-（轨道交通2号线/7号线螃蟹站E出口步行10米）','img/shop/shop_title_2.jpg','img/shop/shop_map_2.jpg');
+（轨道交通2号线/7号线螃蟹站E出口步行10米）','http://182.92.118.167:3001/img/shop/shop_title_2.jpg','http://182.92.118.167:3001/img/shop/shop_map_2.jpg');
 -- ----------------------------
 -- Table structure for t_shop_seat
 -- ----------------------------
@@ -172,7 +172,7 @@ DROP TABLE IF EXISTS `t_user`;
 CREATE TABLE `t_user`  (
   `user_id` int(8) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT '用户id',
   `user_name` varchar(32) DEFAULT NULL COMMENT '用户名',
-  `avatar` varchar(255) DEFAULT '/img/avatar/default.png' COMMENT '用户头像',
+  `avatar` varchar(255) DEFAULT 'http://182.92.118.167:3001/img/avatar/default.png' COMMENT '用户头像',
   `password` varchar(32) DEFAULT NULL COMMENT '用户密码',
   `phone` varchar(20) DEFAULT NULL COMMENT '用户手机号码',
   `gender` int(4) DEFAULT NULL COMMENT '用户性别',
@@ -183,7 +183,7 @@ CREATE TABLE `t_user`  (
 -- ----------------------------
 -- Records of t_user
 -- ----------------------------
-INSERT INTO `t_user` VALUES(1,'Ali','/img/avatar/default.png',NULL,'18162536357',NULL,0);
+INSERT INTO `t_user` VALUES(1,'Ali','http://182.92.118.167:3001/img/avatar/default.png',NULL,'18162536357',NULL,0);
 -- ----------------------------
 -- Table structure for t_recharge
 -- 会员卡详情
@@ -276,14 +276,14 @@ CREATE TABLE `t_admin`  (
   `password` varchar(128) DEFAULT NULL COMMENT '管理员密码',
   `gender` int(4) DEFAULT NULL COMMENT '管理员性别',  -- 0:女 1：男
   `phone` varchar(20) DEFAULT NULL COMMENT '管理员联系电话',
-  `avatar` varchar(255) DEFAULT '/img/default.png' COMMENT '管理员头像',
+  `avatar` varchar(255) DEFAULT 'http://182.92.118.167:3001/img/default.png' COMMENT '管理员头像',
   PRIMARY KEY (`admin_id`) USING BTREE
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of t_admin
 -- ----------------------------
-INSERT INTO `t_admin` VALUES (1, 'admin', 'admin', '1', '13414850215', '/img/default.png' );
+INSERT INTO `t_admin` VALUES (1, 'admin', 'admin', '1', '13414850215', 'http://182.92.118.167:3001/img/default.png' );
 
 -- ----------------------------
 -- Table structure for order_history 

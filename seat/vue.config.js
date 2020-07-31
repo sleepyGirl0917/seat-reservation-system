@@ -31,15 +31,15 @@ module.exports = {
         }),
         //生产环境自动删除console
         new UglifyJsPlugin({
-            uglifyOptions: {
-                compress: {
-                    drop_debugger: true,
-                    drop_console: true,
-                    pure_funcs: ['console.log']
-                },
+          uglifyOptions: {
+            compress: {
+              drop_debugger: true,
+              drop_console: true,
+              pure_funcs: ['console.log']
             },
-            sourceMap: false,
-            parallel: true,
+          },
+          sourceMap: false,
+          parallel: true,
         })
       );
     } else {
@@ -58,6 +58,11 @@ module.exports = {
       // 分割代码
       config.optimization.splitChunks({
         chunks: 'all'
+      })
+      config.set('externals', {
+        vue: 'Vue',
+        'vue-router': 'VueRouter',
+        axios: 'axios'
       })
     };
     // 将vue标签内样式px转换vw

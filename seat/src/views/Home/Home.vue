@@ -9,17 +9,9 @@
     </mt-swipe>
     <!-- 菜单列表 -->
     <ul class="menu">
-      <li class="menu-item" @click="getExperience">
-        <img src="../../assets/img/home/menu1.jpg" alt="">
-        <span class="menu-title">预约体验</span>
-      </li>
-      <li class="menu-item" @click="$router.push('/join_member')">
-        <img src="../../assets/img/home/menu2.jpg" alt="">
-        <span class="menu-title">加入会员</span>
-      </li>
-      <li class="menu-item" @click="$router.push('/select_shop')">
-        <img src="../../assets/img/home/menu3.jpg" alt="">
-        <span class="menu-title">预定座位</span>
+      <li class="menu-item" v-for="item in menuList" :key="item.id" @click="item.event">
+        <img :src="item.img_url" alt="">
+        <span class="menu-title">{{item.title}}</span>
       </li>
     </ul>
     <!-- 可用的订座 -->
@@ -61,6 +53,26 @@ export default {
         { id: 2, img_url: require("../../assets/img/home/banner2.jpg") },
         { id: 3, img_url: require("../../assets/img/home/banner3.jpg") }
       ],
+      menuList:[
+        {
+          id:1,
+          title:'预约体验',
+          img_url:require("../../assets/img/home/menu1.jpg"),
+          event:()=>Toast('您暂无可用的体验卡')
+        },
+        {
+          id:2,
+          title:'加入会员',
+          img_url:require("../../assets/img/home/menu2.jpg"),
+          event:()=>this.$router.push('/join_member')
+        },
+        {
+          id:3,
+          title:'预定座位',
+          img_url:require("../../assets/img/home/menu3.jpg"),
+          event:()=>this.$router.push('/select_shop')
+        }
+      ],
       jsonData: {},
       now:null,
     };
@@ -84,9 +96,6 @@ export default {
         } 
         Indicator.close();
       }
-    },
-    getExperience(){
-      Toast('您暂无可用的体验卡')
     }
   }
 };

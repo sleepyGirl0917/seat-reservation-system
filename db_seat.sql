@@ -172,7 +172,7 @@ DROP TABLE IF EXISTS `t_user`;
 CREATE TABLE `t_user`  (
   `user_id` int(8) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT '用户id',
   `user_name` varchar(32) DEFAULT NULL COMMENT '用户名',
-  `avatar` varchar(255) DEFAULT 'http://182.92.118.167:3001/img/avatar/default.png' COMMENT '用户头像',
+  `avatar` varchar(255) DEFAULT '/img/avatar/default.png' COMMENT '用户头像',
   `password` varchar(32) DEFAULT NULL COMMENT '用户密码',
   `phone` varchar(20) DEFAULT NULL COMMENT '用户手机号码',
   `gender` int(4) DEFAULT NULL COMMENT '用户性别',
@@ -183,7 +183,7 @@ CREATE TABLE `t_user`  (
 -- ----------------------------
 -- Records of t_user
 -- ----------------------------
-INSERT INTO `t_user` VALUES(1,'Ali','http://182.92.118.167:3001/img/avatar/default.png',NULL,'18162536357',NULL,0);
+INSERT INTO `t_user` VALUES(1,'Ali','/img/avatar/default.png',NULL,'18162536357',NULL,0);
 -- ----------------------------
 -- Table structure for t_recharge
 -- 会员卡详情

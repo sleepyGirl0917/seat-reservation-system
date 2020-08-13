@@ -12,6 +12,9 @@ const myApp = express();
 // view engine setup
 myApp.set('views', path.join(__dirname, 'views')); // 设置模版文件夹的路径
 myApp.set('view engine', 'ejs'); // 设置使用的模版引擎
+
+// gzip压缩要写在静态资源托管之前
+myApp.use(compression());
 //托管静态文件
 myApp.use(express.static('public'));
 
@@ -25,7 +28,6 @@ myApp.use(session({
   },
 }));
 
-myApp.use(compression());
 myApp.use(logger('dev')); // 将请求信息打印在控制台
 myApp.use(express.json());
 myApp.use(express.urlencoded({ extended: false })); 

@@ -59,12 +59,12 @@ module.exports = {
       config.optimization.splitChunks({
         chunks: 'all'
       })
-      config.set('externals', {
-        vue: 'Vue',
-        'vue-router': 'VueRouter',
-        axios: 'axios'
-      })
     };
+    config.set('externals', {
+      vue: 'Vue',
+      'vue-router': 'VueRouter',
+      axios: 'axios'
+    })
     // 将vue标签内样式px转换vw
     config.module
       .rule('vue')

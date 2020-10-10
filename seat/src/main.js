@@ -1,4 +1,5 @@
 import Vue from 'vue'
+
 import App from './App.vue'
 import store from './store/store'
 import router from './router/router'
@@ -14,6 +15,9 @@ Vue.config.productionTip = false;
 //引入剪切板插件clipboard;
 import Clipboard from 'clipboard'; 
 Vue.prototype.Clipboard=Clipboard;
+
+// 添加IE兼容
+import "@babel/polyfill";
 
 // import VueLazyLoad from 'vue-lazyload'
 // Vue.use(VueLazyLoad, {

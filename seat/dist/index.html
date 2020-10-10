@@ -1,0 +1,26 @@
+<!DOCTYPE html><html><head><meta charset=utf-8><meta http-equiv=X-UA-Compatible content="IE=edge"><meta name=viewport content="width=device-width,initial-scale=1"><link rel=icon href=logo.jpg><title>众独自习室</title><script src=//unpkg.com/vue@2.6.10/dist/vue.min.js></script><script src=//cdn.staticfile.org/vue-router/3.1.3/vue-router.min.js></script><script src=//unpkg.com/vuex@3.1.1/dist/vuex.min.js></script><script src=//unpkg.com/axios@0.19.0/dist/axios.min.js></script><script src=//cdn.staticfile.org/mathjs/7.1.0/math.min.js></script><script src=//g.alicdn.com/fdilab/lib3rd/viewport-units-buggyfill/0.6.2/??viewport-units-buggyfill.hacks.min.js,viewport-units-buggyfill.min.js></script><link href=assets/css/app.83e64801.css rel=stylesheet><link href=assets/css/vendors~app.cb61ca67.css rel=stylesheet></head><body><div id=app></div><script>// 引入viewport-units-buggyfill解决兼容问题
+      window.onload = function () {
+        window.viewportUnitsBuggyfill.init({
+          hacks: window.viewportUnitsBuggyfillHacks
+        });
+      }</script><script>//如下代码主要是解决, 打包后的app点击返回键直接退出的bug.
+	    document.addEventListener('plusready', function(a) { //等待plus ready后再调用5+ API：
+        // 在这里调用5+ API
+        var first = null;
+        plus.key.addEventListener('backbutton', function() { //监听返回键
+          //首次按键，提示‘再按一次退出应用’
+          if (!first) {
+            first = new Date().getTime(); //获取第一次点击的时间戳
+            // console.log('再按一次退出应用');//用自定义toast提示最好
+            // toast('双击返回键退出应用'); //调用自己写的toast提示 函数
+            plus.nativeUI.toast("双击退出", {duration:'short'}); //通过H5+ API 调用Android 上的toast 提示框
+            setTimeout(function() {
+                first = null;
+            }, 1000);
+          } else {
+            if (new Date().getTime() - first < 1000) { //获取第二次点击的时间戳, 两次之差 小于 1000ms 说明1s点击了两次,
+                plus.runtime.quit(); //退出应用
+            }
+          }
+        }, false);
+      });</script><script src=assets/js/app.7c9b8788.js></script><script src=assets/js/vendors~app.e6530ee2.js></script></body></html>

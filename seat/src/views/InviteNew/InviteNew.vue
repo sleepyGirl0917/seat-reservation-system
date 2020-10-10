@@ -7,8 +7,8 @@
       <div class="myCode">
         <span class="left">我的邀请码</span>
 				<div class="right">
-          <span id="inviteCode">xpjvot</span>
-          <span>复制</span>
+          <span id="inviteCode">{{inviteCode}}</span>
+          <span class="copy_btn" :data-clipboard-text="inviteCode" @click.prevent="copy">复制</span>  
         </div>
 			</div>
 			<div class="total">
@@ -34,11 +34,27 @@
 </template>
 
 <script>
+import { Toast } from "mint-ui"
+// import Clipboard from 'clipboard';  
 export default {
   name:'InviteNew',
   data(){
     return {
-      code:null
+      code:null,
+      inviteCode:'xpjvot'
+    }
+  },
+  methods:{
+    copy(){
+      var clipboard = new this.Clipboard('.copy_btn');  
+      clipboard.on('success', () => {
+        Toast('复制成功');
+        clipboard.destroy();  // 释放内存    
+      });  
+      clipboard.on('error', () => {  
+        console.log('该浏览器不支持自动复制');  
+        clipboard.destroy();  
+      });  
     }
   }
 }

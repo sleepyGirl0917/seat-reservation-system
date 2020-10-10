@@ -11,6 +11,10 @@ Vue.prototype.axios = axios;
 
 Vue.config.productionTip = false;
 
+//引入剪切板插件clipboard;
+import Clipboard from 'clipboard'; 
+Vue.prototype.Clipboard=Clipboard;
+
 // import VueLazyLoad from 'vue-lazyload'
 // Vue.use(VueLazyLoad, {
 //   preLoad: 1.3,

@@ -112,7 +112,7 @@
           outline none
           cursor  pointer;
         .radio
-          background-image url('../../assets/img/unchecked.svg')
+          background-image url('../../assets/img/unchecked.png')
           background-repeat  no-repeat
           background-size 100% 100%
           display inline-block
@@ -121,7 +121,7 @@
           height  40px
           cursor  pointer  
         .on 
-          background-image url('../../assets/img/check-circle.svg')
+          background-image url('../../assets/img/check-circle.png')
 
       &:not(:last-child)
         border-bottom  1px solid rgba(88, 88,88,0.3) 

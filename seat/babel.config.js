@@ -1,6 +1,3 @@
-const plugins = [];
-
 module.exports = {
-  presets: ['@vue/cli-plugin-babel/preset'],
-  plugins: plugins
+  presets: ['@vue/cli-plugin-babel/preset']
 }

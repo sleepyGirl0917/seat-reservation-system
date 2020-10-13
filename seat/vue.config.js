@@ -1,5 +1,6 @@
 const webpack = require("webpack");
 const path = require("path");
+
 const CompressionWebpackPlugin = require('compression-webpack-plugin');
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 // const BundleAnalyzerPlugin = require("webpack-bundle-analyzer").BundleAnalyzerPlugin;
@@ -163,7 +164,7 @@ module.exports = {
     host: '0.0.0.0',  // 域名
     port: '8000',     // 端口号
     https: false,     // 是否使用https
-    hotOnly: false,   // 热更新
+    hotOnly: true,   // 热更新
     proxy: {
       // 配置跨域
       '/': {

@@ -2,7 +2,6 @@ const webpack = require("webpack");
 const path = require("path");
 
 const CompressionWebpackPlugin = require('compression-webpack-plugin');
-const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 
 const resolve = dir => path.join(__dirname, dir);
 const IS_PROD = ["production", "prod"].includes(process.env.NODE_ENV);
@@ -37,19 +36,6 @@ module.exports={
         threshold: 10240, // 只有大小大于该值的资源会被处理。单位是 bytes。默认值是 0
         minRatio: 0.8,    // 只有压缩率小于这个值的资源才会被处理。默认值是 0.8
         deleteOriginalAssets: false // 是否删除原资源
-      }),
-      // 生产环境自动删除console
-      new UglifyJsPlugin({
-        uglifyOptions: {
-          compress: {
-            // warnings: false,
-            drop_debugger: true,
-            drop_console: true,
-            pure_funcs: ['console.log'] 
-          },
-        },
-        sourceMap: false, // 使用 SourceMaps 将错误信息的位置映射到模块。这会减慢编译的速度
-        parallel: true,
       })
     }
   },

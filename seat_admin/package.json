@@ -10,7 +10,7 @@
   "dependencies": {
     "axios": "^0.20.0",
     "core-js": "^3.6.5",
-    "element-ui": "^2.13.2",
+    "element-ui": "^2.4.5",
     "vue": "^2.6.11",
     "vue-cookies": "^1.7.4",
     "vue-router": "^3.2.0",
@@ -21,11 +21,13 @@
     "@vue/cli-plugin-router": "~4.5.0",
     "@vue/cli-plugin-vuex": "~4.5.0",
     "@vue/cli-service": "~4.5.0",
+    "babel-plugin-component": "^1.1.1",
     "babel-plugin-transform-remove-console": "^6.9.4",
     "compression-webpack-plugin": "^6.0.3",
     "image-webpack-loader": "^7.0.1",
     "node-sass": "^4.12.0",
     "sass-loader": "^8.0.2",
+    "vue-cli-plugin-element": "^1.0.1",
     "vue-template-compiler": "^2.6.11",
     "webpack": "^4.41.2",
     "webpack-cli": "^3.3.10"

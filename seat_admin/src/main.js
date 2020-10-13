@@ -2,8 +2,9 @@ import Vue from 'vue'
 import App from './App.vue'
 import router from './router'
 import store from './store'
-
-console.log(process.env)
+import './plugins/element.js'
+import cookies from 'vue-cookies'
+Vue.use(cookies);
 
 new Vue({
   router,

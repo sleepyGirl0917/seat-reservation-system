@@ -79,7 +79,7 @@ module.exports = {
       .plugin("html")
       .tap(args => {
         args[0].cdn = cdn;                            // html中添加cdn
-        args[0].title = '众独自习室订座后台管理系统';    // html中设置title
+        args[0].title = '众独自习室订座后台管理系统';   // html中设置title
         args[0].chunksSortMode = "none";              // 修复 Lazy loading routes Error
         return args;
       });

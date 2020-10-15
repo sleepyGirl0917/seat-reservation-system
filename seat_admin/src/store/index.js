@@ -10,7 +10,7 @@ export default new Vuex.Store({
     LOGIN(state, token) {
       state.UserToken = token
     },
-    LOGOUT(state) {
+    LOGIN_OUT(state) {
         state.UserToken = ''
     }
   },

@@ -5,16 +5,15 @@ import store from './store'
 import '@/plugins/element.js'
 
 import cookies from 'vue-cookies'
-Vue.use(cookies);
+Vue.use(cookies)
 
 import axios from '@/config'
-Vue.prototype.$http = axios;
+Vue.prototype.$http = axios
 
-import '@/styles/index.scss'
 // 导入字体图标
-import '@assets/fonts/iconfont.css'
+import '@/assets/fonts/iconfont.css'
 // 导入全局样式
-import '@css/global.less'
+import '@/assets/css/index.scss'
 
 Vue.config.productionTip = false
 

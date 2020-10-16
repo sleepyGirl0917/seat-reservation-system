@@ -5,7 +5,7 @@ import instance from './http.js'
 
 const Axios = {}
 
-Axios.get = function (url, options) {
+Axios.get = function(url, options) {
   if (!options || options.isShowLoading !== false) {
     document.getElementById('ajaxLoading').style.display = 'block'
   }
@@ -19,12 +19,12 @@ Axios.get = function (url, options) {
         resolve(response)
       })
       .catch(error => {
-        reject(error);
+        reject(error)
       })
   })
 }
 
-Axios.post = function (url, data, options) {
+Axios.post = function(url, data, options) {
   if (!options || options.isShowLoading !== false) {
     document.getElementById('ajaxLoading').style.display = 'block'
   }
@@ -38,12 +38,12 @@ Axios.post = function (url, data, options) {
         resolve(response)
       })
       .catch(error => {
-        reject(error);
+        reject(error)
       })
   })
 }
 
-Axios.request = function (options) {
+Axios.request = function(options) {
   if (!options || options.isShowLoading !== false) {
     document.getElementById('ajaxLoading').style.display = 'block'
   }
@@ -57,9 +57,9 @@ Axios.request = function (options) {
         resolve(response)
       })
       .catch(error => {
-        reject(error);
+        reject(error)
       })
-  })  
+  })
 }
 
 export default Axios

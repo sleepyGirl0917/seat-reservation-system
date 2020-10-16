@@ -46,21 +46,22 @@ const instance = axios.create({
 // 添加请求拦截器
 instance.interceptors.request.use(
   config => {
-    if (store.state.token) { // 判断是否存在token，如果存在的话，则每个http header都加上token
-      config.headers['sessionToken'] = store.state.token;
+    if (store.state.token) {
+      // 判断是否存在token，如果存在的话，则每个http header都加上token
+      config.headers['sessionToken'] = store.state.token
       // config.headers.Authorization = `Bearer ${store.state.token}`
     }
     return config
   },
   error => {
     return Promise.reject(error)
-  },
+  }
 )
 
 // 响应拦截器即异常处理
 instance.interceptors.response.use(
   response => {
-    return response.data  
+    return response.data
   },
   error => {
     if (error && error.response) {
@@ -72,7 +73,7 @@ instance.interceptors.response.use(
           router.currentRoute.path !== 'login' &&
             router.replace({
               path: 'login',
-              query: { redirect: router.currentRoute.path },
+              query: { redirect: router.currentRoute.path }
             })
       }
     } else {

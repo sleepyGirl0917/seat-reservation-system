@@ -1,11 +1,31 @@
-// 全局样式表
 html,body,#app {
   height: 100%;
-  margin: 0;
-  padding: 0;
-  // min-width: 1366px;
+  min-width: 1366px;
 }
 
+.pull-left { 
+  float: left; 
+}
+.pull-right { 
+  float: right; 
+}
+
+// overflow
+.overflow-h { 
+  overflow: hidden; 
+}
+
+.black-space-30 { 
+  height: 30px; 
+}
+
+@for $i from 1 through 110 {
+  .margin-left-#{$i} { 
+    margin-left:(1px * $i); 
+  }
+}
+
+/* element-ui 样式*/
 .el-breadcrumb {
   margin-bottom: 15px;
   font-size: 12px;

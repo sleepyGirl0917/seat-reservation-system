@@ -3,9 +3,11 @@ import store from '@/store'
 import router from '@/router'
 import { Message } from 'element-ui'
 
-const service = axios.create({
+const baseURL = '/api/private/v1/'
+
+const instance = axios.create({
   timeout: 5000,
-  baseURL: '/api/private/v1/',
+  baseURL,
   withCredentials: true,
   validateStatus(status) {
     switch (status) {
@@ -42,9 +44,8 @@ const service = axios.create({
 })
 
 // 添加请求拦截器
-service.interceptors.request.use(
+instance.interceptors.request.use(
   config => {
-    document.getElementById('ajaxLoading').style.display = 'block'
     if (store.state.token) { // 判断是否存在token，如果存在的话，则每个http header都加上token
       config.headers['sessionToken'] = store.state.token;
       // config.headers.Authorization = `Bearer ${store.state.token}`
@@ -52,15 +53,14 @@ service.interceptors.request.use(
     return config
   },
   error => {
-    return Promist.reject(error)
+    return Promise.reject(error)
   },
 )
 
 // 响应拦截器即异常处理
-service.interceptors.response.use(
+instance.interceptors.response.use(
   response => {
-    document.getElementById('ajaxLoading').style.display = 'none'
-    return response.data  // 拦截通过，响应传给axios
+    return response.data  
   },
   error => {
     if (error && error.response) {
@@ -85,4 +85,4 @@ service.interceptors.response.use(
   }
 )
 
-export default service
+export default instance

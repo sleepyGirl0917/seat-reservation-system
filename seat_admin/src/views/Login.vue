@@ -81,10 +81,11 @@ export default {
       this.$refs.loginFormRef.resetFields();
     },
     login() {
-      this.$refs.loginFormRef.validate(async valid => {
+      this.$refs.loginFormRef.validate(async (valid) => {
         if (!valid) return;
-        // const res = await this.$http.post('login', this.loginForm)
-        const res = await Login(this.loginForm);
+        const res = await this.$http.post('login', this.loginForm)
+        console.log(res)
+        // const res = await Login(this.loginForm);
         if (res.meta.status !== 200) return this.$message.error("登录失败！");
         this.$message.success("登录成功");
         // 1. 将登录成功之后的 token，保存到客户端的 sessionStorage 中
@@ -92,7 +93,7 @@ export default {
         //   1.2 token 只应在当前网站打开期间生效，所以将 token 保存在 sessionStorage 中
         window.sessionStorage.setItem("token", res.data.token);
         // 2. 通过编程式导航跳转到后台主页，路由地址是 /home
-        this.$router.push('/home')
+        this.$router.push("/home");
       });
     },
   },

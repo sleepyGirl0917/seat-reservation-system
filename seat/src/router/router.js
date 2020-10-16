@@ -327,9 +327,9 @@ const router = new VueRouter({
 // 配置路由守卫
 router.beforeEach((to, from, next) => {
   let { title, requireAuth } = to.meta;
-  document.title = title; // 设置页面标题
-  if (requireAuth) { // // 判断该路由是否需要登录权限
-    if (store.state.token) { // 判断当前的token是否存在
+  document.title = title;       // 设置页面标题
+  if (requireAuth) {            // 判断该路由是否需要登录权限
+    if (store.state.token) {    // 判断当前的token是否存在
       next();
     } else {
       next({

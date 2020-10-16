@@ -7,7 +7,7 @@ import '@/plugins/element.js'
 import cookies from 'vue-cookies'
 Vue.use(cookies);
 
-import axios from '@/config/httpConfig.js'
+import axios from '@/config'
 Vue.prototype.$http = axios;
 
 import '@/styles/index.scss'

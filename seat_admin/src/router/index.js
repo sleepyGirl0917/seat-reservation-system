@@ -1,8 +1,6 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 
-// import Login from '@/views/Login.vue'
-
 Vue.use(VueRouter)
 
 const page = name => () => import('@/views/' + name)
@@ -11,8 +9,15 @@ const router = new VueRouter({
   routes: [
     { path: '/', redirect: '/login' },
     { path: '/login', component: page('Login') },
-    { path: '/home', component: page('Home') },
-    { path: '/user', component: page('User') },
+    {
+      path: '/home',
+      component: page('Home'),
+      redirect: '/Welcome',
+      children: [
+        { path: '/welcome', component: page('Welcome') },
+        { path: '/users', component: page('User') }
+      ]
+    }
   ]
 })
 

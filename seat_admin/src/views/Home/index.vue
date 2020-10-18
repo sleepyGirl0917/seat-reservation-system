@@ -3,8 +3,8 @@
     <!-- 头部区域 -->
     <el-header>
       <div>
-        <img src="@/assets/heima.png" alt="">
-        <span>电商后台管理系统</span>
+        <img src="@/assets/logo.png" alt="" />
+        <span>众独自习室后台管理系统</span>
       </div>
       <el-button type="info" @click="logout">退出</el-button>
     </el-header>
@@ -12,7 +12,9 @@
     <el-container>
       <!-- 侧边栏 -->
       <el-aside :width="isCollapse ? '64px' : '200px'">
-        <div class="toggle-button" @click="toggleCollapse">|||</div>
+        <div class="toggle-button" :class="[isCollapse ? 'close' : 'open']" @click="toggleCollapse">
+          <i class="el-icon-s-operation"></i>
+        </div>
         <!-- 侧边栏菜单区域 -->
         <el-menu background-color="#333744" text-color="#fff" active-text-color="#409EFF" unique-opened :collapse="isCollapse" :collapse-transition="false" router :default-active="activePath">
           <!-- 一级菜单 -->
@@ -22,7 +24,7 @@
               <!-- 图标 -->
               <i :class="iconsObj[item.id]"></i>
               <!-- 文本 -->
-              <span>{{item.authName}}</span>
+              <span>{{ item.authName }}</span>
             </template>
 
             <!-- 二级菜单 -->
@@ -31,7 +33,7 @@
                 <!-- 图标 -->
                 <i class="el-icon-menu"></i>
                 <!-- 文本 -->
-                <span>{{subItem.authName}}</span>
+                <span>{{ subItem.authName }}</span>
               </template>
             </el-menu-item>
           </el-submenu>
@@ -48,6 +50,7 @@
 
 <script>
 export default {
+  name: 'home',
   data() {
     return {
       // 左侧菜单数据
@@ -76,10 +79,10 @@ export default {
     },
     // 获取所有的菜单
     async getMenuList() {
-      const { data: res } = await this.$http.get('menus')
+      const res = await this.$http.get('menus')
+      console.log(res)
       if (res.meta.status !== 200) return this.$message.error(res.meta.msg)
       this.menulist = res.data
-      console.log(res)
     },
     // 点击按钮，切换菜单的折叠与展开
     toggleCollapse() {
@@ -98,6 +101,7 @@ export default {
 .home-container {
   height: 100%;
 }
+
 .el-header {
   background-color: #373d41;
   display: flex;
@@ -132,11 +136,18 @@ export default {
 
 .toggle-button {
   background-color: #4a5064;
-  font-size: 10px;
-  line-height: 24px;
-  color: #fff;
-  text-align: center;
-  letter-spacing: 0.2em;
   cursor: pointer;
+  &.open {
+    text-align: right;
+    padding-right: 16px;
+  }
+  &.close {
+    text-align: center;
+  }
+  i {
+    font-size: 20px;
+    line-height: 30px;
+    color: #fff;
+  }
 }
 </style>

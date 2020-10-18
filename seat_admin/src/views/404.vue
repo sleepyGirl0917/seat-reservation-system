@@ -1,6 +1,6 @@
 <template>
   <div class="page404">
-    <div>这里是404页面</div>
+    <div>{{ message }}</div>
   </div>
 </template>
 
@@ -8,11 +8,12 @@
 export default {
   name: 'Page404',
   computed: {
-    message() {}
+    message() {
+      return '这里是404页面'
+    }
   }
 }
 </script>
-
 
 <style lang="less" scoped>
 .page404 {

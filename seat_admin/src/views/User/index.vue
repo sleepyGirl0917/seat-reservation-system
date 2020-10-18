@@ -30,8 +30,7 @@
         <el-table-column label="角色" prop="role_name"></el-table-column>
         <el-table-column label="状态">
           <template slot-scope="scope">
-            <el-switch v-model="scope.row.mg_state" @change="userStateChanged(scope.row)">
-            </el-switch>
+            <el-switch v-model="scope.row.mg_state" @change="userStateChanged(scope.row)"> </el-switch>
           </template>
         </el-table-column>
         <el-table-column label="操作" width="180px">
@@ -49,7 +48,15 @@
       </el-table>
 
       <!-- 分页区域 -->
-      <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page="queryInfo.pagenum" :page-sizes="[1, 2, 5, 10]" :page-size="queryInfo.pagesize" layout="total, sizes, prev, pager, next, jumper" :total="total">
+      <el-pagination
+        @size-change="handleSizeChange"
+        @current-change="handleCurrentChange"
+        :current-page="queryInfo.pagenum"
+        :page-sizes="[1, 2, 5, 10]"
+        :page-size="queryInfo.pagesize"
+        layout="total, sizes, prev, pager, next, jumper"
+        :total="total"
+      >
       </el-pagination>
     </el-card>
 
@@ -99,12 +106,12 @@
     <!-- 分配角色的对话框 -->
     <el-dialog title="分配角色" :visible.sync="setRoleDialogVisible" width="50%" @close="setRoleDialogClosed">
       <div>
-        <p>当前的用户：{{userInfo.username}}</p>
-        <p>当前的角色：{{userInfo.role_name}}</p>
-        <p>分配新角色：
+        <p>当前的用户：{{ userInfo.username }}</p>
+        <p>当前的角色：{{ userInfo.role_name }}</p>
+        <p>
+          分配新角色：
           <el-select v-model="selectedRoleId" placeholder="请选择">
-            <el-option v-for="item in rolesList" :key="item.id" :label="item.roleName" :value="item.id">
-            </el-option>
+            <el-option v-for="item in rolesList" :key="item.id" :label="item.roleName" :value="item.id"> </el-option>
           </el-select>
         </p>
       </div>
@@ -118,6 +125,7 @@
 
 <script>
 export default {
+  name: 'user',
   data() {
     // 验证邮箱的规则
     var checkEmail = (rule, value, cb) => {
@@ -223,7 +231,7 @@ export default {
   },
   methods: {
     async getUserList() {
-      const { data: res } = await this.$http.get('users', {
+      const res = await this.$http.get('users', {
         params: this.queryInfo
       })
       if (res.meta.status !== 200) {
@@ -241,16 +249,14 @@ export default {
     },
     // 监听 页码值 改变的事件
     handleCurrentChange(newPage) {
-      console.log(newPage)
+      // console.log(newPage)
       this.queryInfo.pagenum = newPage
       this.getUserList()
     },
     // 监听 switch 开关状态的改变
     async userStateChanged(userinfo) {
-      console.log(userinfo)
-      const { data: res } = await this.$http.put(
-        `users/${userinfo.id}/state/${userinfo.mg_state}`
-      )
+      // console.log(userinfo)
+      const res = await this.$http.put(`users/${userinfo.id}/state/${userinfo.mg_state}`)
       if (res.meta.status !== 200) {
         userinfo.mg_state = !userinfo.mg_state
         return this.$message.error('更新用户状态失败！')
@@ -266,7 +272,7 @@ export default {
       this.$refs.addFormRef.validate(async valid => {
         if (!valid) return
         // 可以发起添加用户的网络请求
-        const { data: res } = await this.$http.post('users', this.addForm)
+        const res = await this.$http.post('users', this.addForm)
 
         if (res.meta.status !== 201) {
           this.$message.error('添加用户失败！')
@@ -282,7 +288,7 @@ export default {
     // 展示编辑用户的对话框
     async showEditDialog(id) {
       // console.log(id)
-      const { data: res } = await this.$http.get('users/' + id)
+      const res = await this.$http.get('users/' + id)
 
       if (res.meta.status !== 200) {
         return this.$message.error('查询用户信息失败！')
@@ -300,13 +306,10 @@ export default {
       this.$refs.editFormRef.validate(async valid => {
         if (!valid) return
         // 发起修改用户信息的数据请求
-        const { data: res } = await this.$http.put(
-          'users/' + this.editForm.id,
-          {
-            email: this.editForm.email,
-            mobile: this.editForm.mobile
-          }
-        )
+        const res = await this.$http.put('users/' + this.editForm.id, {
+          email: this.editForm.email,
+          mobile: this.editForm.mobile
+        })
 
         if (res.meta.status !== 200) {
           return this.$message.error('更新用户信息失败！')
@@ -323,15 +326,11 @@ export default {
     // 根据Id删除对应的用户信息
     async removeUserById(id) {
       // 弹框询问用户是否删除数据
-      const confirmResult = await this.$confirm(
-        '此操作将永久删除该用户, 是否继续?',
-        '提示',
-        {
-          confirmButtonText: '确定',
-          cancelButtonText: '取消',
-          type: 'warning'
-        }
-      ).catch(err => err)
+      const confirmResult = await this.$confirm('此操作将永久删除该用户, 是否继续?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).catch(err => err)
 
       // 如果用户确认删除，则返回值为字符串 confirm
       // 如果用户取消了删除，则返回值为字符串 cancel
@@ -340,7 +339,7 @@ export default {
         return this.$message.info('已取消删除')
       }
 
-      const { data: res } = await this.$http.delete('users/' + id)
+      const res = await this.$http.delete('users/' + id)
 
       if (res.meta.status !== 200) {
         return this.$message.error('删除用户失败！')
@@ -354,7 +353,7 @@ export default {
       this.userInfo = userInfo
 
       // 在展示对话框之前，获取所有角色的列表
-      const { data: res } = await this.$http.get('roles')
+      const res = await this.$http.get('roles')
       if (res.meta.status !== 200) {
         return this.$message.error('获取角色列表失败！')
       }
@@ -369,12 +368,9 @@ export default {
         return this.$message.error('请选择要分配的角色！')
       }
 
-      const { data: res } = await this.$http.put(
-        `users/${this.userInfo.id}/role`,
-        {
-          rid: this.selectedRoleId
-        }
-      )
+      const res = await this.$http.put(`users/${this.userInfo.id}/role`, {
+        rid: this.selectedRoleId
+      })
 
       if (res.meta.status !== 200) {
         return this.$message.error('更新角色失败！')
@@ -393,5 +389,4 @@ export default {
 }
 </script>
 
-<style lang="less" scoped>
-</style>
+<style lang="less" scoped></style>

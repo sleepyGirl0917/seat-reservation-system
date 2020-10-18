@@ -46,11 +46,9 @@ const instance = axios.create({
 // 添加请求拦截器
 instance.interceptors.request.use(
   config => {
-    if (store.state.token) {
-      // 判断是否存在token，如果存在的话，则每个http header都加上token
-      config.headers['sessionToken'] = store.state.token
-      // config.headers.Authorization = `Bearer ${store.state.token}`
-    }
+    // console.log(config)
+    // 为请求头对象挂载token验证的Authorization字段
+    config.headers.Authorization = window.sessionStorage.getItem('token')
     return config
   },
   error => {
@@ -61,10 +59,11 @@ instance.interceptors.request.use(
 // 响应拦截器即异常处理
 instance.interceptors.response.use(
   response => {
+    // console.log(response)
     return response.data
   },
   error => {
-    if (error && error.response) {
+    /* if (error && error.response) {
       switch (error.response.status) {
         case 401:
           // 返回 401 可能是token过期，清除token信息并跳转到登录页面
@@ -81,7 +80,7 @@ instance.interceptors.response.use(
     }
     Message.error({
       message: error.message
-    })
+    }) */
     return Promise.reject(error.response)
   }
 )
